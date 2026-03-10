@@ -90,11 +90,23 @@
 .tx-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
 .tx-in{background:rgba(0,255,136,0.1);color:var(–accent3);}
 .tx-out{background:rgba(255,107,53,0.1);color:var(–accent2);}
+.tx-call{background:rgba(0,212,255,0.1);color:var(–accent);}
+.tx-exec{background:rgba(130,71,229,0.15);color:#a78bfa;}
+.tx-fail{background:rgba(255,50,50,0.12);color:#ff6b6b;}
 .tx-info{flex:1;min-width:0;}
 .tx-hash{font-family:‘Share Tech Mono’,monospace;font-size:.62rem;color:var(–accent);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .tx-desc{font-size:.7rem;color:var(–muted);margin-top:1px;}
 .tx-val{font-family:‘Share Tech Mono’,monospace;font-size:.72rem;text-align:right;white-space:nowrap;}
 .tx-time{font-size:.58rem;color:var(–muted2);}
+.tx-method{font-family:‘Share Tech Mono’,monospace;font-size:.58rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);border-radius:3px;padding:.1rem .35rem;color:var(–accent);margin-top:2px;display:inline-block;}
+.tx-method.fail{background:rgba(255,50,50,0.08);border-color:rgba(255,50,50,0.2);color:#ff6b6b;}
+.tx-method.exec{background:rgba(130,71,229,0.08);border-color:rgba(130,71,229,0.2);color:#a78bfa;}
+.activity-section{margin-bottom:1rem;}
+.activity-header{display:flex;align-items:center;gap:.5rem;font-family:‘Orbitron’,monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;color:var(–muted);text-transform:uppercase;padding:.5rem 0;border-bottom:1px solid var(–border);margin-bottom:.5rem;}
+.activity-count{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:.1rem .45rem;font-size:.58rem;color:var(–accent);}
+.activity-count.fail{background:rgba(255,50,50,0.1);border-color:rgba(255,50,50,0.2);color:#ff6b6b;}
+.activity-count.exec{background:rgba(130,71,229,0.1);border-color:rgba(130,71,229,0.2);color:#a78bfa;}
+.gas-info{font-size:.58rem;color:var(–muted2);font-family:‘Share Tech Mono’,monospace;}
 
 .divider{display:flex;align-items:center;gap:.75rem;margin:.75rem 0;font-size:.62rem;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;}
 .divider::before,.divider::after{content:’’;flex:1;height:1px;background:var(–border);}
@@ -125,7 +137,7 @@
 <div class="container">
   <header>
     <div class="logo-hex"></div>
-    <div><h1>Chain Scanner Pro</h1><div class="sub">Tokens · NFTs · History · Contracts</div></div>
+    <div><h1>Chain Scanner Pro</h1><div class="sub">Tokens · NFTs · History · Contracts · Activity</div></div>
     <div class="hbadge">6 CHAINS</div>
   </header>
   <div id="app"></div>
@@ -410,19 +422,70 @@ function renderHistoryTab(){
 function renderTxList(c,txs){
   if(!txs) return '<div class="loading-text">⟳ Fetching…</div>';
   if(!txs.length) return '<div class="empty-state">No transactions found</div>';
-  return txs.slice(0,10).map(tx=>{
-    const isIn=tx.to?.toLowerCase()===address?.toLowerCase();
-    const val=(parseFloat(tx.value||0)/1e18).toFixed(4);
+
+  const normal=[], contractCalls=[], contractExecs=[], failed=[];
+
+  txs.forEach(tx=>{
+    const {isFailed,hasInput,isOut,isContractExec}=classifyTx(tx,address);
+    if(isFailed){ failed.push(tx); return; }
+    if(isContractExec){ contractExecs.push(tx); return; }
+    if(hasInput && !isOut){ contractCalls.push(tx); return; }
+    normal.push(tx);
+  });
+
+  function txRow(tx, type){
+    const isIn = tx.to?.toLowerCase()===address?.toLowerCase();
+    const val = (parseFloat(tx.value||0)/1e18).toFixed(4);
+    const method = decodeMethod(tx.input);
+    const gas = tx.gasUsed ? `gas: ${parseInt(tx.gasUsed).toLocaleString()}` : '';
+    let iconClass, icon, color;
+    if(type==='fail'){ iconClass='tx-fail'; icon='✕'; color='#ff6b6b'; }
+    else if(type==='exec'){ iconClass='tx-exec'; icon='⚙'; color='#a78bfa'; }
+    else if(type==='call'){ iconClass='tx-call'; icon='←'; color='var(--accent)'; }
+    else { iconClass=isIn?'tx-in':'tx-out'; icon=isIn?'↓':'↑'; color=isIn?'var(--accent3)':'var(--accent2)'; }
     return`<div class="tx-row">
-      <div class="tx-icon ${isIn?'tx-in':'tx-out'}">${isIn?'↓':'↑'}</div>
+      <div class="tx-icon ${iconClass}">${icon}</div>
       <div class="tx-info">
         <div class="tx-hash" onclick="window.open('${c.explorerUrl}/tx/${tx.hash}')">${(tx.hash||'').slice(0,20)}…</div>
         <div class="tx-desc">${isIn?'From':'To'}: ${(isIn?(tx.from||''):(tx.to||'')).slice(0,14)}…</div>
-        <div class="tx-time">${timeAgo(tx.timeStamp)}</div>
+        ${method?`<span class="tx-method ${type==='fail'?'fail':type==='exec'?'exec':''}">${type==='fail'?'❌ FAILED · ':''} ${method}</span>`:''}
+        <div class="tx-time">${timeAgo(tx.timeStamp)} ${gas?'· <span class="gas-info">'+gas+'</span>':''}</div>
       </div>
-      <div class="tx-val" style="color:${isIn?'var(--accent3)':'var(--accent2)'}">${isIn?'+':'-'}${val} ${c.sym}</div>
+      <div class="tx-val" style="color:${color}">${isIn?'+':'-'}${val} ${c.sym}</div>
     </div>`;
-  }).join('');
+  }
+
+  let html='';
+
+  if(normal.length){
+    html+=`<div class="activity-section">
+      <div class="activity-header">↕ Transfers <span class="activity-count">${normal.length}</span></div>
+      ${normal.slice(0,10).map(tx=>txRow(tx,'normal')).join('')}
+    </div>`;
+  }
+
+  if(contractExecs.length){
+    html+=`<div class="activity-section">
+      <div class="activity-header">⚙ Contract Executes <span class="activity-count exec">${contractExecs.length}</span></div>
+      ${contractExecs.slice(0,10).map(tx=>txRow(tx,'exec')).join('')}
+    </div>`;
+  }
+
+  if(contractCalls.length){
+    html+=`<div class="activity-section">
+      <div class="activity-header">← Contract Calls Received <span class="activity-count">${contractCalls.length}</span></div>
+      ${contractCalls.slice(0,10).map(tx=>txRow(tx,'call')).join('')}
+    </div>`;
+  }
+
+  if(failed.length){
+    html+=`<div class="activity-section">
+      <div class="activity-header">❌ Failed Transactions <span class="activity-count fail">${failed.length}</span></div>
+      ${failed.slice(0,10).map(tx=>txRow(tx,'fail')).join('')}
+    </div>`;
+  }
+
+  return html || '<div class="empty-state">No transactions found</div>';
 }
 
 // ── CONTRACTS TAB ──
@@ -500,10 +563,36 @@ async function fetchNFTs(c){
 
 async function fetchTxs(c){
   try{
-    const r=await fetch(`${c.explorer}?module=account&action=txlist&address=${address}&page=1&offset=10&sort=desc&apikey=${KEY}`);
+    const r=await fetch(`${c.explorer}?module=account&action=txlist&address=${address}&page=1&offset=50&sort=desc&apikey=${KEY}`);
     const d=await r.json();
     return d.status==='1'?(d.result||[]):[];
   }catch{return[];}
+}
+
+function classifyTx(tx, addr){
+  const isFailed = tx.isError === '1';
+  const hasInput = tx.input && tx.input !== '0x' && tx.input.length > 2;
+  const isOut = tx.from?.toLowerCase() === addr?.toLowerCase();
+  const isContractExec = isOut && hasInput; // you called a contract
+  const isContractCall = !isOut && hasInput && tx.to?.toLowerCase() === addr?.toLowerCase(); // contract called you (rare via txlist)
+  return { isFailed, hasInput, isOut, isContractExec, isContractCall };
+}
+
+function decodeMethod(input){
+  if(!input || input === '0x') return null;
+  const sig = input.slice(0,10);
+  const known = {
+    '0xa9059cbb':'transfer()','0x23b872dd':'transferFrom()','0x095ea7b3':'approve()',
+    '0x40c10f19':'mint()','0x42842e0e':'safeTransferFrom()','0xa22cb465':'setApprovalForAll()',
+    '0x1249c58b':'mint()','0x6a627842':'mint(address)','0x38ed1739':'swapExactTokens()',
+    '0x7ff36ab5':'swapExactETHForTokens()','0x18cbafe5':'swapExactTokensForETH()',
+    '0xfb3bdb41':'swapETHForExactTokens()','0x5c11d795':'swapExactTokensForTokensSupportingFee()',
+    '0xe8e33700':'addLiquidity()','0xf305d719':'addLiquidityETH()','0xbaa2abde':'removeLiquidity()',
+    '0x2e1a7d4d':'withdraw()','0xd0e30db0':'deposit()','0x3593564c':'execute() [Uniswap]',
+    '0x12aa3caf':'fillOrder() [1inch]','0xac9650d8':'multicall()','0x5ae401dc':'multicall() [Uni v3]',
+    '0x04e45aaf':'exactInputSingle()','0xb858183f':'exactInput()','0x414bf389':'exactInputSingle() [v3]',
+  };
+  return known[sig] || sig;
 }
 
 async function priceTokens(tokens){
