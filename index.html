@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chain Scanner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;700;900&display=swap');
+  :root {
+    --bg: #030a0f; --surface: #0a1520; --border: #0d2235;
+    --accent: #00d4ff; --accent2: #ff6b35; --success: #00ff88;
+    --warn: #ffcc00; --text: #c8e8f0; --muted: #4a7a8a;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Exo 2', sans-serif; min-height: 100vh; }
+  body::before { content:''; position:fixed; inset:0; background: radial-gradient(ellipse at 20% 20%, rgba(0,212,255,0.05) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(255,107,53,0.04) 0%, transparent 50%); pointer-events:none; z-index:0; }
+  .container { max-width: 900px; margin: 0 auto; padding: 2rem; position: relative; z-index: 1; }
+  header { display:flex; align-items:center; gap:1rem; margin-bottom:2.5rem; border-bottom:1px solid var(--border); padding-bottom:1.5rem; }
+  .logo { width:40px; height:40px; background:linear-gradient(135deg,var(--accent),var(--accent2)); clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%); animation:pulse 3s ease-in-out infinite; flex-shrink:0; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.6} }
+  h1 { font-weight:900; font-size:1.5rem; letter-spacing:0.15em; text-transform:uppercase; color:var(--accent); }
+  .subtitle { font-size:0.72rem; color:var(--muted); letter-spacing:0.1em; margin-top:2px; }
+  .connect-section { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:2.5rem; text-align:center; margin-bottom:1.5rem; }
+  .connect-icon { font-size:3rem; margin-bottom:1rem; display:block; }
+  .connect-title { font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:0.5rem; }
+  .connect-sub { font-size:0.78rem; color:var(--muted); margin-bottom:2rem; line-height:1.6; }
+  .connect-btn { background:linear-gradient(135deg,var(--accent),#0099cc); border:none; border-radius:8px; color:#000; cursor:pointer; font-family:'Exo 2',sans-serif; font-size:0.9rem; font-weight:800; letter-spacing:0.15em; padding:0.9rem 2.5rem; text-transform:uppercase; transition:all 0.2s; }
+  .connect-btn:hover { opacity:0.85; transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,212,255,0.25); }
+  .connect-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+  .wallet-pill { display:inline-flex; align-items:center; gap:0.5rem; background:rgba(0,255,136,0.08); border:1px solid rgba(0,255,136,0.3); border-radius:20px; padding:0.4rem 1rem; font-family:'Share Tech Mono',monospace; font-size:0.75rem; color:var(--success); }
+  .wallet-dot { width:7px; height:7px; background:var(--success); border-radius:50%; animation:blink 2s ease-in-out infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .chains-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1rem; margin-bottom:1.5rem; }
+  .chain-card { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem; transition:border-color 0.2s; animation:fadeIn 0.4s ease; }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+  .chain-card.has-value { border-color:rgba(0,212,255,0.3); }
+  .chain-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.75rem; }
+  .chain-name-row { display:flex; align-items:center; gap:0.5rem; }
+  .chain-icon { width:28px; height:28px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.85rem; flex-shrink:0; }
+  .chain-label { font-size:0.8rem; font-weight:700; }
+  .chain-network { font-size:0.65rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em; }
+  .chain-status { font-family:'Share Tech Mono',monospace; font-size:0.65rem; color:var(--muted); }
+  .chain-balance-main { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--text); margin-bottom:0.2rem; }
+  .chain-balance-usd { font-size:0.8rem; color:var(--warn); font-weight:600; }
+  .chain-balance-zero { color:var(--muted); font-size:0.85rem; }
+  .summary-bar { background:var(--surface); border:1px solid var(--border); border-radius:10px; padding:1.25rem 1.5rem; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem; }
+  .summary-label { font-size:0.7rem; color:var(--muted); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.3rem; }
+  .summary-value { font-family:'Share Tech Mono',monospace; font-size:1.1rem; color:var(--success); font-weight:700; }
+  .disconnect-btn { background:transparent; border:1px solid rgba(255,100,100,0.3); border-radius:6px; color:rgba(255,100,100,0.7); cursor:pointer; font-family:'Share Tech Mono',monospace; font-size:0.7rem; padding:0.4rem 0.9rem; transition:all 0.2s; }
+  .disconnect-btn:hover { border-color:#ff4444; color:#ff4444; }
+  .rescan-btn { background:transparent; border:1px solid var(--accent); border-radius:6px; color:var(--accent); cursor:pointer; font-family:'Exo 2',sans-serif; font-size:0.75rem; font-weight:700; letter-spacing:0.1em; padding:0.4rem 1.2rem; text-transform:uppercase; transition:all 0.2s; }
+  .rescan-btn:hover { background:rgba(0,212,255,0.1); }
+  .error-note { background:rgba(255,68,68,0.08); border:1px solid rgba(255,68,68,0.3); border-radius:6px; color:#ff6666; font-size:0.75rem; padding:0.75rem 1rem; margin-bottom:1rem; }
+  .no-metamask { background:rgba(255,107,53,0.08); border:1px solid rgba(255,107,53,0.3); border-radius:8px; padding:1.5rem; text-align:center; font-size:0.82rem; color:var(--accent2); line-height:1.7; }
+  .no-metamask a { color:var(--accent); text-decoration:none; }
+  .spinner { display:inline-block; width:12px; height:12px; border:2px solid var(--border); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; margin-right:4px; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo"></div>
+    <div>
+      <h1>Chain Scanner</h1>
+      <div class="subtitle">Connect wallet → scan all chains instantly</div>
+    </div>
+  </header>
+  <div id="app"></div>
+</div>
+<script>
+const CHAINS = [
+  { id:'0x1',    name:'Ethereum', network:'Mainnet', symbol:'ETH',  icon:'⟠', color:'#627eea', rpc:'https://ethereum.publicnode.com',       cgId:'ethereum' },
+  { id:'0x38',   name:'BNB Chain',network:'BSC',     symbol:'BNB',  icon:'⬡', color:'#f0b90b', rpc:'https://bsc.publicnode.com',            cgId:'binancecoin' },
+  { id:'0x89',   name:'Polygon',  network:'Mainnet', symbol:'POL',  icon:'⬟', color:'#8247e5', rpc:'https://polygon.publicnode.com',        cgId:'matic-network' },
+  { id:'0xa4b1', name:'Arbitrum', network:'One',     symbol:'ETH',  icon:'◈', color:'#12aaff', rpc:'https://arbitrum-one.publicnode.com',   cgId:'ethereum' },
+  { id:'0xa',    name:'Optimism', network:'Mainnet', symbol:'ETH',  icon:'○', color:'#ff0420', rpc:'https://optimism.publicnode.com',       cgId:'ethereum' },
+  { id:'0x2105', name:'Base',     network:'Mainnet', symbol:'ETH',  icon:'⬡', color:'#0052ff', rpc:'https://base.publicnode.com',           cgId:'ethereum' },
+];
+
+let connectedAddress = null;
+let prices = {};
+let balances = {};
+const app = document.getElementById(‘app’);
+
+function render() {
+if (!connectedAddress) renderConnect();
+else renderDashboard();
+}
+
+function renderConnect() {
+const hasMetaMask = typeof window.ethereum !== ‘undefined’;
+app.innerHTML = `<div class="connect-section"> <span class="connect-icon">🔗</span> <div class="connect-title">Connect Your Wallet</div> <div class="connect-sub">Click below to connect MetaMask or any Web3 wallet.<br>We scan your address across 6 chains automatically.<br><strong style="color:var(--accent)">No private keys. Read-only.</strong></div> ${hasMetaMask ?`<button class="connect-btn" id="connectBtn" onclick="connectWallet()">🦊 Connect Wallet</button>`:`<div class="no-metamask">MetaMask not detected.<br><br><strong>Desktop:</strong> Install <a href="https://metamask.io" target="_blank">MetaMask</a> then reload.<br><strong>Mobile:</strong> Open this inside the <a href="https://metamask.app.link" target="_blank">MetaMask app browser</a>.</div>` } </div>`;
+}
+
+async function connectWallet() {
+const btn = document.getElementById(‘connectBtn’);
+if (btn) { btn.disabled = true; btn.innerHTML = ‘<span class="spinner"></span> Connecting…’; }
+try {
+const accounts = await window.ethereum.request({ method: ‘eth_requestAccounts’ });
+connectedAddress = accounts[0];
+render();
+await loadAll();
+} catch(err) {
+renderConnect();
+app.insertAdjacentHTML(‘afterbegin’, `<div class="error-note">❌ ${err.message || 'Connection rejected.'}</div>`);
+}
+}
+
+function renderDashboard() {
+const short = connectedAddress.slice(0,6) + ‘…’ + connectedAddress.slice(-4);
+let totalUsd = 0;
+Object.values(balances).forEach(b => { if (b?.usd) totalUsd += b.usd; });
+app.innerHTML = `<div class="summary-bar"> <div> <div class="summary-label">Connected Wallet</div> <div class="wallet-pill"><span class="wallet-dot"></span>${short}</div> </div> <div> <div class="summary-label">Total Balance</div> <div class="summary-value" id="grandTotal">${totalUsd > 0 ? '$'+totalUsd.toFixed(2) : 'Scanning...'}</div> </div> <div style="display:flex;gap:0.5rem;align-items:center"> <button class="rescan-btn" onclick="loadAll()">↻ Rescan</button> <button class="disconnect-btn" onclick="disconnect()">Disconnect</button> </div> </div> <div class="chains-grid" id="chainsGrid"> ${CHAINS.map(c =>`
+<div class="chain-card loading" id="card_${c.id.replace('0x','')}">
+<div class="chain-top">
+<div class="chain-name-row">
+<div class="chain-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+<div><div class="chain-label" style="color:${c.color}">${c.name}</div><div class="chain-network">${c.network}</div></div>
+</div>
+<div class="chain-status"><span class="spinner"></span></div>
+</div>
+<div class="chain-balance-main chain-balance-zero">—</div>
+</div>`).join('')} </div>`;
+}
+
+async function loadAll() {
+if (!connectedAddress) return;
+balances = {};
+renderDashboard();
+try {
+const res = await fetch(‘https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,matic-network&vs_currencies=usd’);
+const data = await res.json();
+prices = { ethereum: data.ethereum?.usd||2020, binancecoin: data.binancecoin?.usd||600, ‘matic-network’: data[‘matic-network’]?.usd||0.5 };
+} catch { prices = { ethereum:2020, binancecoin:600, ‘matic-network’:0.5 }; }
+await Promise.all(CHAINS.map(chain => scanChain(chain)));
+let total = 0;
+Object.values(balances).forEach(b => { if (b?.usd) total += b.usd; });
+const el = document.getElementById(‘grandTotal’);
+if (el) el.textContent = ‘$’ + total.toFixed(2);
+}
+
+async function scanChain(chain) {
+const cardId = chain.id.replace(‘0x’,’’);
+const card = document.getElementById(‘card_’ + cardId);
+try {
+const res = await fetch(chain.rpc, {
+method:‘POST’,
+headers:{‘Content-Type’:‘application/json’},
+body: JSON.stringify({ jsonrpc:‘2.0’, method:‘eth_getBalance’, params:[connectedAddress,‘latest’], id:1 })
+});
+const data = await res.json();
+if (data.error) throw new Error(data.error.message);
+const bal = parseInt(data.result, 16) / 1e18;
+const price = prices[chain.cgId] || 0;
+const usd = bal * price;
+balances[chain.id] = { bal, usd, symbol: chain.symbol };
+if (card) {
+card.classList.remove(‘loading’);
+if (usd > 0.01) card.classList.add(‘has-value’);
+const balStr = bal < 0.000001 ? ‘0’ : bal < 0.0001 ? bal.toExponential(3) : bal.toFixed(6);
+card.innerHTML = `<div class="chain-top"> <div class="chain-name-row"> <div class="chain-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div> <div><div class="chain-label" style="color:${chain.color}">${chain.name}</div><div class="chain-network">${chain.network}</div></div> </div> <div class="chain-status" style="color:var(--success)">✓ live</div> </div> ${bal > 0.000001 ?`<div class="chain-balance-main">${balStr} ${chain.symbol}</div><div class="chain-balance-usd">${usd<0.01?’<$0.01’:’$’+usd.toFixed(2)}</div>`:`<div class="chain-balance-main chain-balance-zero">0 ${chain.symbol}</div>`}`;
+}
+let total = 0;
+Object.values(balances).forEach(b => { if (b?.usd) total += b.usd; });
+const totalEl = document.getElementById(‘grandTotal’);
+if (totalEl) totalEl.textContent = ‘$’ + total.toFixed(2);
+} catch(err) {
+if (card) {
+card.classList.remove(‘loading’);
+card.innerHTML = ` <div class="chain-top"> <div class="chain-name-row"> <div class="chain-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div> <div><div class="chain-label" style="color:${chain.color}">${chain.name}</div><div class="chain-network">${chain.network}</div></div> </div> <div class="chain-status" style="color:#ff4444">error</div> </div> <div style="font-size:0.7rem;color:var(--muted);font-family:'Share Tech Mono',monospace">RPC unavailable</div>`;
+}
+}
+}
+
+function disconnect() { connectedAddress = null; balances = {}; render(); }
+
+if (typeof window.ethereum !== ‘undefined’) {
+window.ethereum.on(‘accountsChanged’, accounts => {
+if (accounts.length === 0) disconnect();
+else { connectedAddress = accounts[0]; render(); loadAll(); }
+});
+}
+
+render();
+</script>
+
+</body>
+</html>
