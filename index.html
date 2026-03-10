@@ -129,6 +129,15 @@
 .wc-sub{font-size:.75rem;color:var(–muted);text-align:center;margin-bottom:1rem;line-height:1.6;}
 .wc-close{float:right;background:transparent;border:none;color:var(–muted);font-size:1.2rem;cursor:pointer;margin-top:-0.25rem;}
 
+/* ACCOUNT PICKER */
+.acc-list{display:flex;flex-direction:column;gap:.5rem;}
+.acc-row{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(–surface2);border:1px solid var(–border2);border-radius:8px;cursor:pointer;transition:all .2s;}
+.acc-row:hover{border-color:var(–accent);background:rgba(0,212,255,0.04);}
+.acc-check{width:22px;height:22px;border-radius:5px;border:1px solid var(–border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:transparent;flex-shrink:0;transition:all .2s;}
+.acc-check.checked{background:rgba(0,255,136,0.15);border-color:var(–accent3);color:var(–accent3);}
+.acc-name{font-family:‘Orbitron’,monospace;font-size:.62rem;font-weight:700;color:var(–text);}
+.acc-addr{font-family:‘Share Tech Mono’,monospace;font-size:.65rem;color:var(–muted);margin-top:2px;}
+
 @media(max-width:480px){.card{padding:1rem}.nft-grid{grid-template-columns:repeat(3,1fr)}.wallet-grid{grid-template-columns:repeat(3,1fr)}}
 </style>
 
@@ -167,7 +176,7 @@ const WALLETS=[
   {id:'manual',    name:'Manual',    emoji:'✏️', type:'Any',    deeplink:null, detect:()=>true},
 ];
 
-let address=null,prices={},portfolio={},activeTab='tokens';
+let address=null, accounts=[], selectedAccounts=[], prices={}, portfolio={}, activeTab='tokens';
 const app=document.getElementById('app');
 
 // ── DETECT ──
@@ -290,33 +299,93 @@ function showDeepLinkModal(name, link, host){
 async function connectEVM(){
   try{
     const a = await window.ethereum.request({method:'eth_requestAccounts'});
-    address = a[0].toLowerCase(); render(); loadAll();
+    const all = await window.ethereum.request({method:'eth_accounts'});
+    accounts = (all||a).map(x=>x.toLowerCase());
+    if(accounts.length===1){
+      selectedAccounts=[accounts[0]]; address=accounts[0]; render(); loadAll();
+    } else {
+      showAccountPicker();
+    }
   }catch(e){ alert('Connection failed: '+(e.message||'rejected')); }
+}
+
+function showAccountPicker(){
+  const rows = accounts.map((acc,i)=>`
+    <label class="acc-row" onclick="toggleAcc('${acc}')">
+      <div class="acc-check ${selectedAccounts.includes(acc)?'checked':''}" id="chk-${acc.slice(2,8)}">✓</div>
+      <div class="acc-info">
+        <div class="acc-name">Account ${i+1}</div>
+        <div class="acc-addr">${acc.slice(0,10)}…${acc.slice(-6)}</div>
+      </div>
+    </label>`).join('');
+
+  app.innerHTML=`<div class="card">
+    <div class="connect-title" style="margin-bottom:.75rem">Select Accounts to Scan</div>
+    <div class="connect-sub" style="margin-bottom:1rem">${accounts.length} accounts found · select one or more</div>
+    <div class="acc-list">${rows}</div>
+    <div style="display:flex;gap:.5rem;margin-top:1rem">
+      <button class="btn btn-outline btn-sm" style="flex:1" onclick="selectAllAccounts()">Select All</button>
+      <button class="btn btn-primary btn-sm" style="flex:1;color:#000" onclick="confirmAccounts()">Scan Selected ▶</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" style="margin-top:.5rem;width:100%" onclick="render()">← Back</button>
+  </div>`;
+}
+
+function toggleAcc(acc){
+  if(selectedAccounts.includes(acc)) selectedAccounts=selectedAccounts.filter(a=>a!==acc);
+  else selectedAccounts.push(acc);
+  showAccountPicker();
+}
+
+function selectAllAccounts(){
+  selectedAccounts=[...accounts];
+  showAccountPicker();
+}
+
+function confirmAccounts(){
+  if(!selectedAccounts.length){ alert('Select at least one account'); return; }
+  address=selectedAccounts[0];
+  render(); loadAll();
 }
 
 function manualEntry(){
   const a=prompt('Enter any EVM wallet address (0x...):');
   if(!a)return;
   const c=a.trim();
-  if(/^0x[0-9a-fA-F]{40}$/.test(c)){ address=c.toLowerCase(); render(); loadAll(); }
-  else alert('Invalid EVM address. Must start with 0x followed by 40 characters.');
+  if(/^0x[0-9a-fA-F]{40}$/.test(c)){
+    address=c.toLowerCase(); accounts=[address]; selectedAccounts=[address]; render(); loadAll();
+  } else alert('Invalid EVM address. Must start with 0x followed by 40 characters.');
 }
 
 function copyTxt(t){ navigator.clipboard?.writeText(t).catch(()=>{}); }
-function disconnect(){ address=null; portfolio={}; render(); }
+function disconnect(){ address=null; accounts=[]; selectedAccounts=[]; portfolio={}; render(); }
 
 // ── DASHBOARD ──
 function renderDash(){
   const short=address.slice(0,6)+'…'+address.slice(-4);
+  const accCount=selectedAccounts.length;
+  const accLabel=accCount>1?`${accCount} accounts`:`${short}`;
+  const accDropdown=accCount>1?`<div style="position:relative;display:inline-block">
+    <button class="btn btn-outline btn-sm" onclick="toggleAccDropdown()" id="accDropBtn">👥 Accounts ▾</button>
+    <div id="accDropdown" style="display:none;position:absolute;top:110%;left:0;background:var(--surface);border:1px solid var(--border2);border-radius:8px;min-width:220px;z-index:50;padding:.5rem;">
+      ${selectedAccounts.map((a,i)=>`<div style="padding:.4rem .6rem;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:${a===address?'var(--accent3)':'var(--text)'};cursor:pointer;border-radius:4px" onclick="switchPrimary('${a}')" onmouseover="this.style.background='rgba(0,212,255,0.06)'" onmouseout="this.style.background='transparent'">
+        ${a===address?'● ':'  '} Acct ${i+1}: ${a.slice(0,8)}…${a.slice(-4)}
+      </div>`).join('')}
+      <div style="border-top:1px solid var(--border);margin:.4rem 0"></div>
+      <div style="padding:.4rem .6rem;font-size:.6rem;color:var(--muted);cursor:pointer" onclick="showAccountPicker()">⚙ Change Selection</div>
+    </div>
+  </div>`:'';
+
   app.innerHTML=`
     <div class="summary-bar">
-      <div><div class="summary-label">Wallet</div>
-        <div class="wallet-pill"><span class="wdot"></span>${short}<span class="copy-btn" onclick="copyTxt('${address}')">copy</span></div>
+      <div><div class="summary-label">${accCount>1?accCount+' Accounts':'Wallet'}</div>
+        <div class="wallet-pill"><span class="wdot"></span>${accLabel}</div>
       </div>
       <div><div class="summary-label">Total Portfolio</div><div class="total-value" id="grandTotal">$0.00</div></div>
       <div class="btn-row">
+        ${accDropdown}
         <button class="btn btn-outline btn-sm" onclick="loadAll()">↻ Rescan</button>
-        <button class="btn btn-ghost btn-sm" onclick="disconnect()">⏏ Disconnect</button>
+        <button class="btn btn-ghost btn-sm" onclick="disconnect()">⏏</button>
       </div>
     </div>
     <div class="tabs">
@@ -327,6 +396,17 @@ function renderDash(){
     </div>
     <div id="tabContent"></div>`;
   renderTabContent();
+}
+
+function toggleAccDropdown(){
+  const d=document.getElementById('accDropdown');
+  if(d) d.style.display=d.style.display==='none'?'block':'none';
+}
+
+function switchPrimary(acc){
+  address=acc;
+  toggleAccDropdown();
+  renderDash();
 }
 
 function switchTab(t){ activeTab=t; renderDash(); }
@@ -343,14 +423,29 @@ function renderTabContent(){
 // ── TOKENS TAB ──
 function renderTokensTab(){
   return CHAINS.map(c=>{
-    const p=portfolio[c.id];
+    // aggregate across all selected accounts for this chain
+    let totalNativeBal=0, totalNativeUsd=0, allTokens=[], loading=false;
+    selectedAccounts.forEach(acc=>{
+      const p=portfolio[`${c.id}__${acc}`];
+      if(!p){loading=true;return;}
+      totalNativeBal+=p.nativeBal||0;
+      totalNativeUsd+=p.nativeUsd||0;
+      (p.tokens||[]).forEach(t=>{
+        const existing=allTokens.find(x=>x.contractAddress?.toLowerCase()===t.contractAddress?.toLowerCase());
+        if(existing){
+          existing.balance=String(BigInt(existing.balance||0)+BigInt(t.balance||0));
+          existing.usdVal=(existing.usdVal||0)+(t.usdVal||0);
+        } else allTokens.push({...t});
+      });
+    });
+    const hasAny=selectedAccounts.some(acc=>portfolio[`${c.id}__${acc}`]);
     return`<div class="card">
       <div class="chain-header">
         <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
         <div><div class="chain-title" style="color:${c.color}">${c.name}</div><div class="chain-net">${c.net}</div></div>
-        <div class="chain-native">${p?`<div>${(p.nativeBal||0).toFixed(6)} ${c.sym}</div><div class="chain-usd-sm">$${(p.nativeUsd||0).toFixed(2)}</div>`:'<span class="spin"></span>'}</div>
+        <div class="chain-native">${hasAny?`<div>${totalNativeBal.toFixed(6)} ${c.sym}</div><div class="chain-usd-sm">$${totalNativeUsd.toFixed(2)}</div>`:'<span class="spin"></span>'}</div>
       </div>
-      ${p?renderTokenTable(p.tokens):'<div class="loading-text">⟳ Scanning chain…</div>'}
+      ${hasAny?renderTokenTable(allTokens):loading?'<div class="loading-text">⟳ Scanning chain…</div>':''}
     </div>`;
   }).join('');
 }
@@ -382,13 +477,19 @@ function renderTokenTable(tokens){
 // ── NFTs TAB ──
 function renderNFTsTab(){
   return CHAINS.map(c=>{
-    const p=portfolio[c.id];
+    let allNfts=[], hasAny=false;
+    selectedAccounts.forEach(acc=>{
+      const p=portfolio[`${c.id}__${acc}`];
+      if(!p)return;
+      hasAny=true;
+      (p.nfts||[]).forEach(n=>allNfts.push(n));
+    });
     return`<div class="card">
       <div class="chain-header">
         <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
         <div><div class="chain-title" style="color:${c.color}">${c.name}</div><div class="chain-net">${c.net}</div></div>
       </div>
-      ${p?renderNFTGrid(p.nfts):'<div class="loading-text">⟳ Loading NFTs…</div>'}
+      ${hasAny?renderNFTGrid(allNfts):'<div class="loading-text">⟳ Loading NFTs…</div>'}
     </div>`;
   }).join('');
 }
@@ -408,13 +509,21 @@ function renderNFTGrid(nfts){
 // ── HISTORY TAB ──
 function renderHistoryTab(){
   return CHAINS.map(c=>{
-    const p=portfolio[c.id];
+    let allTxs=[], hasAny=false;
+    selectedAccounts.forEach(acc=>{
+      const p=portfolio[`${c.id}__${acc}`];
+      if(!p)return;
+      hasAny=true;
+      (p.txs||[]).forEach(tx=>allTxs.push({...tx,_acc:acc}));
+    });
+    allTxs.sort((a,b)=>parseInt(b.timeStamp||0)-parseInt(a.timeStamp||0));
     return`<div class="card">
       <div class="chain-header">
         <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
         <div><div class="chain-title" style="color:${c.color}">${c.name}</div></div>
+        ${selectedAccounts.length>1?`<div style="margin-left:auto;font-size:.6rem;color:var(--muted)">${allTxs.length} txs combined</div>`:''}
       </div>
-      ${p?renderTxList(c,p.txs):'<div class="loading-text">⟳ Loading…</div>'}
+      ${hasAny?renderTxList(c,allTxs):'<div class="loading-text">⟳ Loading…</div>'}
     </div>`;
   }).join('');
 }
@@ -426,7 +535,8 @@ function renderTxList(c,txs){
   const normal=[], contractCalls=[], contractExecs=[], failed=[];
 
   txs.forEach(tx=>{
-    const {isFailed,hasInput,isOut,isContractExec}=classifyTx(tx,address);
+    const txAddr=tx._acc||address;
+    const {isFailed,hasInput,isOut,isContractExec}=classifyTx(tx,txAddr);
     if(isFailed){ failed.push(tx); return; }
     if(isContractExec){ contractExecs.push(tx); return; }
     if(hasInput && !isOut){ contractCalls.push(tx); return; }
@@ -434,7 +544,8 @@ function renderTxList(c,txs){
   });
 
   function txRow(tx, type){
-    const isIn = tx.to?.toLowerCase()===address?.toLowerCase();
+    const txAddr=tx._acc||address;
+    const isIn = tx.to?.toLowerCase()===txAddr?.toLowerCase();
     const val = (parseFloat(tx.value||0)/1e18).toFixed(4);
     const method = decodeMethod(tx.input);
     const gas = tx.gasUsed ? `gas: ${parseInt(tx.gasUsed).toLocaleString()}` : '';
@@ -492,11 +603,18 @@ function renderTxList(c,txs){
 function renderContractsTab(){
   let all=[];
   CHAINS.forEach(c=>{
-    const p=portfolio[c.id];
-    if(p?.tokens) p.tokens.filter(t=>parseFloat(t.usdVal||0)>0.5).forEach(t=>all.push({...t,chain:c.name,chainColor:c.color}));
+    selectedAccounts.forEach(acc=>{
+      const p=portfolio[`${c.id}__${acc}`];
+      if(p?.tokens) p.tokens.filter(t=>parseFloat(t.usdVal||0)>0.5).forEach(t=>{
+        const ex=all.find(x=>x.contractAddress?.toLowerCase()===t.contractAddress?.toLowerCase()&&x.chain===c.name);
+        if(ex){ ex.usdVal=(ex.usdVal||0)+(t.usdVal||0); }
+        else all.push({...t,chain:c.name,chainColor:c.color});
+      });
+    });
   });
   all.sort((a,b)=>(b.usdVal||0)-(a.usdVal||0));
-  if(!all.length) return`<div class="card"><div class="empty-state">${Object.keys(portfolio).length<CHAINS.length?'⟳ Still scanning chains… check back in a moment':'No token contracts with value >$0.50 found'}</div></div>`;
+  const totalScanned=CHAINS.length*selectedAccounts.length;
+  if(!all.length) return`<div class="card"><div class="empty-state">${Object.keys(portfolio).length<totalScanned?'⟳ Still scanning chains… check back in a moment':'No token contracts with value >$0.50 found'}</div></div>`;
   const rows=all.map(t=>{
     const usd=parseFloat(t.usdVal||0);
     const bc=usd>100?'badge-high':usd>10?'badge-med':'badge-low';
@@ -516,44 +634,48 @@ function renderContractsTab(){
 
 // ── LOAD DATA ──
 async function loadAll(){
-  if(!address)return;
+  if(!selectedAccounts.length)return;
   portfolio={};renderDash();
   try{
     const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,matic-network&vs_currencies=usd');
     const d=await r.json();
     prices={ethereum:d.ethereum?.usd||2100,binancecoin:d.binancecoin?.usd||600,'matic-network':d['matic-network']?.usd||0.5};
   }catch{ prices={ethereum:2100,binancecoin:600,'matic-network':0.5}; }
-  await Promise.all(CHAINS.map(c=>scanChain(c)));
+  // Scan all selected accounts across all chains
+  const tasks=[];
+  CHAINS.forEach(c=>selectedAccounts.forEach(acc=>tasks.push(scanChain(c,acc))));
+  await Promise.all(tasks);
   updateTotal();
 }
 
-async function scanChain(c){
+async function scanChain(c, acc){
+  const key=`${c.id}__${acc}`;
   try{
-    const rr=await fetch(c.rpc,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[address,'latest'],id:1})});
+    const rr=await fetch(c.rpc,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[acc,'latest'],id:1})});
     const rd=await rr.json();
     const nativeBal=parseInt(rd.result||'0x0',16)/1e18;
     const nativeUsd=nativeBal*(prices[c.cg]||0);
-    const[tokens,nfts,txs]=await Promise.all([fetchTokens(c),fetchNFTs(c),fetchTxs(c)]);
+    const[tokens,nfts,txs]=await Promise.all([fetchTokens(c,acc),fetchNFTs(c,acc),fetchTxs(c,acc)]);
     await priceTokens(tokens);
-    portfolio[c.id]={nativeBal,nativeUsd,tokens,nfts,txs};
+    portfolio[key]={nativeBal,nativeUsd,tokens,nfts,txs,acc,chain:c.id};
     updateTotal();
     if(document.getElementById('tabContent'))renderTabContent();
   }catch{
-    portfolio[c.id]={nativeBal:0,nativeUsd:0,tokens:[],nfts:[],txs:[]};
+    portfolio[key]={nativeBal:0,nativeUsd:0,tokens:[],nfts:[],txs:[],acc,chain:c.id};
   }
 }
 
-async function fetchTokens(c){
+async function fetchTokens(c, acc){
   try{
-    const r=await fetch(`${c.explorer}?module=account&action=tokenlist&address=${address}&apikey=${KEY}`);
+    const r=await fetch(`${c.explorer}?module=account&action=tokenlist&address=${acc}&apikey=${KEY}`);
     const d=await r.json();
     return d.status==='1'?(d.result||[]):[];
   }catch{return[];}
 }
 
-async function fetchNFTs(c){
+async function fetchNFTs(c, acc){
   try{
-    const r=await fetch(`${c.explorer}?module=account&action=tokennfttx&address=${address}&page=1&offset=50&sort=desc&apikey=${KEY}`);
+    const r=await fetch(`${c.explorer}?module=account&action=tokennfttx&address=${acc}&page=1&offset=50&sort=desc&apikey=${KEY}`);
     const d=await r.json();
     if(d.status!=='1')return[];
     const seen=new Set();
@@ -561,9 +683,9 @@ async function fetchNFTs(c){
   }catch{return[];}
 }
 
-async function fetchTxs(c){
+async function fetchTxs(c, acc){
   try{
-    const r=await fetch(`${c.explorer}?module=account&action=txlist&address=${address}&page=1&offset=50&sort=desc&apikey=${KEY}`);
+    const r=await fetch(`${c.explorer}?module=account&action=txlist&address=${acc}&page=1&offset=50&sort=desc&apikey=${KEY}`);
     const d=await r.json();
     return d.status==='1'?(d.result||[]):[];
   }catch{return[];}
@@ -613,9 +735,7 @@ async function priceTokens(tokens){
 
 function updateTotal(){
   let total=0;
-  CHAINS.forEach(c=>{
-    const p=portfolio[c.id];
-    if(!p)return;
+  Object.values(portfolio).forEach(p=>{
     total+=p.nativeUsd||0;
     (p.tokens||[]).forEach(t=>{total+=parseFloat(t.usdVal||0);});
   });
