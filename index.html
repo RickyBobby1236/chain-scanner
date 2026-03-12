@@ -3,778 +3,845 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Chain Scanner Pro</title>
-<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SWEEP ENGINE</title>
 <style>
-  :root{--bg:#020810;--surface:#060f1a;--surface2:#091520;--border:#0d2235;--border2:#0a3050;--accent:#00d4ff;--accent2:#ff6b35;--accent3:#00ff88;--warn:#ffcc00;--text:#c8e8f0;--muted:#3a6a7a;--muted2:#2a4a5a;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;}
-  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(0,212,255,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.02) 1px,transparent 1px);background-size:40px 40px;}
-  .container{max-width:980px;margin:0 auto;padding:1.5rem 1rem;position:relative;z-index:1;}
-  header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem;padding-bottom:1.25rem;border-bottom:1px solid var(--border);position:relative;}
-  header::after{content:'';position:absolute;bottom:-1px;left:0;width:140px;height:1px;background:linear-gradient(90deg,var(--accent),transparent);}
-  .logo-hex{width:44px;height:44px;background:linear-gradient(135deg,var(--accent),var(--accent2));clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);animation:hexPulse 3s ease-in-out infinite;flex-shrink:0;}
-  @keyframes hexPulse{0%,100%{filter:drop-shadow(0 0 6px rgba(0,212,255,0.4))}50%{filter:drop-shadow(0 0 14px rgba(0,212,255,0.8))}}
-  h1{font-family:'Orbitron',monospace;font-size:clamp(1rem,4vw,1.35rem);font-weight:900;letter-spacing:.2em;color:var(--accent);text-shadow:0 0 20px rgba(0,212,255,0.4);}
-  .sub{font-size:.7rem;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;margin-top:2px;}
-  .hbadge{margin-left:auto;font-family:'Share Tech Mono',monospace;font-size:.58rem;color:var(--accent3);border:1px solid rgba(0,255,136,0.2);background:rgba(0,255,136,0.05);padding:.25rem .6rem;border-radius:3px;white-space:nowrap;}
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+:root {
+  --bg:#020408; --panel:#060d14; --border:#0a1e2e;
+  --green:#00ff88; --cyan:#00d4ff; --orange:#ff6b00;
+  --red:#ff2244; --yellow:#ffcc00; --purple:#a855f7;
+  --text:#a0c8d8; --dim:#1a3a4a; --dim2:#2a5060;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;
+  background-image:linear-gradient(rgba(0,212,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.025) 1px,transparent 1px);
+  background-size:50px 50px;pointer-events:none;z-index:0;}
+body::after{content:'';position:fixed;inset:0;
+  background:radial-gradient(ellipse at 15% 15%,rgba(0,212,255,0.06) 0%,transparent 50%),
+             radial-gradient(ellipse at 85% 85%,rgba(0,255,136,0.04) 0%,transparent 50%);
+  pointer-events:none;z-index:0;}
 
-/* WALLET GRID */
-.wallet-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.75rem;margin-bottom:1.25rem;}
-.wallet-btn{background:var(–surface2);border:1px solid var(–border2);border-radius:10px;padding:.9rem .75rem;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:.5rem;text-align:center;}
-.wallet-btn:hover{border-color:var(–accent);background:rgba(0,212,255,0.06);transform:translateY(-2px);}
-.wallet-btn:active{transform:translateY(0);}
-.wallet-emoji{font-size:1.75rem;line-height:1;}
-.wallet-name{font-family:‘Orbitron’,monospace;font-size:.6rem;font-weight:700;letter-spacing:.08em;color:var(–text);text-transform:uppercase;}
-.wallet-type{font-size:.58rem;color:var(–muted);margin-top:1px;}
-.wallet-btn.detected{border-color:rgba(0,255,136,0.4);background:rgba(0,255,136,0.05);}
-.wallet-btn.detected .wallet-name{color:var(–accent3);}
+.app{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:16px;}
 
-.connect-title{font-family:‘Orbitron’,monospace;font-size:1rem;font-weight:700;color:var(–text);margin-bottom:.4rem;text-align:center;}
-.connect-sub{font-size:.8rem;color:var(–muted);line-height:1.6;margin-bottom:1.25rem;text-align:center;}
-.connect-sub strong{color:var(–accent);}
+/* HEADER */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 0 16px;border-bottom:1px solid var(–border);margin-bottom:20px;}
+.logo{font-family:‘Orbitron’,sans-serif;font-weight:900;font-size:20px;letter-spacing:4px;color:var(–green);text-shadow:0 0 20px rgba(0,255,136,0.4);}
+.logo em{color:var(–cyan);font-style:normal;}
+.hdr-right{display:flex;gap:12px;align-items:center;}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(–dim2);}
+.live-dot.on{background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+.addr-badge{font-size:10px;color:var(–cyan);border:1px solid var(–cyan);padding:3px 10px;letter-spacing:1px;}
 
-.tabs{display:flex;gap:.5rem;margin-bottom:1.25rem;flex-wrap:wrap;}
-.tab{padding:.45rem 1rem;border-radius:6px;font-family:‘Orbitron’,monospace;font-size:.6rem;font-weight:700;letter-spacing:.1em;cursor:pointer;border:1px solid var(–border2);background:transparent;color:var(–muted);transition:all .2s;text-transform:uppercase;}
-.tab.active{background:rgba(0,212,255,0.1);border-color:var(–accent);color:var(–accent);}
-.card{background:var(–surface);border:1px solid var(–border);border-radius:12px;padding:1.5rem;margin-bottom:1rem;position:relative;overflow:hidden;}
-.card::before{content:’’;position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(–accent),transparent);opacity:.2;}
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:16px;border-bottom:1px solid var(–border);}
+.tab{padding:10px 20px;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;color:var(–dim2);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tab:hover{color:var(–text);}
+.tab.active{color:var(–cyan);border-bottom-color:var(–cyan);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-.btn{display:block;width:100%;padding:.85rem 1.5rem;border:none;border-radius:8px;font-family:‘Orbitron’,monospace;font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;transition:all .2s;margin-bottom:.75rem;text-align:center;text-decoration:none;}
-.btn-primary{background:linear-gradient(135deg,#0088aa,var(–accent));color:#000;}
-.btn-outline{background:transparent;border:1px solid var(–accent);color:var(–accent);}
-.btn-outline:hover{background:rgba(0,212,255,0.08);}
-.btn-ghost{background:transparent;border:1px solid rgba(255,100,100,0.25);color:rgba(255,130,130,0.6);font-size:.62rem;}
-.btn-sm{padding:.4rem .9rem;font-size:.58rem;width:auto;display:inline-block;margin-bottom:0;}
-.btn-row{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap;}
+/* CONNECT PANEL */
+.connect-panel{background:var(–panel);border:1px solid var(–border);padding:40px;text-align:center;}
+.connect-title{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:900;color:var(–cyan);letter-spacing:3px;margin-bottom:8px;}
+.connect-sub{font-size:11px;color:var(–dim2);margin-bottom:28px;letter-spacing:1px;}
+.wallet-grid{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.w-btn{padding:10px 20px;border:1px solid var(–dim2);background:transparent;color:var(–text);font-family:‘Share Tech Mono’,monospace;font-size:11px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
+.w-btn:hover,.w-btn.primary{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.06);box-shadow:0 0 12px rgba(0,212,255,0.15);}
+.manual-row{display:flex;gap:8px;max-width:500px;margin:0 auto;}
+.manual-row input{flex:1;background:#030810;border:1px solid var(–dim);color:var(–cyan);font-family:‘Share Tech Mono’,monospace;font-size:11px;padding:9px 12px;outline:none;}
+.manual-row input:focus{border-color:var(–cyan);}
+.manual-row input::placeholder{color:var(–dim2);}
 
-.summary-bar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:1.25rem;}
-.summary-label{font-size:.62rem;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.2rem;}
-.wallet-pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,255,136,0.06);border:1px solid rgba(0,255,136,0.2);border-radius:20px;padding:.35rem .85rem;font-family:‘Share Tech Mono’,monospace;font-size:.72rem;color:var(–accent3);}
-.wdot{width:6px;height:6px;background:var(–accent3);border-radius:50%;animation:blink 1.5s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.total-value{font-family:‘Orbitron’,monospace;font-size:1.3rem;font-weight:700;color:var(–accent3);text-shadow:0 0 12px rgba(0,255,136,0.3);}
+/* SCAN CONTROLS */
+.scan-bar{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap;}
+.chain-pills{display:flex;gap:6px;flex-wrap:wrap;}
+.cpill{padding:4px 12px;border:1px solid var(–dim);background:transparent;color:var(–dim2);font-family:‘Share Tech Mono’,monospace;font-size:10px;cursor:pointer;border-radius:2px;transition:all 0.15s;letter-spacing:1px;}
+.cpill.on{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.07);}
+.scan-btn{padding:8px 20px;background:var(–cyan);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.scan-btn:hover{box-shadow:0 0 16px rgba(0,212,255,0.4);}
+.scan-btn:disabled{background:var(–dim);cursor:not-allowed;box-shadow:none;}
+.sweep-btn{padding:8px 20px;background:var(–green);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.sweep-btn:hover{box-shadow:0 0 16px rgba(0,255,136,0.4);}
+.sweep-btn:disabled{background:var(–dim);cursor:not-allowed;color:#333;box-shadow:none;}
 
-.chain-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:1px solid var(–border);}
-.chain-icon-lg{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
-.chain-title{font-family:‘Orbitron’,monospace;font-size:.85rem;font-weight:700;}
-.chain-net{font-size:.6rem;color:var(–muted);text-transform:uppercase;}
-.chain-native{font-family:‘Share Tech Mono’,monospace;font-size:.9rem;margin-left:auto;text-align:right;}
-.chain-usd-sm{font-size:.72rem;color:var(–warn);}
+/* PROGRESS */
+.prog-bar{height:2px;background:var(–dim);margin-bottom:16px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(–cyan),var(–green));width:0%;transition:width 0.3s;}
 
-.token-list{width:100%;border-collapse:collapse;}
-.token-list th{font-size:.58rem;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;padding:.4rem .5rem;text-align:left;border-bottom:1px solid var(–border);font-family:‘Share Tech Mono’,monospace;}
-.token-list td{padding:.5rem;font-size:.78rem;border-bottom:1px solid rgba(13,34,53,.5);vertical-align:middle;}
-.token-list tr:last-child td{border-bottom:none;}
-.token-list tr:hover td{background:rgba(0,212,255,0.03);}
-.token-name{font-weight:700;color:var(–text);}
-.token-sym{font-size:.65rem;color:var(–muted);font-family:‘Share Tech Mono’,monospace;}
-.token-bal{font-family:‘Share Tech Mono’,monospace;font-size:.75rem;}
-.token-val{font-family:‘Share Tech Mono’,monospace;color:var(–warn);font-size:.75rem;}
-.token-val.high{color:var(–accent3);}
-.token-contract{font-family:‘Share Tech Mono’,monospace;font-size:.58rem;color:var(–muted);cursor:pointer;}
-.value-badge{display:inline-block;padding:.15rem .4rem;border-radius:3px;font-size:.55rem;font-weight:700;}
-.badge-high{background:rgba(0,255,136,0.12);color:var(–accent3);border:1px solid rgba(0,255,136,0.2);}
-.badge-med{background:rgba(255,204,0,0.1);color:var(–warn);border:1px solid rgba(255,204,0,0.2);}
-.badge-low{background:rgba(58,106,122,0.2);color:var(–muted);border:1px solid var(–border);}
+/* SUMMARY STRIP */
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px;}
+.sum-card{background:var(–panel);border:1px solid var(–border);padding:14px 16px;}
+.sum-label{font-size:9px;letter-spacing:2px;color:var(–dim2);margin-bottom:4px;text-transform:uppercase;}
+.sum-val{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:700;color:var(–green);}
+.sum-val.cyan{color:var(–cyan);}
+.sum-val.orange{color:var(–orange);}
+.sum-val.purple{color:var(–purple);}
 
-.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:.75rem;margin-top:.75rem;}
-.nft-card{background:var(–surface2);border:1px solid var(–border);border-radius:8px;padding:.75rem;text-align:center;}
-.nft-icon{font-size:1.5rem;margin-bottom:.4rem;}
-.nft-name{font-size:.68rem;font-weight:700;color:var(–text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.nft-id{font-family:‘Share Tech Mono’,monospace;font-size:.58rem;color:var(–muted);}
+/* CHAIN GRID */
+.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px;}
+.chain-card{background:var(–panel);border:1px solid var(–border);padding:14px;transition:border-color 0.2s;}
+.chain-card.has-balance{border-color:rgba(0,255,136,0.3);}
+.chain-card.loading{animation:cardpulse 1.2s infinite;}
+@keyframes cardpulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.cc-top{display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.cc-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.cc-name{font-size:11px;font-weight:700;letter-spacing:1px;}
+.cc-network{font-size:9px;color:var(–dim2);margin-top:1px;}
+.cc-bal{font-family:‘Orbitron’,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px;}
+.cc-usd{font-size:10px;color:var(–dim2);}
+.cc-status{font-size:9px;margin-top:4px;}
 
-.tx-row{display:flex;align-items:center;gap:.75rem;padding:.6rem 0;border-bottom:1px solid rgba(13,34,53,.5);}
-.tx-row:last-child{border-bottom:none;}
-.tx-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0;}
-.tx-in{background:rgba(0,255,136,0.1);color:var(–accent3);}
-.tx-out{background:rgba(255,107,53,0.1);color:var(–accent2);}
-.tx-call{background:rgba(0,212,255,0.1);color:var(–accent);}
-.tx-exec{background:rgba(130,71,229,0.15);color:#a78bfa;}
-.tx-fail{background:rgba(255,50,50,0.12);color:#ff6b6b;}
-.tx-info{flex:1;min-width:0;}
-.tx-hash{font-family:‘Share Tech Mono’,monospace;font-size:.62rem;color:var(–accent);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.tx-desc{font-size:.7rem;color:var(–muted);margin-top:1px;}
-.tx-val{font-family:‘Share Tech Mono’,monospace;font-size:.72rem;text-align:right;white-space:nowrap;}
-.tx-time{font-size:.58rem;color:var(–muted2);}
-.tx-method{font-family:‘Share Tech Mono’,monospace;font-size:.58rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);border-radius:3px;padding:.1rem .35rem;color:var(–accent);margin-top:2px;display:inline-block;}
-.tx-method.fail{background:rgba(255,50,50,0.08);border-color:rgba(255,50,50,0.2);color:#ff6b6b;}
-.tx-method.exec{background:rgba(130,71,229,0.08);border-color:rgba(130,71,229,0.2);color:#a78bfa;}
-.activity-section{margin-bottom:1rem;}
-.activity-header{display:flex;align-items:center;gap:.5rem;font-family:‘Orbitron’,monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;color:var(–muted);text-transform:uppercase;padding:.5rem 0;border-bottom:1px solid var(–border);margin-bottom:.5rem;}
-.activity-count{background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.2);border-radius:10px;padding:.1rem .45rem;font-size:.58rem;color:var(–accent);}
-.activity-count.fail{background:rgba(255,50,50,0.1);border-color:rgba(255,50,50,0.2);color:#ff6b6b;}
-.activity-count.exec{background:rgba(130,71,229,0.1);border-color:rgba(130,71,229,0.2);color:#a78bfa;}
-.gas-info{font-size:.58rem;color:var(–muted2);font-family:‘Share Tech Mono’,monospace;}
+/* RESULTS TABLES */
+.results-section{margin-bottom:20px;}
+.rs-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;cursor:pointer;}
+.rs-title{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;}
+.rs-count{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(0,212,255,0.1);color:var(–cyan);}
+.rs-body{border:1px solid var(–border);border-top:none;}
+.result-row{display:grid;gap:10px;padding:10px 14px;border-bottom:1px solid var(–border);font-size:11px;transition:background 0.15s;}
+.result-row:hover{background:rgba(0,212,255,0.03);}
+.result-row:last-child{border-bottom:none;}
+.rr-contract{grid-column:1/-1;}
+.tag{display:inline-block;padding:1px 7px;font-size:9px;letter-spacing:1px;border-radius:2px;margin-right:4px;}
+.tag-call{background:rgba(0,212,255,0.15);color:var(–cyan);}
+.tag-exec{background:rgba(0,255,136,0.15);color:var(–green);}
+.tag-fail{background:rgba(255,34,68,0.15);color:var(–red);}
+.tag-nft{background:rgba(168,85,247,0.15);color:var(–purple);}
+.tag-sweep{background:rgba(255,107,0,0.15);color:var(–orange);}
+.tag-value{background:rgba(255,204,0,0.15);color:var(–yellow);}
+.addr-short{color:var(–cyan);font-size:10px;}
+.mono-val{color:var(–green);font-family:‘Orbitron’,sans-serif;font-size:11px;}
+.tx-hash{color:var(–dim2);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-.divider{display:flex;align-items:center;gap:.75rem;margin:.75rem 0;font-size:.62rem;color:var(–muted);text-transform:uppercase;letter-spacing:.1em;}
-.divider::before,.divider::after{content:’’;flex:1;height:1px;background:var(–border);}
-.deeplink-box{background:var(–bg);border:1px solid var(–border2);border-radius:6px;padding:.75rem;font-family:‘Share Tech Mono’,monospace;font-size:.72rem;color:var(–accent);text-align:center;word-break:break-all;margin-bottom:1rem;cursor:pointer;}
-.debug-bar{background:rgba(0,0,0,0.4);border:1px solid var(–border);border-radius:6px;padding:.5rem .75rem;font-family:‘Share Tech Mono’,monospace;font-size:.6rem;color:var(–muted2);margin-top:1rem;}
-.spin{display:inline-block;width:12px;height:12px;border:2px solid var(–border2);border-top-color:var(–accent);border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{font-size:.75rem;color:var(–muted);font-family:‘Share Tech Mono’,monospace;}
-.empty-state{text-align:center;padding:1.5rem;color:var(–muted);font-size:.78rem;}
-.section-title{font-family:‘Orbitron’,monospace;font-size:.65rem;font-weight:700;letter-spacing:.15em;color:var(–muted);text-transform:uppercase;margin:1rem 0 .5rem;}
-.total-row{display:flex;justify-content:space-between;align-items:center;padding:.5rem 0;border-top:1px solid var(–border);margin-top:.5rem;}
-.total-row-label{font-size:.72rem;color:var(–muted);text-transform:uppercase;}
-.total-row-val{font-family:‘Orbitron’,monospace;font-size:.9rem;color:var(–accent3);}
-.copy-btn{font-size:.55rem;padding:.1rem .35rem;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:3px;cursor:pointer;color:var(–accent);margin-left:.35rem;}
+/* NFT GRID */
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.nft-card{background:var(–panel);border:1px solid var(–border);overflow:hidden;transition:all 0.2s;}
+.nft-card:hover{border-color:rgba(168,85,247,0.5);transform:translateY(-2px);}
+.nft-card.valuable{border-color:rgba(255,204,0,0.4);box-shadow:0 0 12px rgba(255,204,0,0.1);}
+.nft-img{width:100%;aspect-ratio:1;background:var(–dim);display:flex;align-items:center;justify-content:center;font-size:28px;overflow:hidden;}
+.nft-img img{width:100%;height:100%;object-fit:cover;}
+.nft-info{padding:10px;}
+.nft-name{font-size:10px;color:var(–text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
+.nft-collection{font-size:9px;color:var(–dim2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;}
+.nft-floor{font-size:10px;}
+.nft-floor .val{color:var(–yellow);font-family:‘Orbitron’,sans-serif;}
 
-/* WalletConnect modal */
-.wc-modal{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;display:flex;align-items:center;justify-content:center;padding:1rem;}
-.wc-box{background:var(–surface);border:1px solid var(–border2);border-radius:16px;padding:1.5rem;max-width:360px;width:100%;}
-.wc-title{font-family:‘Orbitron’,monospace;font-size:.85rem;font-weight:700;color:var(–accent);margin-bottom:.5rem;text-align:center;}
-.wc-sub{font-size:.75rem;color:var(–muted);text-align:center;margin-bottom:1rem;line-height:1.6;}
-.wc-close{float:right;background:transparent;border:none;color:var(–muted);font-size:1.2rem;cursor:pointer;margin-top:-0.25rem;}
+/* SWEEP QUEUE */
+.sweep-queue{background:var(–panel);border:1px solid var(–border);padding:14px;}
+.sq-title{font-family:‘Orbitron’,sans-serif;font-size:11px;color:var(–orange);letter-spacing:2px;margin-bottom:10px;}
+.sq-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(–border);font-size:11px;}
+.sq-item:last-child{border-bottom:none;}
+.sq-check{width:16px;height:16px;border:1px solid var(–dim2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.sq-check.checked{border-color:var(–green);background:rgba(0,255,136,0.15);color:var(–green);}
+.sq-chain{width:60px;font-size:9px;letter-spacing:1px;}
+.sq-contract{flex:1;color:var(–cyan);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;}
+.sq-method{color:var(–yellow);font-size:10px;width:120px;}
+.sq-val{color:var(–green);font-family:‘Orbitron’,sans-serif;font-size:10px;text-align:right;}
 
-/* ACCOUNT PICKER */
-.acc-list{display:flex;flex-direction:column;gap:.5rem;}
-.acc-row{display:flex;align-items:center;gap:.75rem;padding:.75rem;background:var(–surface2);border:1px solid var(–border2);border-radius:8px;cursor:pointer;transition:all .2s;}
-.acc-row:hover{border-color:var(–accent);background:rgba(0,212,255,0.04);}
-.acc-check{width:22px;height:22px;border-radius:5px;border:1px solid var(–border2);display:flex;align-items:center;justify-content:center;font-size:.7rem;color:transparent;flex-shrink:0;transition:all .2s;}
-.acc-check.checked{background:rgba(0,255,136,0.15);border-color:var(–accent3);color:var(–accent3);}
-.acc-name{font-family:‘Orbitron’,monospace;font-size:.62rem;font-weight:700;color:var(–text);}
-.acc-addr{font-family:‘Share Tech Mono’,monospace;font-size:.65rem;color:var(–muted);margin-top:2px;}
+/* LOG */
+.log{background:#020408;border:1px solid var(–border);padding:12px;height:120px;overflow-y:auto;font-size:10px;line-height:1.7;}
+.log-line{color:var(–dim2);}
+.log-line.info{color:var(–cyan);}
+.log-line.success{color:var(–green);}
+.log-line.warn{color:var(–yellow);}
+.log-line.error{color:var(–red);}
 
-@media(max-width:480px){.card{padding:1rem}.nft-grid{grid-template-columns:repeat(3,1fr)}.wallet-grid{grid-template-columns:repeat(3,1fr)}}
+.empty-state{text-align:center;padding:40px;color:var(–dim2);font-size:11px;letter-spacing:2px;}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:var(–bg);}
+::-webkit-scrollbar-thumb{background:var(–dim2);}
 </style>
 
 </head>
 <body>
-<div class="container">
-  <header>
-    <div class="logo-hex"></div>
-    <div><h1>Chain Scanner Pro</h1><div class="sub">Tokens · NFTs · History · Contracts · Activity</div></div>
-    <div class="hbadge">6 CHAINS</div>
-  </header>
-  <div id="app"></div>
+<div class="app">
+
+<!-- HEADER -->
+
+<div class="hdr">
+  <div class="logo">SWEEP<em>ENGINE</em></div>
+  <div class="hdr-right">
+    <div class="live-dot" id="liveDot"></div>
+    <div class="addr-badge" id="addrBadge">NOT CONNECTED</div>
+  </div>
 </div>
 
+<!-- TABS -->
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('connect')">⚡ CONNECT</button>
+  <button class="tab" onclick="showTab('scan')" id="tabScan">🔍 SCAN</button>
+  <button class="tab" onclick="showTab('contracts')" id="tabContracts">📡 CONTRACTS</button>
+  <button class="tab" onclick="showTab('nfts')" id="tabNFTs">🖼 NFTs</button>
+  <button class="tab" onclick="showTab('sweep')" id="tabSweep">💰 SWEEP</button>
+</div>
+
+<!-- ═══════════ CONNECT TAB ═══════════ -->
+
+<div class="tab-content active" id="tab-connect">
+  <div class="connect-panel">
+    <div class="connect-title">CONNECT YOUR WALLET</div>
+    <div class="connect-sub">SUPPORTS ALL EVM WALLETS — ETH · BSC · ARB · POLYGON · OPTIMISM</div>
+    <div class="wallet-grid">
+      <button class="w-btn primary" onclick="connectMM()">🦊 METAMASK</button>
+      <button class="w-btn" onclick="connectWC()">🔗 WALLETCONNECT</button>
+      <button class="w-btn" onclick="connectTrust()">🛡 TRUST</button>
+      <button class="w-btn" onclick="connectCoinbase()">🔵 COINBASE</button>
+      <button class="w-btn" onclick="connectRabby()">🐰 RABBY</button>
+      <button class="w-btn" onclick="connectOKX()">⬛ OKX</button>
+      <button class="w-btn" onclick="connectFox()">🦊 FOXWALLET</button>
+      <button class="w-btn" onclick="connectPhantom()">👻 PHANTOM</button>
+    </div>
+    <div style="color:var(--dim2);font-size:10px;margin-bottom:12px;letter-spacing:1px;">— OR PASTE ADDRESS MANUALLY —</div>
+    <div class="manual-row">
+      <input type="text" id="manualAddr" placeholder="0x... wallet address" />
+      <button class="scan-btn" onclick="connectManual()">CONNECT</button>
+    </div>
+    <div id="connectStatus" style="margin-top:14px;font-size:11px;color:var(--dim2);"></div>
+  </div>
+</div>
+
+<!-- ═══════════ SCAN TAB ═══════════ -->
+
+<div class="tab-content" id="tab-scan">
+  <div class="scan-bar">
+    <div class="chain-pills" id="chainPills"></div>
+    <button class="scan-btn" id="btnScan" onclick="runScan()" disabled>▶ SCAN ALL CHAINS</button>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+
+  <div class="summary" id="summaryStrip">
+    <div class="sum-card"><div class="sum-label">Total Balance</div><div class="sum-val" id="sumBalance">—</div></div>
+    <div class="sum-card"><div class="sum-label">Contracts Found</div><div class="sum-val cyan" id="sumContracts">—</div></div>
+    <div class="sum-card"><div class="sum-label">NFTs Found</div><div class="sum-val purple" id="sumNFTs">—</div></div>
+    <div class="sum-card"><div class="sum-label">Sweepable</div><div class="sum-val orange" id="sumSweep">—</div></div>
+  </div>
+
+  <div class="chain-grid" id="chainGrid"></div>
+
+  <div style="font-size:9px;letter-spacing:2px;color:var(--dim2);margin-bottom:8px;">ACTIVITY LOG</div>
+  <div class="log" id="scanLog"><div class="log-line">// waiting for scan...</div></div>
+</div>
+
+<!-- ═══════════ CONTRACTS TAB ═══════════ -->
+
+<div class="tab-content" id="tab-contracts">
+  <div id="contractsContent"><div class="empty-state">RUN SCAN FIRST TO DISCOVER CONTRACTS</div></div>
+</div>
+
+<!-- ═══════════ NFTs TAB ═══════════ -->
+
+<div class="tab-content" id="tab-nfts">
+  <div id="nftsContent"><div class="empty-state">RUN SCAN FIRST TO DISCOVER NFTs</div></div>
+</div>
+
+<!-- ═══════════ SWEEP TAB ═══════════ -->
+
+<div class="tab-content" id="tab-sweep">
+  <div id="sweepContent"><div class="empty-state">RUN SCAN FIRST TO BUILD SWEEP QUEUE</div></div>
+</div>
+
+</div><!-- /app -->
+
 <script>
-const KEY='5897WQKUFEX73XGC2FJZG3HGNUEKP1KJI1';
-const CHAINS=[
-  {id:'eth',name:'Ethereum',net:'Mainnet',sym:'ETH',icon:'⟠',color:'#627eea',rpc:'https://ethereum.publicnode.com',cg:'ethereum',explorer:'https://api.etherscan.io/api',explorerUrl:'https://etherscan.io'},
-  {id:'bsc',name:'BNB Chain',net:'BSC',sym:'BNB',icon:'⬡',color:'#f0b90b',rpc:'https://bsc.publicnode.com',cg:'binancecoin',explorer:'https://api.bscscan.com/api',explorerUrl:'https://bscscan.com'},
-  {id:'poly',name:'Polygon',net:'Mainnet',sym:'POL',icon:'⬟',color:'#8247e5',rpc:'https://polygon.publicnode.com',cg:'matic-network',explorer:'https://api.polygonscan.com/api',explorerUrl:'https://polygonscan.com'},
-  {id:'arb',name:'Arbitrum',net:'One',sym:'ETH',icon:'◈',color:'#12aaff',rpc:'https://arbitrum-one.publicnode.com',cg:'ethereum',explorer:'https://api.arbiscan.io/api',explorerUrl:'https://arbiscan.io'},
-  {id:'op',name:'Optimism',net:'Mainnet',sym:'ETH',icon:'○',color:'#ff0420',rpc:'https://optimism.publicnode.com',cg:'ethereum',explorer:'https://api-optimistic.etherscan.io/api',explorerUrl:'https://optimistic.etherscan.io'},
-  {id:'base',name:'Base',net:'Mainnet',sym:'ETH',icon:'⬡',color:'#0052ff',rpc:'https://base.publicnode.com',cg:'ethereum',explorer:'https://api.basescan.org/api',explorerUrl:'https://basescan.org'},
+// ═══════════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════════
+const ETHERSCAN_KEY = 'MYFAAQNVISX814SZITSU1WZG4JEQ1IZSXD';
+
+const CHAINS = [
+  { id:'eth',    name:'ETHEREUM',  symbol:'ETH',  color:'#627EEA', icon:'Ξ',  rpc:'https://cloudflare-eth.com',                      explorer:'https://api.etherscan.io/api',          explorerKey:ETHERSCAN_KEY,  coingecko:'ethereum',  chainId:1 },
+  { id:'bsc',    name:'BNB CHAIN', symbol:'BNB',  color:'#F3BA2F', icon:'⬡',  rpc:'https://bsc-dataseed.binance.org',                 explorer:'https://api.bscscan.com/api',           explorerKey:'YourBSCKey',   coingecko:'binancecoin', chainId:56 },
+  { id:'arb',    name:'ARBITRUM',  symbol:'ETH',  color:'#28A0F0', icon:'⬡',  rpc:'https://arb1.arbitrum.io/rpc',                    explorer:'https://api.arbiscan.io/api',           explorerKey:'YourArbKey',   coingecko:'ethereum',  chainId:42161 },
+  { id:'poly',   name:'POLYGON',   symbol:'MATIC',color:'#8247E5', icon:'⬡',  rpc:'https://polygon-rpc.com',                         explorer:'https://api.polygonscan.com/api',       explorerKey:'YourPolyKey',  coingecko:'matic-network', chainId:137 },
+  { id:'op',     name:'OPTIMISM',  symbol:'ETH',  color:'#FF0420', icon:'⊙',  rpc:'https://mainnet.optimism.io',                     explorer:'https://api-optimistic.etherscan.io/api', explorerKey:ETHERSCAN_KEY, coingecko:'ethereum', chainId:10 },
 ];
 
-// Wallet definitions with deep links
-const WALLETS=[
-  {id:'metamask',  name:'MetaMask',  emoji:'🦊', type:'EVM',    deeplink:'https://metamask.app.link/dapp/',    detect:()=>window.ethereum?.isMetaMask},
-  {id:'trust',     name:'Trust',     emoji:'🛡️', type:'Multi',  deeplink:'https://link.trustwallet.com/open_url?coin_id=60&url=', detect:()=>window.ethereum?.isTrust||window.ethereum?.isTrustWallet},
-  {id:'rabby',     name:'Rabby',     emoji:'🐰', type:'EVM',    deeplink:null, detect:()=>window.ethereum?.isRabby},
-  {id:'zerion',    name:'Zerion',    emoji:'⚡', type:'EVM',    deeplink:'https://app.zerion.io/',             detect:()=>window.ethereum?.isZerion},
-  {id:'okx',       name:'OKX',       emoji:'⭕', type:'Multi',  deeplink:'okx://main/dapp/url?dappUrl=',       detect:()=>window.ethereum?.isOKExWallet||window.okxwallet},
-  {id:'imtoken',   name:'imToken',   emoji:'💎', type:'EVM',    deeplink:'imtokenv2://navigate/DappView?url=', detect:()=>window.ethereum?.isImToken},
-  {id:'fox',       name:'Fox Wallet',emoji:'🦊', type:'Multi',  deeplink:null, detect:()=>window.ethereum?.isFoxWallet},
-  {id:'phantom',   name:'Phantom',   emoji:'👻', type:'SOL/EVM',deeplink:'https://phantom.app/ul/browse/',     detect:()=>window.solana?.isPhantom||window.phantom||window.ethereum?.isPhantom},
-  {id:'manual',    name:'Manual',    emoji:'✏️', type:'Any',    deeplink:null, detect:()=>true},
-];
+// Known valuable NFT collections (floor prices approximate)
+const KNOWN_COLLECTIONS = {
+  '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d': {name:'Bored Ape YC', floor:10},
+  '0x60e4d786628fea6478f785a6d7e704777c86a7c6': {name:'Mutant Ape YC', floor:3},
+  '0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb': {name:'CryptoPunks', floor:40},
+  '0x49cf6f5d44e70224e2e23fdcdd2c053f30ada28b': {name:'CloneX', floor:0.5},
+  '0x23581767a106ae21c074b2276d25e5c3e136a68b': {name:'Moonbirds', floor:0.3},
+  '0xed5af388653567af2f388e6224dc7c4b3241c544': {name:'Azuki', floor:4},
+  '0x8a90cab2b38dba80c64b7734e58ee1db38b8992e': {name:'Doodles', floor:0.3},
+  '0x1cb1a5e65610aeff2551a50f76a87a7d3fb649c6': {name:'CrypToadz', floor:0.1},
+  '0x059edd72cd353df5106d2b9cc5ab83a52287ac3a': {name:'Art Blocks', floor:0.05},
+};
 
-let address=null, accounts=[], selectedAccounts=[], prices={}, portfolio={}, activeTab='tokens';
-const app=document.getElementById('app');
+// ═══════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════
+let connectedAddress = null;
+let scanResults = { balances:{}, contracts:[], nfts:[], sweepable:[] };
+let activeChains = new Set(['eth','bsc','arb','poly','op']);
 
-// ── DETECT ──
-function detectWallet(){
-  // Check ethereum provider hints
-  if(typeof window.ethereum==='undefined') return null;
-  const e=window.ethereum;
-  if(e.isRabby) return 'rabby';
-  if(e.isZerion) return 'zerion';
-  if(e.isOKExWallet||window.okxwallet) return 'okx';
-  if(e.isImToken) return 'imtoken';
-  if(e.isTrust||e.isTrustWallet) return 'trust';
-  if(e.isFoxWallet) return 'fox';
-  if(e.isPhantom) return 'phantom';
-  if(e.isMetaMask) return 'metamask';
-  return 'unknown'; // some wallet we don't know but has ethereum
+// ═══════════════════════════════════════════
+// TABS
+// ═══════════════════════════════════════════
+function showTab(name) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
 }
 
-function hasEVM(){ return typeof window.ethereum !== 'undefined'; }
-function hasPhantom(){ return !!(window.solana?.isPhantom||window.phantom?.solana); }
+// ═══════════════════════════════════════════
+// CONNECT
+// ═══════════════════════════════════════════
+async function connectMM() {
+  if (!window.ethereum) { setConnectStatus('MetaMask not detected. Use MetaMask browser or paste address manually.', 'warn'); return; }
+  try {
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    setConnected(accounts[0]);
+  } catch(e) { setConnectStatus('Connection rejected.', 'error'); }
+}
+async function connectTrust() {
+  if (window.ethereum?.isTrust || window.trustwallet) {
+    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('Trust wallet rejected.','error'); }
+  } else { setConnectStatus('Trust Wallet not detected. Open in Trust Wallet browser.','warn'); }
+}
+async function connectRabby() {
+  if (window.ethereum?.isRabby) {
+    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('Rabby rejected.','error'); }
+  } else { connectMM(); }
+}
+async function connectCoinbase() {
+  if (window.ethereum?.isCoinbaseWallet) {
+    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('Coinbase rejected.','error'); }
+  } else { setConnectStatus('Coinbase Wallet not detected.','warn'); }
+}
+function connectWC() { setConnectStatus('WalletConnect: Open WC-supported app and scan QR. For now, paste address below.','warn'); }
 
-// ── RENDER ──
-function render(){ address ? renderDash() : renderConnect(); }
+async function connectOKX() {
+  const provider = window.okxwallet || (window.ethereum?.isOKExWallet && window.ethereum);
+  if (provider) {
+    try { const a = await provider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('OKX Wallet rejected.','error'); }
+  } else { setConnectStatus('OKX Wallet not detected. Open inside OKX Wallet browser.','warn'); }
+}
 
-// ── CONNECT SCREEN ──
-function renderConnect(){
-  const detected = detectWallet();
-  const url = encodeURIComponent(window.location.href);
-  const host = window.location.host + window.location.pathname;
+async function connectFox() {
+  const provider = window.foxwallet || (window.ethereum?.isFoxWallet && window.ethereum);
+  if (provider) {
+    try { const a = await provider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('FoxWallet rejected.','error'); }
+  } else if (window.ethereum) {
+    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('FoxWallet rejected.','error'); }
+  } else { setConnectStatus('FoxWallet not detected. Open inside FoxWallet browser.','warn'); }
+}
 
-  const walletCards = WALLETS.map(w => {
-    const isDetected = w.id !== 'manual' && w.detect && w.detect();
-    const detectedClass = isDetected ? 'detected' : '';
-    const badge = isDetected ? '<div class="wallet-type" style="color:var(--accent3)">● detected</div>' : `<div class="wallet-type">${w.type}</div>`;
-    return `<div class="wallet-btn ${detectedClass}" onclick="handleWalletClick('${w.id}')">
-      <div class="wallet-emoji">${w.emoji}</div>
-      <div class="wallet-name">${w.name}</div>
-      ${badge}
-    </div>`;
+async function connectPhantom() {
+  const ethProvider = window.phantom?.ethereum || (window.ethereum?.isPhantom && window.ethereum);
+  if (ethProvider) {
+    try { const a = await ethProvider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
+    catch(e) { setConnectStatus('Phantom EVM rejected.','error'); }
+  } else if (window.solana?.isPhantom) {
+    try {
+      const resp = await window.solana.connect();
+      const solAddr = resp.publicKey.toString();
+      connectedAddress = solAddr;
+      document.getElementById('liveDot').classList.add('on');
+      document.getElementById('addrBadge').textContent = solAddr.slice(0,6)+'...'+solAddr.slice(-4);
+      document.getElementById('btnScan').disabled = false;
+      setConnectStatus('Phantom Solana connected: ' + solAddr + ' — Use EVM address for full multi-chain scan.','warn');
+      buildChainPills(); buildChainGrid();
+      log('Phantom Solana: ' + solAddr, 'warn');
+    } catch(e) { setConnectStatus('Phantom rejected.','error'); }
+  } else { setConnectStatus('Phantom not detected. Open inside Phantom browser.','warn'); }
+}
+
+function connectManual() {
+  const addr = document.getElementById('manualAddr').value.trim();
+  if (/^0x[0-9a-fA-F]{40}$/.test(addr)) { setConnected(addr); }
+  else { setConnectStatus('Invalid address. Must be 0x + 40 hex characters.','error'); }
+}
+
+function setConnected(addr) {
+  connectedAddress = addr;
+  document.getElementById('liveDot').classList.add('on');
+  document.getElementById('addrBadge').textContent = addr.slice(0,6)+'...'+addr.slice(-4);
+  document.getElementById('btnScan').disabled = false;
+  setConnectStatus('✓ Connected: ' + addr, 'success');
+  buildChainPills();
+  buildChainGrid();
+  // Auto switch to scan tab
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-scan').classList.add('active');
+  document.querySelectorAll('.tab')[1].classList.add('active');
+  log('Connected: ' + addr, 'info');
+}
+
+function setConnectStatus(msg, type) {
+  const el = document.getElementById('connectStatus');
+  el.textContent = msg;
+  el.style.color = type==='success'?'var(--green)':type==='error'?'var(--red)':type==='warn'?'var(--yellow)':'var(--dim2)';
+}
+
+// ═══════════════════════════════════════════
+// CHAIN PILLS + GRID
+// ═══════════════════════════════════════════
+function buildChainPills() {
+  const el = document.getElementById('chainPills');
+  el.innerHTML = CHAINS.map(c => `
+    <button class="cpill ${activeChains.has(c.id)?'on':''}" onclick="toggleChain('${c.id}',this)">${c.name}</button>
+  `).join('');
+}
+function toggleChain(id, btn) {
+  if (activeChains.has(id)) { activeChains.delete(id); btn.classList.remove('on'); }
+  else { activeChains.add(id); btn.classList.add('on'); }
+}
+
+function buildChainGrid() {
+  const grid = document.getElementById('chainGrid');
+  grid.innerHTML = CHAINS.filter(c=>activeChains.has(c.id)).map(c => `
+    <div class="chain-card" id="cc-${c.id}">
+      <div class="cc-top">
+        <div class="cc-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+        <div><div class="cc-name" style="color:${c.color}">${c.name}</div><div class="cc-network">${c.id.toUpperCase()} MAINNET</div></div>
+      </div>
+      <div class="cc-bal" style="color:var(--dim2)">—</div>
+      <div class="cc-usd" style="color:var(--dim2)">waiting...</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════
+// SCAN ENGINE
+// ═══════════════════════════════════════════
+let scanRunning = false;
+
+async function runScan() {
+  if (!connectedAddress || scanRunning) return;
+  scanRunning = true;
+  scanResults = { balances:{}, contracts:[], nfts:[], sweepable:[] };
+  document.getElementById('btnScan').disabled = true;
+  buildChainGrid();
+  log('Starting multi-chain scan for ' + connectedAddress, 'info');
+  setProgress(0);
+
+  const chains = CHAINS.filter(c => activeChains.has(c.id));
+  let done = 0;
+
+  await Promise.all(chains.map(async chain => {
+    const card = document.getElementById('cc-' + chain.id);
+    if (card) card.classList.add('loading');
+    try {
+      // 1. Native balance
+      const bal = await getNativeBalance(chain);
+      scanResults.balances[chain.id] = { native: bal, chain };
+
+      // 2. Transactions (contract calls, executes, fails)
+      const txs = await getTransactions(chain);
+      const chainContracts = parseContracts(txs, chain);
+      scanResults.contracts.push(...chainContracts);
+
+      // 3. NFTs via Etherscan token transfers
+      if (chain.id === 'eth') {
+        const nfts = await getNFTs(chain);
+        scanResults.nfts.push(...nfts);
+      }
+
+      // 4. Update card
+      const price = await getPrice(chain.coingecko);
+      const usd = bal * price;
+      if (card) {
+        card.classList.remove('loading');
+        if (bal > 0.000001) card.classList.add('has-balance');
+        card.innerHTML = `
+          <div class="cc-top">
+            <div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div>
+            <div><div class="cc-name" style="color:${chain.color}">${chain.name}</div><div class="cc-network">${chain.id.toUpperCase()} MAINNET</div></div>
+          </div>
+          <div class="cc-bal" style="color:${bal>0?'var(--green)':'var(--dim2)'}">${bal>0?bal.toFixed(6):'0'} ${chain.symbol}</div>
+          <div class="cc-usd">${usd>0.01?'$'+usd.toFixed(2):'< $0.01'}</div>
+          <div class="cc-status" style="color:var(--green)">✓ scanned · ${txs.length} txs</div>
+        `;
+        log(`${chain.name}: ${bal.toFixed(6)} ${chain.symbol} ($${usd.toFixed(2)}) — ${txs.length} txs, ${chainContracts.length} contracts`, bal>0?'success':'info');
+      }
+    } catch(err) {
+      if (card) {
+        card.classList.remove('loading');
+        card.innerHTML = `
+          <div class="cc-top">
+            <div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div>
+            <div><div class="cc-name" style="color:${chain.color}">${chain.name}</div></div>
+          </div>
+          <div class="cc-usd" style="color:var(--red)">error: ${err.message?.slice(0,30)}</div>
+        `;
+      }
+      log(`${chain.name} error: ${err.message}`, 'error');
+    }
+    done++;
+    setProgress((done/chains.length)*100);
+  }));
+
+  setProgress(100);
+  updateSummary();
+  renderContracts();
+  renderNFTs();
+  renderSweepQueue();
+  scanRunning = false;
+  document.getElementById('btnScan').disabled = false;
+  log('Scan complete. ' + scanResults.contracts.length + ' contracts found, ' + scanResults.nfts.length + ' NFTs found.', 'success');
+}
+
+// ═══════════════════════════════════════════
+// DATA FETCHERS
+// ═══════════════════════════════════════════
+async function getNativeBalance(chain) {
+  const res = await fetch(chain.rpc, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[connectedAddress,'latest'],id:1})
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return parseInt(data.result, 16) / 1e18;
+}
+
+const priceCache = {};
+async function getPrice(id) {
+  if (priceCache[id]) return priceCache[id];
+  try {
+    const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`);
+    const d = await r.json();
+    priceCache[id] = d[id]?.usd || 0;
+    return priceCache[id];
+  } catch { return 0; }
+}
+
+async function getTransactions(chain) {
+  try {
+    const url = `${chain.explorer}?module=account&action=txlist&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=100&sort=desc&apikey=${chain.explorerKey}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    if (d.status === '1') return d.result || [];
+    return [];
+  } catch { return []; }
+}
+
+async function getNFTs(chain) {
+  try {
+    // ERC-721 transfers
+    const url = `${chain.explorer}?module=account&action=tokennfttx&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=${chain.explorerKey}`;
+    const r = await fetch(url);
+    const d = await r.json();
+    if (d.status !== '1') return [];
+
+    // Group by contract, get latest state
+    const owned = {};
+    for (const tx of d.result || []) {
+      const key = tx.contractAddress.toLowerCase() + '_' + tx.tokenID;
+      // If received, add to owned. If sent, remove.
+      if (tx.to.toLowerCase() === connectedAddress.toLowerCase()) {
+        owned[key] = tx;
+      } else if (tx.from.toLowerCase() === connectedAddress.toLowerCase()) {
+        delete owned[key];
+      }
+    }
+
+    return Object.values(owned).map(tx => {
+      const contractAddr = tx.contractAddress.toLowerCase();
+      const known = KNOWN_COLLECTIONS[contractAddr];
+      return {
+        chain: chain.id,
+        contract: tx.contractAddress,
+        tokenId: tx.tokenID,
+        name: tx.tokenName || 'Unknown NFT',
+        collection: known?.name || tx.tokenName || 'Unknown Collection',
+        floorEth: known?.floor || null,
+        symbol: tx.tokenSymbol,
+        valuable: known && known.floor >= 0.1,
+        txHash: tx.hash,
+      };
+    });
+  } catch { return []; }
+}
+
+// ═══════════════════════════════════════════
+// CONTRACT PARSER
+// ═══════════════════════════════════════════
+const METHOD_SIGS = {
+  '0xa9059cbb': 'transfer()',
+  '0x095ea7b3': 'approve()',
+  '0x23b872dd': 'transferFrom()',
+  '0x38ed1739': 'swapExactTokensForTokens()',
+  '0x7ff36ab5': 'swapExactETHForTokens()',
+  '0x18cbafe5': 'swapExactTokensForETH()',
+  '0xd0e30db0': 'deposit()',
+  '0x2e1a7d4d': 'withdraw()',
+  '0x3593564c': 'execute() [Uniswap V3]',
+  '0xac9650d8': 'multicall()',
+  '0x5ae401dc': 'multicall() [V3]',
+  '0x414bf389': 'exactInputSingle()',
+  '0xb6f9de95': 'swapExactETHForTokensSupportingFeeOnTransferTokens()',
+  '0x4a25d94a': 'swapTokensForExactETH()',
+  '0x791ac947': 'swapExactTokensForETHSupportingFeeOnTransferTokens()',
+  '0xe8e33700': 'addLiquidity()',
+  '0xf305d719': 'addLiquidityETH()',
+  '0xbaa2abde': 'removeLiquidity()',
+  '0x02751cec': 'removeLiquidityETH()',
+  '0xa694fc3a': 'stake()',
+  '0x3d18b912': 'getReward()',
+  '0xe9fad8ee': 'exit()',
+  '0x853828b6': 'withdrawAll()',
+  '0x4e71d92d': 'claim()',
+  '0xbd6d894d': 'updateAndDistributeReward()',
+};
+
+function parseContracts(txs, chain) {
+  const results = [];
+  for (const tx of txs) {
+    if (!tx.to || tx.input === '0x') continue; // skip simple ETH sends
+
+    const isOut = tx.from.toLowerCase() === connectedAddress.toLowerCase();
+    const isIn = tx.to.toLowerCase() === connectedAddress.toLowerCase();
+    const isFail = tx.isError === '1';
+    const methodSig = tx.input.slice(0, 10);
+    const methodName = METHOD_SIGS[methodSig] || methodSig;
+
+    let type = 'CALL';
+    if (isOut && !isIn) type = 'EXECUTE';
+    if (isFail) type = 'FAILED';
+
+    // Flag potentially sweepable: withdrawals, rewards, claims
+    const sweepable = ['withdraw()', 'getReward()', 'exit()', 'withdrawAll()', 'claim()'].includes(methodName);
+
+    results.push({
+      chain: chain.id,
+      chainName: chain.name,
+      contract: tx.to,
+      method: methodName,
+      type,
+      sweepable,
+      value: parseInt(tx.value || '0') / 1e18,
+      gasUsed: tx.gasUsed,
+      timeStamp: tx.timeStamp,
+      hash: tx.hash,
+      isFail,
+    });
+  }
+  return results;
+}
+
+// ═══════════════════════════════════════════
+// RENDER CONTRACTS
+// ═══════════════════════════════════════════
+function renderContracts() {
+  const el = document.getElementById('contractsContent');
+  const contracts = scanResults.contracts;
+  if (!contracts.length) { el.innerHTML = '<div class="empty-state">NO CONTRACT INTERACTIONS FOUND</div>'; return; }
+
+  const calls = contracts.filter(c => c.type === 'CALL');
+  const execs = contracts.filter(c => c.type === 'EXECUTE');
+  const fails = contracts.filter(c => c.type === 'FAILED');
+  const sweep = contracts.filter(c => c.sweepable);
+
+  el.innerHTML = [
+    renderContractSection('📡 CONTRACT CALLS', calls, 'call'),
+    renderContractSection('⚡ CONTRACT EXECUTES', execs, 'exec'),
+    renderContractSection('❌ FAILED TRANSACTIONS', fails, 'fail'),
+    renderContractSection('💰 SWEEPABLE CONTRACTS', sweep, 'sweep'),
+  ].join('');
+}
+
+function renderContractSection(title, items, tagType) {
+  if (!items.length) return '';
+  const rows = items.slice(0, 20).map(c => {
+    const tagClass = `tag-${tagType}`;
+    const tagLabel = tagType.toUpperCase();
+    const time = c.timeStamp ? new Date(c.timeStamp * 1000).toLocaleDateString() : '?';
+    return `
+      <div class="result-row" style="grid-template-columns:90px 1fr 180px 80px 80px">
+        <div><span class="tag ${tagClass}">${tagLabel}</span></div>
+        <div class="addr-short">${c.contract.slice(0,10)}...${c.contract.slice(-6)} <span style="color:var(--dim2);font-size:9px">[${c.chainName}]</span></div>
+        <div style="color:var(--yellow);font-size:10px">${c.method}</div>
+        <div style="color:var(--dim2);font-size:9px">${time}</div>
+        <div class="mono-val">${c.value > 0 ? c.value.toFixed(4) : ''}</div>
+      </div>`;
   }).join('');
 
-  app.innerHTML=`<div class="card">
-    <div class="connect-title">Select Your Wallet</div>
-    <div class="connect-sub">Connect to scan your <strong>full portfolio</strong> across 6 chains — tokens, NFTs, history, contracts.</div>
-    <div class="wallet-grid">${walletCards}</div>
-    <div class="debug-bar">
-      ethereum: <span style="color:var(--muted)">${hasEVM()}</span> &nbsp;|&nbsp;
-      detected: <span style="color:var(--muted)">${detected||'none'}</span> &nbsp;|&nbsp;
-      phantom: <span style="color:var(--muted)">${hasPhantom()}</span>
-    </div>
-  </div>`;
+  return `
+    <div class="results-section">
+      <div class="rs-header">
+        <span class="rs-title">${title}</span>
+        <span class="rs-count">${items.length}</span>
+      </div>
+      <div class="rs-body">${rows}</div>
+    </div>`;
 }
 
-async function handleWalletClick(id){
-  const url = encodeURIComponent(window.location.href);
-  const host = window.location.host + window.location.pathname;
+// ═══════════════════════════════════════════
+// RENDER NFTs
+// ═══════════════════════════════════════════
+function renderNFTs() {
+  const el = document.getElementById('nftsContent');
+  const nfts = scanResults.nfts;
+  if (!nfts.length) { el.innerHTML = '<div class="empty-state">NO NFTs FOUND ON ETHEREUM MAINNET</div>'; return; }
 
-  // Manual entry — always works
-  if(id==='manual'){ manualEntry(); return; }
+  const valuable = nfts.filter(n => n.valuable);
+  const all = nfts;
 
-  // Phantom — Solana wallet, use its provider
-  if(id==='phantom'){
-    if(window.solana?.isPhantom||window.phantom?.solana){
-      try{
-        const sol = window.solana||window.phantom.solana;
-        const resp = await sol.connect();
-        // Phantom on EVM? try ethereum first
-        if(hasEVM()){ await connectEVM(); return; }
-        // Solana address — show it but note EVM chains won't scan
-        address = resp.publicKey.toString();
-        alert('Phantom Solana connected: '+address+'\n\nNote: This scanner covers EVM chains. Solana balances not yet supported. Use manual entry with an EVM address for full scan.');
-        render(); return;
-      }catch(e){ alert('Phantom connect failed: '+(e.message||'rejected')); return; }
-    }
-    // Not installed — deep link
-    window.open('https://phantom.app/ul/browse/'+url,'_blank');
-    showDeepLinkModal('Phantom','https://phantom.app/ul/browse/'+url, host);
+  let html = '';
+  if (valuable.length) {
+    html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--yellow);letter-spacing:2px;margin-bottom:10px;">⭐ HIGH VALUE NFTs (${valuable.length})</div>`;
+    html += '<div class="nft-grid">' + valuable.map(nftCard).join('') + '</div>';
+    html += '<div style="height:20px"></div>';
+  }
+  html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--dim2);letter-spacing:2px;margin-bottom:10px;">ALL NFTs (${all.length})</div>`;
+  html += '<div class="nft-grid">' + all.map(nftCard).join('') + '</div>';
+  el.innerHTML = html;
+}
+
+function nftCard(nft) {
+  const floorStr = nft.floorEth ? `<span class="val">${nft.floorEth} ETH</span> floor` : 'floor unknown';
+  return `
+    <div class="nft-card ${nft.valuable?'valuable':''}">
+      <div class="nft-img">🖼</div>
+      <div class="nft-info">
+        <div class="nft-name">#${nft.tokenId}</div>
+        <div class="nft-collection">${nft.collection}</div>
+        <div class="nft-floor">${floorStr}</div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════
+// RENDER SWEEP QUEUE
+// ═══════════════════════════════════════════
+function renderSweepQueue() {
+  const el = document.getElementById('sweepContent');
+  const sweepable = scanResults.contracts.filter(c => c.sweepable);
+  scanResults.sweepable = sweepable;
+
+  if (!sweepable.length) {
+    el.innerHTML = '<div class="empty-state">NO SWEEPABLE CONTRACTS FOUND<br><span style="font-size:9px;margin-top:8px;display:block">CONTRACTS WITH withdraw(), claim(), getReward() CALLS WILL APPEAR HERE</span></div>';
     return;
   }
 
-  // OKX wallet
-  if(id==='okx'){
-    if(window.okxwallet){
-      try{ const a=await window.okxwallet.request({method:'eth_requestAccounts'}); address=a[0].toLowerCase(); render(); loadAll(); return; }
-      catch(e){ alert('OKX connect failed'); return; }
-    }
-    if(hasEVM()){ await connectEVM(); return; }
-    showDeepLinkModal('OKX Wallet','okx://main/dapp/url?dappUrl='+url, host);
-    return;
-  }
-
-  // All other EVM wallets
-  if(hasEVM()){ await connectEVM(); return; }
-
-  // Not installed — show deep link for wallet
-  const w = WALLETS.find(x=>x.id===id);
-  if(w?.deeplink){
-    const link = w.deeplink + (w.deeplink.endsWith('=') ? url : '');
-    showDeepLinkModal(w.name, link, host);
-  } else {
-    showDeepLinkModal(w?.name||id, null, host);
-  }
-}
-
-function showDeepLinkModal(name, link, host){
-  const modal = document.createElement('div');
-  modal.className = 'wc-modal';
-  modal.innerHTML=`<div class="wc-box">
-    <button class="wc-close" onclick="this.closest('.wc-modal').remove()">✕</button>
-    <div class="wc-title">${name} Not Detected</div>
-    <div class="wc-sub">${name} isn't installed or you're not in its browser.<br>Open this page inside the ${name} app browser.</div>
-    ${link?`<a href="${link}" class="btn btn-primary" style="margin-top:.5rem">Open in ${name}</a>`:''}
-    <div class="divider">or copy URL manually</div>
-    <div class="deeplink-box" onclick="copyTxt('${window.location.href}');this.textContent='✓ Copied!'">${host}</div>
-    <button class="btn btn-outline" onclick="this.closest('.wc-modal').remove();manualEntry()">✏️ Enter Address Instead</button>
-  </div>`;
-  document.body.appendChild(modal);
-}
-
-async function connectEVM(){
-  try{
-    const a = await window.ethereum.request({method:'eth_requestAccounts'});
-    const all = await window.ethereum.request({method:'eth_accounts'});
-    accounts = (all||a).map(x=>x.toLowerCase());
-    if(accounts.length===1){
-      selectedAccounts=[accounts[0]]; address=accounts[0]; render(); loadAll();
-    } else {
-      showAccountPicker();
-    }
-  }catch(e){ alert('Connection failed: '+(e.message||'rejected')); }
-}
-
-function showAccountPicker(){
-  const rows = accounts.map((acc,i)=>`
-    <label class="acc-row" onclick="toggleAcc('${acc}')">
-      <div class="acc-check ${selectedAccounts.includes(acc)?'checked':''}" id="chk-${acc.slice(2,8)}">✓</div>
-      <div class="acc-info">
-        <div class="acc-name">Account ${i+1}</div>
-        <div class="acc-addr">${acc.slice(0,10)}…${acc.slice(-6)}</div>
-      </div>
-    </label>`).join('');
-
-  app.innerHTML=`<div class="card">
-    <div class="connect-title" style="margin-bottom:.75rem">Select Accounts to Scan</div>
-    <div class="connect-sub" style="margin-bottom:1rem">${accounts.length} accounts found · select one or more</div>
-    <div class="acc-list">${rows}</div>
-    <div style="display:flex;gap:.5rem;margin-top:1rem">
-      <button class="btn btn-outline btn-sm" style="flex:1" onclick="selectAllAccounts()">Select All</button>
-      <button class="btn btn-primary btn-sm" style="flex:1;color:#000" onclick="confirmAccounts()">Scan Selected ▶</button>
+  const rows = sweepable.map((c, i) => `
+    <div class="sq-item">
+      <div class="sq-check checked" id="sqcheck-${i}" onclick="toggleSweepItem(${i},this)">✓</div>
+      <div class="sq-chain" style="color:var(--cyan)">${c.chainName}</div>
+      <div class="sq-contract">${c.contract.slice(0,12)}...${c.contract.slice(-6)}</div>
+      <div class="sq-method">${c.method}</div>
+      <div class="sq-val">${c.value > 0 ? c.value.toFixed(4) + ' ETH' : 'CLAIM'}</div>
     </div>
-    <button class="btn btn-ghost btn-sm" style="margin-top:.5rem;width:100%" onclick="render()">← Back</button>
-  </div>`;
-}
+  `).join('');
 
-function toggleAcc(acc){
-  if(selectedAccounts.includes(acc)) selectedAccounts=selectedAccounts.filter(a=>a!==acc);
-  else selectedAccounts.push(acc);
-  showAccountPicker();
-}
-
-function selectAllAccounts(){
-  selectedAccounts=[...accounts];
-  showAccountPicker();
-}
-
-function confirmAccounts(){
-  if(!selectedAccounts.length){ alert('Select at least one account'); return; }
-  address=selectedAccounts[0];
-  render(); loadAll();
-}
-
-function manualEntry(){
-  const a=prompt('Enter any EVM wallet address (0x...):');
-  if(!a)return;
-  const c=a.trim();
-  if(/^0x[0-9a-fA-F]{40}$/.test(c)){
-    address=c.toLowerCase(); accounts=[address]; selectedAccounts=[address]; render(); loadAll();
-  } else alert('Invalid EVM address. Must start with 0x followed by 40 characters.');
-}
-
-function copyTxt(t){ navigator.clipboard?.writeText(t).catch(()=>{}); }
-function disconnect(){ address=null; accounts=[]; selectedAccounts=[]; portfolio={}; render(); }
-
-// ── DASHBOARD ──
-function renderDash(){
-  const short=address.slice(0,6)+'…'+address.slice(-4);
-  const accCount=selectedAccounts.length;
-  const accLabel=accCount>1?`${accCount} accounts`:`${short}`;
-  const accDropdown=accCount>1?`<div style="position:relative;display:inline-block">
-    <button class="btn btn-outline btn-sm" onclick="toggleAccDropdown()" id="accDropBtn">👥 Accounts ▾</button>
-    <div id="accDropdown" style="display:none;position:absolute;top:110%;left:0;background:var(--surface);border:1px solid var(--border2);border-radius:8px;min-width:220px;z-index:50;padding:.5rem;">
-      ${selectedAccounts.map((a,i)=>`<div style="padding:.4rem .6rem;font-family:'Share Tech Mono',monospace;font-size:.65rem;color:${a===address?'var(--accent3)':'var(--text)'};cursor:pointer;border-radius:4px" onclick="switchPrimary('${a}')" onmouseover="this.style.background='rgba(0,212,255,0.06)'" onmouseout="this.style.background='transparent'">
-        ${a===address?'● ':'  '} Acct ${i+1}: ${a.slice(0,8)}…${a.slice(-4)}
-      </div>`).join('')}
-      <div style="border-top:1px solid var(--border);margin:.4rem 0"></div>
-      <div style="padding:.4rem .6rem;font-size:.6rem;color:var(--muted);cursor:pointer" onclick="showAccountPicker()">⚙ Change Selection</div>
-    </div>
-  </div>`:'';
-
-  app.innerHTML=`
-    <div class="summary-bar">
-      <div><div class="summary-label">${accCount>1?accCount+' Accounts':'Wallet'}</div>
-        <div class="wallet-pill"><span class="wdot"></span>${accLabel}</div>
-      </div>
-      <div><div class="summary-label">Total Portfolio</div><div class="total-value" id="grandTotal">$0.00</div></div>
-      <div class="btn-row">
-        ${accDropdown}
-        <button class="btn btn-outline btn-sm" onclick="loadAll()">↻ Rescan</button>
-        <button class="btn btn-ghost btn-sm" onclick="disconnect()">⏏</button>
+  el.innerHTML = `
+    <div class="sweep-queue">
+      <div class="sq-title">⚡ SWEEP QUEUE — ${sweepable.length} CONTRACTS</div>
+      ${rows}
+      <div style="margin-top:14px;display:flex;gap:10px;">
+        <button class="sweep-btn" onclick="executeSweep()">▶ EXECUTE SWEEP</button>
+        <button class="scan-btn" style="background:transparent;border:1px solid var(--dim2);color:var(--dim2)" onclick="selectAllSweep()">SELECT ALL</button>
       </div>
     </div>
-    <div class="tabs">
-      <button class="tab ${activeTab==='tokens'?'active':''}" onclick="switchTab('tokens')">💰 Tokens</button>
-      <button class="tab ${activeTab==='nfts'?'active':''}" onclick="switchTab('nfts')">🖼 NFTs</button>
-      <button class="tab ${activeTab==='history'?'active':''}" onclick="switchTab('history')">📜 History</button>
-      <button class="tab ${activeTab==='contracts'?'active':''}" onclick="switchTab('contracts')">📋 Contracts</button>
-    </div>
-    <div id="tabContent"></div>`;
-  renderTabContent();
+    <div style="height:12px"></div>
+    <div style="font-size:9px;letter-spacing:2px;color:var(--dim2);margin-bottom:6px;">SWEEP LOG</div>
+    <div class="log" id="sweepLog"><div class="log-line">// ready to sweep...</div></div>
+  `;
 }
 
-function toggleAccDropdown(){
-  const d=document.getElementById('accDropdown');
-  if(d) d.style.display=d.style.display==='none'?'block':'none';
+function toggleSweepItem(i, el) {
+  el.classList.toggle('checked');
+  if (el.classList.contains('checked')) el.textContent = '✓';
+  else el.textContent = '';
+}
+function selectAllSweep() {
+  document.querySelectorAll('[id^="sqcheck-"]').forEach(el => {
+    el.classList.add('checked');
+    el.textContent = '✓';
+  });
 }
 
-function switchPrimary(acc){
-  address=acc;
-  toggleAccDropdown();
-  renderDash();
-}
+async function executeSweep() {
+  if (!window.ethereum) { sweepLog('No wallet connected. Connect MetaMask to execute transactions.', 'error'); return; }
+  const selected = document.querySelectorAll('[id^="sqcheck-"].checked');
+  if (!selected.length) { sweepLog('No contracts selected.', 'warn'); return; }
 
-function switchTab(t){ activeTab=t; renderDash(); }
+  sweepLog(`Executing sweep on ${selected.length} contracts...`, 'info');
 
-function renderTabContent(){
-  const el=document.getElementById('tabContent');
-  if(!el)return;
-  if(activeTab==='tokens') el.innerHTML=renderTokensTab();
-  else if(activeTab==='nfts') el.innerHTML=renderNFTsTab();
-  else if(activeTab==='history') el.innerHTML=renderHistoryTab();
-  else if(activeTab==='contracts') el.innerHTML=renderContractsTab();
-}
+  for (const el of selected) {
+    const i = parseInt(el.id.replace('sqcheck-',''));
+    const c = scanResults.sweepable[i];
+    if (!c) continue;
+    try {
+      sweepLog(`Calling ${c.method} on ${c.contract.slice(0,10)}... [${c.chainName}]`, 'info');
+      // Build call data based on method
+      let data = '0x';
+      if (c.method.includes('withdraw')) data = '0x3ccfd60b'; // withdraw()
+      else if (c.method.includes('claim')) data = '0x4e71d92d';
+      else if (c.method.includes('getReward')) data = '0x3d18b912';
+      else if (c.method.includes('exit')) data = '0xe9fad8ee';
 
-// ── TOKENS TAB ──
-function renderTokensTab(){
-  return CHAINS.map(c=>{
-    // aggregate across all selected accounts for this chain
-    let totalNativeBal=0, totalNativeUsd=0, allTokens=[], loading=false;
-    selectedAccounts.forEach(acc=>{
-      const p=portfolio[`${c.id}__${acc}`];
-      if(!p){loading=true;return;}
-      totalNativeBal+=p.nativeBal||0;
-      totalNativeUsd+=p.nativeUsd||0;
-      (p.tokens||[]).forEach(t=>{
-        const existing=allTokens.find(x=>x.contractAddress?.toLowerCase()===t.contractAddress?.toLowerCase());
-        if(existing){
-          existing.balance=String(BigInt(existing.balance||0)+BigInt(t.balance||0));
-          existing.usdVal=(existing.usdVal||0)+(t.usdVal||0);
-        } else allTokens.push({...t});
+      const tx = await window.ethereum.request({
+        method: 'eth_sendTransaction',
+        params: [{ from: connectedAddress, to: c.contract, data, gas: '0x30D40' }]
       });
-    });
-    const hasAny=selectedAccounts.some(acc=>portfolio[`${c.id}__${acc}`]);
-    return`<div class="card">
-      <div class="chain-header">
-        <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
-        <div><div class="chain-title" style="color:${c.color}">${c.name}</div><div class="chain-net">${c.net}</div></div>
-        <div class="chain-native">${hasAny?`<div>${totalNativeBal.toFixed(6)} ${c.sym}</div><div class="chain-usd-sm">$${totalNativeUsd.toFixed(2)}</div>`:'<span class="spin"></span>'}</div>
-      </div>
-      ${hasAny?renderTokenTable(allTokens):loading?'<div class="loading-text">⟳ Scanning chain…</div>':''}
-    </div>`;
-  }).join('');
-}
-
-function renderTokenTable(tokens){
-  if(!tokens) return '<div class="loading-text">⟳ Fetching tokens…</div>';
-  const f=tokens.filter(t=>parseFloat(t.usdVal||0)>0.01||parseFloat(t.balance||0)>0).sort((a,b)=>(b.usdVal||0)-(a.usdVal||0));
-  if(!f.length) return '<div class="empty-state">No tokens found on this chain</div>';
-  const rows=f.map(t=>{
-    const usd=parseFloat(t.usdVal||0);
-    const bc=usd>100?'badge-high':usd>10?'badge-med':'badge-low';
-    const bl=usd>100?'🔥 HIGH':usd>10?'⚡ MED':'LOW';
-    return`<tr>
-      <td><div class="token-name">${t.name||'Unknown'}</div><div class="token-sym">${t.symbol||'?'}</div></td>
-      <td class="token-bal">${fmtBal(t.balance,t.decimals)}</td>
-      <td class="token-val ${usd>100?'high':''}">$${usd.toFixed(2)}</td>
-      <td><span class="value-badge ${bc}">${bl}</span></td>
-      <td><span class="token-contract" onclick="copyTxt('${t.contractAddress}')">${(t.contractAddress||'').slice(0,10)}…<span class="copy-btn">copy</span></span></td>
-    </tr>`;
-  }).join('');
-  const tot=f.reduce((s,t)=>s+parseFloat(t.usdVal||0),0);
-  return`<table class="token-list">
-    <thead><tr><th>Token</th><th>Balance</th><th>USD</th><th>Tier</th><th>Contract</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table>
-  <div class="total-row"><span class="total-row-label">Chain Token Total</span><span class="total-row-val">$${tot.toFixed(2)}</span></div>`;
-}
-
-// ── NFTs TAB ──
-function renderNFTsTab(){
-  return CHAINS.map(c=>{
-    let allNfts=[], hasAny=false;
-    selectedAccounts.forEach(acc=>{
-      const p=portfolio[`${c.id}__${acc}`];
-      if(!p)return;
-      hasAny=true;
-      (p.nfts||[]).forEach(n=>allNfts.push(n));
-    });
-    return`<div class="card">
-      <div class="chain-header">
-        <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
-        <div><div class="chain-title" style="color:${c.color}">${c.name}</div><div class="chain-net">${c.net}</div></div>
-      </div>
-      ${hasAny?renderNFTGrid(allNfts):'<div class="loading-text">⟳ Loading NFTs…</div>'}
-    </div>`;
-  }).join('');
-}
-
-function renderNFTGrid(nfts){
-  if(!nfts) return '<div class="loading-text">⟳ Fetching…</div>';
-  if(!nfts.length) return '<div class="empty-state">No NFTs on this chain</div>';
-  const items=nfts.slice(0,24).map(n=>`<div class="nft-card">
-    <div class="nft-icon">🖼</div>
-    <div class="nft-name">${n.tokenName||n.name||'NFT'}</div>
-    <div class="nft-id">#${n.tokenID||'?'}</div>
-    <div class="token-sym" style="margin-top:4px">${n.tokenSymbol||''}</div>
-  </div>`).join('');
-  return`<div class="nft-grid">${items}</div>${nfts.length>24?`<div class="empty-state">+${nfts.length-24} more NFTs</div>`:''}`;
-}
-
-// ── HISTORY TAB ──
-function renderHistoryTab(){
-  return CHAINS.map(c=>{
-    let allTxs=[], hasAny=false;
-    selectedAccounts.forEach(acc=>{
-      const p=portfolio[`${c.id}__${acc}`];
-      if(!p)return;
-      hasAny=true;
-      (p.txs||[]).forEach(tx=>allTxs.push({...tx,_acc:acc}));
-    });
-    allTxs.sort((a,b)=>parseInt(b.timeStamp||0)-parseInt(a.timeStamp||0));
-    return`<div class="card">
-      <div class="chain-header">
-        <div class="chain-icon-lg" style="background:${c.color}18;color:${c.color}">${c.icon}</div>
-        <div><div class="chain-title" style="color:${c.color}">${c.name}</div></div>
-        ${selectedAccounts.length>1?`<div style="margin-left:auto;font-size:.6rem;color:var(--muted)">${allTxs.length} txs combined</div>`:''}
-      </div>
-      ${hasAny?renderTxList(c,allTxs):'<div class="loading-text">⟳ Loading…</div>'}
-    </div>`;
-  }).join('');
-}
-
-function renderTxList(c,txs){
-  if(!txs) return '<div class="loading-text">⟳ Fetching…</div>';
-  if(!txs.length) return '<div class="empty-state">No transactions found</div>';
-
-  const normal=[], contractCalls=[], contractExecs=[], failed=[];
-
-  txs.forEach(tx=>{
-    const txAddr=tx._acc||address;
-    const {isFailed,hasInput,isOut,isContractExec}=classifyTx(tx,txAddr);
-    if(isFailed){ failed.push(tx); return; }
-    if(isContractExec){ contractExecs.push(tx); return; }
-    if(hasInput && !isOut){ contractCalls.push(tx); return; }
-    normal.push(tx);
-  });
-
-  function txRow(tx, type){
-    const txAddr=tx._acc||address;
-    const isIn = tx.to?.toLowerCase()===txAddr?.toLowerCase();
-    const val = (parseFloat(tx.value||0)/1e18).toFixed(4);
-    const method = decodeMethod(tx.input);
-    const gas = tx.gasUsed ? `gas: ${parseInt(tx.gasUsed).toLocaleString()}` : '';
-    let iconClass, icon, color;
-    if(type==='fail'){ iconClass='tx-fail'; icon='✕'; color='#ff6b6b'; }
-    else if(type==='exec'){ iconClass='tx-exec'; icon='⚙'; color='#a78bfa'; }
-    else if(type==='call'){ iconClass='tx-call'; icon='←'; color='var(--accent)'; }
-    else { iconClass=isIn?'tx-in':'tx-out'; icon=isIn?'↓':'↑'; color=isIn?'var(--accent3)':'var(--accent2)'; }
-    return`<div class="tx-row">
-      <div class="tx-icon ${iconClass}">${icon}</div>
-      <div class="tx-info">
-        <div class="tx-hash" onclick="window.open('${c.explorerUrl}/tx/${tx.hash}')">${(tx.hash||'').slice(0,20)}…</div>
-        <div class="tx-desc">${isIn?'From':'To'}: ${(isIn?(tx.from||''):(tx.to||'')).slice(0,14)}…</div>
-        ${method?`<span class="tx-method ${type==='fail'?'fail':type==='exec'?'exec':''}">${type==='fail'?'❌ FAILED · ':''} ${method}</span>`:''}
-        <div class="tx-time">${timeAgo(tx.timeStamp)} ${gas?'· <span class="gas-info">'+gas+'</span>':''}</div>
-      </div>
-      <div class="tx-val" style="color:${color}">${isIn?'+':'-'}${val} ${c.sym}</div>
-    </div>`;
+      sweepLog(`✓ TX sent: ${tx}`, 'success');
+    } catch(err) {
+      sweepLog(`✗ ${c.method} failed: ${err.message?.slice(0,60)}`, 'error');
+    }
   }
+  sweepLog('Sweep complete.', 'success');
+}
 
-  let html='';
+function sweepLog(msg, type) {
+  const el = document.getElementById('sweepLog');
+  if (!el) return;
+  const line = document.createElement('div');
+  line.className = 'log-line ' + (type||'');
+  line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
+}
 
-  if(normal.length){
-    html+=`<div class="activity-section">
-      <div class="activity-header">↕ Transfers <span class="activity-count">${normal.length}</span></div>
-      ${normal.slice(0,10).map(tx=>txRow(tx,'normal')).join('')}
-    </div>`;
+// ═══════════════════════════════════════════
+// SUMMARY
+// ═══════════════════════════════════════════
+function updateSummary() {
+  let total = 0;
+  for (const [id, b] of Object.entries(scanResults.balances)) {
+    const price = priceCache[b.chain.coingecko] || 0;
+    total += b.native * price;
   }
-
-  if(contractExecs.length){
-    html+=`<div class="activity-section">
-      <div class="activity-header">⚙ Contract Executes <span class="activity-count exec">${contractExecs.length}</span></div>
-      ${contractExecs.slice(0,10).map(tx=>txRow(tx,'exec')).join('')}
-    </div>`;
-  }
-
-  if(contractCalls.length){
-    html+=`<div class="activity-section">
-      <div class="activity-header">← Contract Calls Received <span class="activity-count">${contractCalls.length}</span></div>
-      ${contractCalls.slice(0,10).map(tx=>txRow(tx,'call')).join('')}
-    </div>`;
-  }
-
-  if(failed.length){
-    html+=`<div class="activity-section">
-      <div class="activity-header">❌ Failed Transactions <span class="activity-count fail">${failed.length}</span></div>
-      ${failed.slice(0,10).map(tx=>txRow(tx,'fail')).join('')}
-    </div>`;
-  }
-
-  return html || '<div class="empty-state">No transactions found</div>';
+  document.getElementById('sumBalance').textContent = '$' + total.toFixed(2);
+  document.getElementById('sumContracts').textContent = scanResults.contracts.length;
+  document.getElementById('sumNFTs').textContent = scanResults.nfts.length;
+  document.getElementById('sumSweep').textContent = scanResults.contracts.filter(c=>c.sweepable).length;
 }
 
-// ── CONTRACTS TAB ──
-function renderContractsTab(){
-  let all=[];
-  CHAINS.forEach(c=>{
-    selectedAccounts.forEach(acc=>{
-      const p=portfolio[`${c.id}__${acc}`];
-      if(p?.tokens) p.tokens.filter(t=>parseFloat(t.usdVal||0)>0.5).forEach(t=>{
-        const ex=all.find(x=>x.contractAddress?.toLowerCase()===t.contractAddress?.toLowerCase()&&x.chain===c.name);
-        if(ex){ ex.usdVal=(ex.usdVal||0)+(t.usdVal||0); }
-        else all.push({...t,chain:c.name,chainColor:c.color});
-      });
-    });
-  });
-  all.sort((a,b)=>(b.usdVal||0)-(a.usdVal||0));
-  const totalScanned=CHAINS.length*selectedAccounts.length;
-  if(!all.length) return`<div class="card"><div class="empty-state">${Object.keys(portfolio).length<totalScanned?'⟳ Still scanning chains… check back in a moment':'No token contracts with value >$0.50 found'}</div></div>`;
-  const rows=all.map(t=>{
-    const usd=parseFloat(t.usdVal||0);
-    const bc=usd>100?'badge-high':usd>10?'badge-med':'badge-low';
-    return`<tr>
-      <td><div class="token-name">${t.name||'?'}</div><div class="token-sym" style="color:${t.chainColor}">${t.chain}</div></td>
-      <td class="token-sym">${t.symbol||'?'}</td>
-      <td class="token-val ${usd>100?'high':''}">$${usd.toFixed(2)}</td>
-      <td><span class="value-badge ${bc}">${usd>100?'🔥':'⚡'} $${usd.toFixed(0)}</span></td>
-      <td><span class="token-contract" onclick="copyTxt('${t.contractAddress}')">${(t.contractAddress||'').slice(0,12)}…<span class="copy-btn">copy</span></span></td>
-    </tr>`;
-  }).join('');
-  return`<div class="card">
-    <div class="section-title">💎 Valuable Token Contracts (≥$0.50)</div>
-    <table class="token-list"><thead><tr><th>Token</th><th>Symbol</th><th>Value</th><th>Score</th><th>Contract</th></tr></thead><tbody>${rows}</tbody></table>
-  </div>`;
+// ═══════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════
+function setProgress(pct) {
+  document.getElementById('progFill').style.width = pct + '%';
 }
 
-// ── LOAD DATA ──
-async function loadAll(){
-  if(!selectedAccounts.length)return;
-  portfolio={};renderDash();
-  try{
-    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum,binancecoin,matic-network&vs_currencies=usd');
-    const d=await r.json();
-    prices={ethereum:d.ethereum?.usd||2100,binancecoin:d.binancecoin?.usd||600,'matic-network':d['matic-network']?.usd||0.5};
-  }catch{ prices={ethereum:2100,binancecoin:600,'matic-network':0.5}; }
-  // Scan all selected accounts across all chains
-  const tasks=[];
-  CHAINS.forEach(c=>selectedAccounts.forEach(acc=>tasks.push(scanChain(c,acc))));
-  await Promise.all(tasks);
-  updateTotal();
+function log(msg, type) {
+  const el = document.getElementById('scanLog');
+  if (!el) return;
+  const line = document.createElement('div');
+  line.className = 'log-line ' + (type||'');
+  line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.appendChild(line);
+  el.scrollTop = el.scrollHeight;
 }
 
-async function scanChain(c, acc){
-  const key=`${c.id}__${acc}`;
-  try{
-    const rr=await fetch(c.rpc,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[acc,'latest'],id:1})});
-    const rd=await rr.json();
-    const nativeBal=parseInt(rd.result||'0x0',16)/1e18;
-    const nativeUsd=nativeBal*(prices[c.cg]||0);
-    const[tokens,nfts,txs]=await Promise.all([fetchTokens(c,acc),fetchNFTs(c,acc),fetchTxs(c,acc)]);
-    await priceTokens(tokens);
-    portfolio[key]={nativeBal,nativeUsd,tokens,nfts,txs,acc,chain:c.id};
-    updateTotal();
-    if(document.getElementById('tabContent'))renderTabContent();
-  }catch{
-    portfolio[key]={nativeBal:0,nativeUsd:0,tokens:[],nfts:[],txs:[],acc,chain:c.id};
-  }
-}
-
-async function fetchTokens(c, acc){
-  try{
-    const r=await fetch(`${c.explorer}?module=account&action=tokenlist&address=${acc}&apikey=${KEY}`);
-    const d=await r.json();
-    return d.status==='1'?(d.result||[]):[];
-  }catch{return[];}
-}
-
-async function fetchNFTs(c, acc){
-  try{
-    const r=await fetch(`${c.explorer}?module=account&action=tokennfttx&address=${acc}&page=1&offset=50&sort=desc&apikey=${KEY}`);
-    const d=await r.json();
-    if(d.status!=='1')return[];
-    const seen=new Set();
-    return(d.result||[]).filter(n=>{const k=`${n.contractAddress}_${n.tokenID}`;if(seen.has(k))return false;seen.add(k);return true;});
-  }catch{return[];}
-}
-
-async function fetchTxs(c, acc){
-  try{
-    const r=await fetch(`${c.explorer}?module=account&action=txlist&address=${acc}&page=1&offset=50&sort=desc&apikey=${KEY}`);
-    const d=await r.json();
-    return d.status==='1'?(d.result||[]):[];
-  }catch{return[];}
-}
-
-function classifyTx(tx, addr){
-  const isFailed = tx.isError === '1';
-  const hasInput = tx.input && tx.input !== '0x' && tx.input.length > 2;
-  const isOut = tx.from?.toLowerCase() === addr?.toLowerCase();
-  const isContractExec = isOut && hasInput; // you called a contract
-  const isContractCall = !isOut && hasInput && tx.to?.toLowerCase() === addr?.toLowerCase(); // contract called you (rare via txlist)
-  return { isFailed, hasInput, isOut, isContractExec, isContractCall };
-}
-
-function decodeMethod(input){
-  if(!input || input === '0x') return null;
-  const sig = input.slice(0,10);
-  const known = {
-    '0xa9059cbb':'transfer()','0x23b872dd':'transferFrom()','0x095ea7b3':'approve()',
-    '0x40c10f19':'mint()','0x42842e0e':'safeTransferFrom()','0xa22cb465':'setApprovalForAll()',
-    '0x1249c58b':'mint()','0x6a627842':'mint(address)','0x38ed1739':'swapExactTokens()',
-    '0x7ff36ab5':'swapExactETHForTokens()','0x18cbafe5':'swapExactTokensForETH()',
-    '0xfb3bdb41':'swapETHForExactTokens()','0x5c11d795':'swapExactTokensForTokensSupportingFee()',
-    '0xe8e33700':'addLiquidity()','0xf305d719':'addLiquidityETH()','0xbaa2abde':'removeLiquidity()',
-    '0x2e1a7d4d':'withdraw()','0xd0e30db0':'deposit()','0x3593564c':'execute() [Uniswap]',
-    '0x12aa3caf':'fillOrder() [1inch]','0xac9650d8':'multicall()','0x5ae401dc':'multicall() [Uni v3]',
-    '0x04e45aaf':'exactInputSingle()','0xb858183f':'exactInput()','0x414bf389':'exactInputSingle() [v3]',
-  };
-  return known[sig] || sig;
-}
-
-async function priceTokens(tokens){
-  if(!tokens?.length)return;
-  const contracts=tokens.slice(0,50).map(t=>t.contractAddress?.toLowerCase()).filter(Boolean);
-  if(!contracts.length)return;
-  try{
-    const r=await fetch(`https://api.coingecko.com/api/v3/simple/token_price/ethereum?contract_addresses=${contracts.join(',')}&vs_currencies=usd`);
-    const data=await r.json();
-    tokens.forEach(t=>{
-      const addr=t.contractAddress?.toLowerCase();
-      const price=data[addr]?.usd||0;
-      const bal=parseFloat(t.balance||0)/Math.pow(10,parseInt(t.decimals||18));
-      t.usdVal=bal*price;
-    });
-  }catch{tokens.forEach(t=>{t.usdVal=0;});}
-}
-
-function updateTotal(){
-  let total=0;
-  Object.values(portfolio).forEach(p=>{
-    total+=p.nativeUsd||0;
-    (p.tokens||[]).forEach(t=>{total+=parseFloat(t.usdVal||0);});
-  });
-  const el=document.getElementById('grandTotal');
-  if(el)el.textContent='$'+total.toFixed(2);
-}
-
-function fmtBal(raw,decimals){
-  const d=parseInt(decimals||18);
-  const v=parseFloat(raw||0)/Math.pow(10,d);
-  if(v===0)return'0';
-  if(v<0.0001)return v.toExponential(2);
-  if(v<1)return v.toFixed(6);
-  if(v<1000)return v.toFixed(4);
-  return v.toLocaleString(undefined,{maximumFractionDigits:2});
-}
-
-function timeAgo(ts){
-  if(!ts)return'';
-  const diff=Math.floor(Date.now()/1000)-parseInt(ts);
-  if(diff<60)return diff+'s ago';
-  if(diff<3600)return Math.floor(diff/60)+'m ago';
-  if(diff<86400)return Math.floor(diff/3600)+'h ago';
-  return Math.floor(diff/86400)+'d ago';
-}
-
-if(typeof window.ethereum!=='undefined'){
-  window.ethereum.on('accountsChanged',accs=>{
-    if(!accs?.length)disconnect();
-    else{address=accs[0].toLowerCase();render();loadAll();}
-  });
-}
-
-let pc=0;
-function boot(){
-  if(typeof window.ethereum!=='undefined'||pc>=20)render();
-  else{pc++;setTimeout(boot,150);}
-}
-boot();
+// Init
+buildChainPills();
 </script>
 
 </body>
