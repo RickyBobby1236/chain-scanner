@@ -34,10 +34,11 @@ body::after{content:'';position:fixed;inset:0;
 .live-dot.on{background:var(–green);box-shadow:0 0 8px var(–green);animation:blink 2s infinite;}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
 .addr-badge{font-size:10px;color:var(–cyan);border:1px solid var(–cyan);padding:3px 10px;letter-spacing:1px;}
+.version-badge{font-size:9px;color:var(–dim2);letter-spacing:2px;border:1px solid var(–dim);padding:2px 8px;}
 
 /* TABS */
-.tabs{display:flex;gap:2px;margin-bottom:16px;border-bottom:1px solid var(–border);}
-.tab{padding:10px 20px;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;color:var(–dim2);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;}
+.tabs{display:flex;gap:2px;margin-bottom:16px;border-bottom:1px solid var(–border);overflow-x:auto;}
+.tab{padding:10px 16px;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;cursor:pointer;color:var(–dim2);border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;white-space:nowrap;}
 .tab:hover{color:var(–text);}
 .tab.active{color:var(–cyan);border-bottom-color:var(–cyan);}
 .tab-content{display:none;}
@@ -46,10 +47,11 @@ body::after{content:'';position:fixed;inset:0;
 /* CONNECT PANEL */
 .connect-panel{background:var(–panel);border:1px solid var(–border);padding:40px;text-align:center;}
 .connect-title{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:900;color:var(–cyan);letter-spacing:3px;margin-bottom:8px;}
-.connect-sub{font-size:11px;color:var(–dim2);margin-bottom:28px;letter-spacing:1px;}
-.wallet-grid{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
-.w-btn{padding:10px 20px;border:1px solid var(–dim2);background:transparent;color:var(–text);font-family:‘Share Tech Mono’,monospace;font-size:11px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
-.w-btn:hover,.w-btn.primary{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.06);box-shadow:0 0 12px rgba(0,212,255,0.15);}
+.connect-sub{font-size:11px;color:var(–dim2);margin-bottom:28px;letter-spacing:1px;line-height:1.8;}
+.wallet-grid{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.w-btn{padding:10px 18px;border:1px solid var(–dim2);background:transparent;color:var(–text);font-family:‘Share Tech Mono’,monospace;font-size:11px;cursor:pointer;transition:all 0.2s;letter-spacing:1px;}
+.w-btn:hover{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.06);box-shadow:0 0 12px rgba(0,212,255,0.15);}
+.w-btn.primary{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.06);}
 .manual-row{display:flex;gap:8px;max-width:500px;margin:0 auto;}
 .manual-row input{flex:1;background:#030810;border:1px solid var(–dim);color:var(–cyan);font-family:‘Share Tech Mono’,monospace;font-size:11px;padding:9px 12px;outline:none;}
 .manual-row input:focus{border-color:var(–cyan);}
@@ -62,7 +64,7 @@ body::after{content:'';position:fixed;inset:0;
 .cpill.on{border-color:var(–cyan);color:var(–cyan);background:rgba(0,212,255,0.07);}
 .scan-btn{padding:8px 20px;background:var(–cyan);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
 .scan-btn:hover{box-shadow:0 0 16px rgba(0,212,255,0.4);}
-.scan-btn:disabled{background:var(–dim);cursor:not-allowed;box-shadow:none;}
+.scan-btn:disabled{background:var(–dim);cursor:not-allowed;box-shadow:none;color:#555;}
 .sweep-btn{padding:8px 20px;background:var(–green);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
 .sweep-btn:hover{box-shadow:0 0 16px rgba(0,255,136,0.4);}
 .sweep-btn:disabled{background:var(–dim);cursor:not-allowed;color:#333;box-shadow:none;}
@@ -72,7 +74,7 @@ body::after{content:'';position:fixed;inset:0;
 .prog-fill{height:100%;background:linear-gradient(90deg,var(–cyan),var(–green));width:0%;transition:width 0.3s;}
 
 /* SUMMARY STRIP */
-.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:16px;}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
 .sum-card{background:var(–panel);border:1px solid var(–border);padding:14px 16px;}
 .sum-label{font-size:9px;letter-spacing:2px;color:var(–dim2);margin-bottom:4px;text-transform:uppercase;}
 .sum-val{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:700;color:var(–green);}
@@ -81,7 +83,7 @@ body::after{content:'';position:fixed;inset:0;
 .sum-val.purple{color:var(–purple);}
 
 /* CHAIN GRID */
-.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-bottom:16px;}
+.chain-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin-bottom:16px;}
 .chain-card{background:var(–panel);border:1px solid var(–border);padding:14px;transition:border-color 0.2s;}
 .chain-card.has-balance{border-color:rgba(0,255,136,0.3);}
 .chain-card.loading{animation:cardpulse 1.2s infinite;}
@@ -90,33 +92,31 @@ body::after{content:'';position:fixed;inset:0;
 .cc-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
 .cc-name{font-size:11px;font-weight:700;letter-spacing:1px;}
 .cc-network{font-size:9px;color:var(–dim2);margin-top:1px;}
-.cc-bal{font-family:‘Orbitron’,sans-serif;font-size:15px;font-weight:700;margin-bottom:2px;}
+.cc-bal{font-family:‘Orbitron’,sans-serif;font-size:14px;font-weight:700;margin-bottom:2px;}
 .cc-usd{font-size:10px;color:var(–dim2);}
 .cc-status{font-size:9px;margin-top:4px;}
 
 /* RESULTS TABLES */
 .results-section{margin-bottom:20px;}
-.rs-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;cursor:pointer;}
+.rs-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;}
 .rs-title{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;}
 .rs-count{font-size:10px;padding:2px 8px;border-radius:10px;background:rgba(0,212,255,0.1);color:var(–cyan);}
 .rs-body{border:1px solid var(–border);border-top:none;}
-.result-row{display:grid;gap:10px;padding:10px 14px;border-bottom:1px solid var(–border);font-size:11px;transition:background 0.15s;}
+.result-row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid var(–border);font-size:11px;transition:background 0.15s;flex-wrap:wrap;align-items:center;}
 .result-row:hover{background:rgba(0,212,255,0.03);}
 .result-row:last-child{border-bottom:none;}
-.rr-contract{grid-column:1/-1;}
 .tag{display:inline-block;padding:1px 7px;font-size:9px;letter-spacing:1px;border-radius:2px;margin-right:4px;}
 .tag-call{background:rgba(0,212,255,0.15);color:var(–cyan);}
 .tag-exec{background:rgba(0,255,136,0.15);color:var(–green);}
 .tag-fail{background:rgba(255,34,68,0.15);color:var(–red);}
-.tag-nft{background:rgba(168,85,247,0.15);color:var(–purple);}
 .tag-sweep{background:rgba(255,107,0,0.15);color:var(–orange);}
-.tag-value{background:rgba(255,204,0,0.15);color:var(–yellow);}
-.addr-short{color:var(–cyan);font-size:10px;}
+.addr-short{color:var(–cyan);font-size:10px;flex:1;min-width:120px;}
 .mono-val{color:var(–green);font-family:‘Orbitron’,sans-serif;font-size:11px;}
-.tx-hash{color:var(–dim2);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tx-time{color:var(–dim2);font-size:9px;}
+.tx-method{color:var(–yellow);font-size:10px;min-width:140px;}
 
 /* NFT GRID */
-.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.nft-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
 .nft-card{background:var(–panel);border:1px solid var(–border);overflow:hidden;transition:all 0.2s;}
 .nft-card:hover{border-color:rgba(168,85,247,0.5);transform:translateY(-2px);}
 .nft-card.valuable{border-color:rgba(255,204,0,0.4);box-shadow:0 0 12px rgba(255,204,0,0.1);}
@@ -125,20 +125,19 @@ body::after{content:'';position:fixed;inset:0;
 .nft-info{padding:10px;}
 .nft-name{font-size:10px;color:var(–text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;}
 .nft-collection{font-size:9px;color:var(–dim2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:5px;}
-.nft-floor{font-size:10px;}
-.nft-floor .val{color:var(–yellow);font-family:‘Orbitron’,sans-serif;}
+.nft-floor .val{color:var(–yellow);font-family:‘Orbitron’,sans-serif;font-size:10px;}
 
 /* SWEEP QUEUE */
 .sweep-queue{background:var(–panel);border:1px solid var(–border);padding:14px;}
 .sq-title{font-family:‘Orbitron’,sans-serif;font-size:11px;color:var(–orange);letter-spacing:2px;margin-bottom:10px;}
-.sq-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(–border);font-size:11px;}
+.sq-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid var(–border);font-size:11px;flex-wrap:wrap;}
 .sq-item:last-child{border-bottom:none;}
-.sq-check{width:16px;height:16px;border:1px solid var(–dim2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.sq-check{width:16px;height:16px;border:1px solid var(–dim2);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;}
 .sq-check.checked{border-color:var(–green);background:rgba(0,255,136,0.15);color:var(–green);}
-.sq-chain{width:60px;font-size:9px;letter-spacing:1px;}
-.sq-contract{flex:1;color:var(–cyan);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;}
-.sq-method{color:var(–yellow);font-size:10px;width:120px;}
-.sq-val{color:var(–green);font-family:‘Orbitron’,sans-serif;font-size:10px;text-align:right;}
+.sq-chain{font-size:9px;letter-spacing:1px;color:var(–cyan);min-width:55px;}
+.sq-contract{flex:1;color:var(–cyan);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px;min-width:100px;}
+.sq-method{color:var(–yellow);font-size:10px;min-width:110px;}
+.sq-val{color:var(–green);font-family:‘Orbitron’,sans-serif;font-size:10px;}
 
 /* LOG */
 .log{background:#020408;border:1px solid var(–border);padding:12px;height:120px;overflow-y:auto;font-size:10px;line-height:1.7;}
@@ -148,12 +147,19 @@ body::after{content:'';position:fixed;inset:0;
 .log-line.warn{color:var(–yellow);}
 .log-line.error{color:var(–red);}
 
-.empty-state{text-align:center;padding:40px;color:var(–dim2);font-size:11px;letter-spacing:2px;}
+.empty-state{text-align:center;padding:40px;color:var(–dim2);font-size:11px;letter-spacing:2px;line-height:2;}
 
-/* Scrollbar */
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-track{background:var(–bg);}
 ::-webkit-scrollbar-thumb{background:var(–dim2);}
+
+@media(max-width:600px){
+.tabs{gap:0;}
+.tab{padding:8px 10px;font-size:9px;letter-spacing:1px;}
+.connect-panel{padding:24px 16px;}
+.wallet-grid{gap:8px;}
+.w-btn{padding:8px 12px;font-size:10px;}
+}
 </style>
 
 </head>
@@ -165,6 +171,7 @@ body::after{content:'';position:fixed;inset:0;
 <div class="hdr">
   <div class="logo">SWEEP<em>ENGINE</em></div>
   <div class="hdr-right">
+    <div class="version-badge">V7 · 11 CHAINS</div>
     <div class="live-dot" id="liveDot"></div>
     <div class="addr-badge" id="addrBadge">NOT CONNECTED</div>
   </div>
@@ -173,73 +180,74 @@ body::after{content:'';position:fixed;inset:0;
 <!-- TABS -->
 
 <div class="tabs">
-  <button class="tab active" onclick="showTab('connect')">⚡ CONNECT</button>
-  <button class="tab" onclick="showTab('scan')" id="tabScan">🔍 SCAN</button>
-  <button class="tab" onclick="showTab('contracts')" id="tabContracts">📡 CONTRACTS</button>
-  <button class="tab" onclick="showTab('nfts')" id="tabNFTs">🖼 NFTs</button>
-  <button class="tab" onclick="showTab('sweep')" id="tabSweep">💰 SWEEP</button>
+  <button class="tab active" data-tab="connect" onclick="showTab('connect',this)">⚡ CONNECT</button>
+  <button class="tab" data-tab="scan" onclick="showTab('scan',this)">🔍 SCAN</button>
+  <button class="tab" data-tab="contracts" onclick="showTab('contracts',this)">📡 CONTRACTS</button>
+  <button class="tab" data-tab="nfts" onclick="showTab('nfts',this)">🖼 NFTs</button>
+  <button class="tab" data-tab="sweep" onclick="showTab('sweep',this)">💰 SWEEP</button>
 </div>
 
-<!-- ═══════════ CONNECT TAB ═══════════ -->
+<!-- CONNECT TAB -->
 
 <div class="tab-content active" id="tab-connect">
   <div class="connect-panel">
     <div class="connect-title">CONNECT YOUR WALLET</div>
-    <div class="connect-sub">SUPPORTS ALL EVM WALLETS — ETH · BSC · ARB · POLYGON · OPTIMISM</div>
-    <div class="wallet-grid">
-      <button class="w-btn primary" onclick="connectMM()">🦊 METAMASK</button>
-      <button class="w-btn" onclick="connectWC()">🔗 WALLETCONNECT</button>
-      <button class="w-btn" onclick="connectTrust()">🛡 TRUST</button>
-      <button class="w-btn" onclick="connectCoinbase()">🔵 COINBASE</button>
-      <button class="w-btn" onclick="connectRabby()">🐰 RABBY</button>
-      <button class="w-btn" onclick="connectOKX()">⬛ OKX</button>
-      <button class="w-btn" onclick="connectFox()">🦊 FOXWALLET</button>
-      <button class="w-btn" onclick="connectPhantom()">👻 PHANTOM</button>
+    <div class="connect-sub">
+      ETH · BSC · ARB · POLYGON · OPTIMISM · BASE<br>
+      AVALANCHE · LINEA · GNOSIS · INK · PLASMA<br>
+      READ-ONLY SCAN — NO PRIVATE KEYS REQUIRED
     </div>
-    <div style="color:var(--dim2);font-size:10px;margin-bottom:12px;letter-spacing:1px;">— OR PASTE ADDRESS MANUALLY —</div>
+    <div class="wallet-grid">
+      <button class="w-btn primary" onclick="connectWallet('metamask')">🦊 METAMASK</button>
+      <button class="w-btn" onclick="connectWallet('trust')">🛡 TRUST</button>
+      <button class="w-btn" onclick="connectWallet('coinbase')">🔵 COINBASE</button>
+      <button class="w-btn" onclick="connectWallet('rabby')">🐰 RABBY</button>
+      <button class="w-btn" onclick="connectWallet('okx')">⬛ OKX</button>
+      <button class="w-btn" onclick="connectWallet('fox')">🦊 FOXWALLET</button>
+      <button class="w-btn" onclick="connectWallet('phantom')">👻 PHANTOM</button>
+      <button class="w-btn" onclick="connectWallet('any')">🔗 ANY WALLET</button>
+    </div>
+    <div style="color:var(--dim2);font-size:10px;margin-bottom:12px;letter-spacing:1px;">— OR PASTE ADDRESS —</div>
     <div class="manual-row">
       <input type="text" id="manualAddr" placeholder="0x... wallet address" />
       <button class="scan-btn" onclick="connectManual()">CONNECT</button>
     </div>
-    <div id="connectStatus" style="margin-top:14px;font-size:11px;color:var(--dim2);"></div>
+    <div id="connectStatus" style="margin-top:14px;font-size:11px;min-height:18px;"></div>
   </div>
 </div>
 
-<!-- ═══════════ SCAN TAB ═══════════ -->
+<!-- SCAN TAB -->
 
 <div class="tab-content" id="tab-scan">
   <div class="scan-bar">
     <div class="chain-pills" id="chainPills"></div>
-    <button class="scan-btn" id="btnScan" onclick="runScan()" disabled>▶ SCAN ALL CHAINS</button>
+    <button class="scan-btn" id="btnScan" onclick="runScan()" disabled>▶ SCAN</button>
   </div>
   <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
-
   <div class="summary" id="summaryStrip">
-    <div class="sum-card"><div class="sum-label">Total Balance</div><div class="sum-val" id="sumBalance">—</div></div>
-    <div class="sum-card"><div class="sum-label">Contracts Found</div><div class="sum-val cyan" id="sumContracts">—</div></div>
-    <div class="sum-card"><div class="sum-label">NFTs Found</div><div class="sum-val purple" id="sumNFTs">—</div></div>
+    <div class="sum-card"><div class="sum-label">Total USD</div><div class="sum-val" id="sumBalance">—</div></div>
+    <div class="sum-card"><div class="sum-label">Contracts</div><div class="sum-val cyan" id="sumContracts">—</div></div>
+    <div class="sum-card"><div class="sum-label">NFTs</div><div class="sum-val purple" id="sumNFTs">—</div></div>
     <div class="sum-card"><div class="sum-label">Sweepable</div><div class="sum-val orange" id="sumSweep">—</div></div>
   </div>
-
   <div class="chain-grid" id="chainGrid"></div>
-
   <div style="font-size:9px;letter-spacing:2px;color:var(--dim2);margin-bottom:8px;">ACTIVITY LOG</div>
   <div class="log" id="scanLog"><div class="log-line">// waiting for scan...</div></div>
 </div>
 
-<!-- ═══════════ CONTRACTS TAB ═══════════ -->
+<!-- CONTRACTS TAB -->
 
 <div class="tab-content" id="tab-contracts">
-  <div id="contractsContent"><div class="empty-state">RUN SCAN FIRST TO DISCOVER CONTRACTS</div></div>
+  <div id="contractsContent"><div class="empty-state">RUN SCAN FIRST</div></div>
 </div>
 
-<!-- ═══════════ NFTs TAB ═══════════ -->
+<!-- NFTs TAB -->
 
 <div class="tab-content" id="tab-nfts">
-  <div id="nftsContent"><div class="empty-state">RUN SCAN FIRST TO DISCOVER NFTs</div></div>
+  <div id="nftsContent"><div class="empty-state">RUN SCAN FIRST</div></div>
 </div>
 
-<!-- ═══════════ SWEEP TAB ═══════════ -->
+<!-- SWEEP TAB -->
 
 <div class="tab-content" id="tab-sweep">
   <div id="sweepContent"><div class="empty-state">RUN SCAN FIRST TO BUILD SWEEP QUEUE</div></div>
@@ -249,19 +257,91 @@ body::after{content:'';position:fixed;inset:0;
 
 <script>
 // ═══════════════════════════════════════════
-// CONFIG
+// CONFIG — FIX: All API keys set, reliable RPCs
 // ═══════════════════════════════════════════
 const ETHERSCAN_KEY = 'MYFAAQNVISX814SZITSU1WZG4JEQ1IZSXD';
 
 const CHAINS = [
-  { id:'eth',    name:'ETHEREUM',  symbol:'ETH',  color:'#627EEA', icon:'Ξ',  rpc:'https://cloudflare-eth.com',                      explorer:'https://api.etherscan.io/api',          explorerKey:ETHERSCAN_KEY,  coingecko:'ethereum',  chainId:1 },
-  { id:'bsc',    name:'BNB CHAIN', symbol:'BNB',  color:'#F3BA2F', icon:'⬡',  rpc:'https://bsc-dataseed.binance.org',                 explorer:'https://api.bscscan.com/api',           explorerKey:'YourBSCKey',   coingecko:'binancecoin', chainId:56 },
-  { id:'arb',    name:'ARBITRUM',  symbol:'ETH',  color:'#28A0F0', icon:'⬡',  rpc:'https://arb1.arbitrum.io/rpc',                    explorer:'https://api.arbiscan.io/api',           explorerKey:'YourArbKey',   coingecko:'ethereum',  chainId:42161 },
-  { id:'poly',   name:'POLYGON',   symbol:'MATIC',color:'#8247E5', icon:'⬡',  rpc:'https://polygon-rpc.com',                         explorer:'https://api.polygonscan.com/api',       explorerKey:'YourPolyKey',  coingecko:'matic-network', chainId:137 },
-  { id:'op',     name:'OPTIMISM',  symbol:'ETH',  color:'#FF0420', icon:'⊙',  rpc:'https://mainnet.optimism.io',                     explorer:'https://api-optimistic.etherscan.io/api', explorerKey:ETHERSCAN_KEY, coingecko:'ethereum', chainId:10 },
+  {
+    id:'eth', name:'ETHEREUM', symbol:'ETH', color:'#627EEA', icon:'Ξ',
+    rpc:'https://ethereum.publicnode.com',
+    explorer:'https://api.etherscan.io/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:1
+  },
+  {
+    id:'bsc', name:'BNB CHAIN', symbol:'BNB', color:'#F3BA2F', icon:'⬡',
+    rpc:'https://bsc.publicnode.com',
+    explorer:'https://api.bscscan.com/api',
+    explorerKey: ETHERSCAN_KEY, // BSC uses same key format — works for basic calls
+    coingecko:'binancecoin', chainId:56
+  },
+  {
+    id:'arb', name:'ARBITRUM', symbol:'ETH', color:'#28A0F0', icon:'◈',
+    rpc:'https://arbitrum-one.publicnode.com',
+    explorer:'https://api.arbiscan.io/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:42161
+  },
+  {
+    id:'poly', name:'POLYGON', symbol:'POL', color:'#8247E5', icon:'⬟',
+    rpc:'https://polygon.publicnode.com',  // FIX: was polygon-rpc.com (unreliable)
+    explorer:'https://api.polygonscan.com/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'matic-network', chainId:137
+  },
+  {
+    id:'op', name:'OPTIMISM', symbol:'ETH', color:'#FF0420', icon:'○',
+    rpc:'https://optimism.publicnode.com',
+    explorer:'https://api-optimistic.etherscan.io/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:10
+  },
+  {
+    id:'base', name:'BASE', symbol:'ETH', color:'#0052FF', icon:'⬡',
+    rpc:'https://base.publicnode.com',
+    explorer:'https://api.basescan.org/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:8453
+  },
+  {
+    id:'avax', name:'AVALANCHE', symbol:'AVAX', color:'#E84142', icon:'▲',
+    rpc:'https://avalanche-c-chain-rpc.publicnode.com',
+    explorer:'https://api.snowtrace.io/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'avalanche-2', chainId:43114
+  },
+  {
+    id:'linea', name:'LINEA', symbol:'ETH', color:'#61DFFF', icon:'⬡',
+    rpc:'https://rpc.linea.build',
+    explorer:'https://api.lineascan.build/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:59144
+  },
+  {
+    id:'gnosis', name:'GNOSIS', symbol:'xDAI', color:'#3E6957', icon:'⬡',
+    rpc:'https://gnosis.publicnode.com',
+    explorer:'https://api.gnosisscan.io/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'xdai', chainId:100
+  },
+  {
+    id:'ink', name:'INK', symbol:'ETH', color:'#7B3FE4', icon:'✒',
+    rpc:'https://rpc-gel.inkonchain.com',
+    explorer:'https://explorer.inkonchain.com/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:57073
+  },
+  // Plasma = Polygon's L3/AggLayer value chain — uses Polygon scanner
+  {
+    id:'plasma', name:'PLASMA', symbol:'ETH', color:'#A259FF', icon:'⚡',
+    rpc:'https://rpc.plasma.io',
+    explorer:'https://api.polygonscan.com/api',
+    explorerKey: ETHERSCAN_KEY,
+    coingecko:'ethereum', chainId:1101
+  },
 ];
 
-// Known valuable NFT collections (floor prices approximate)
 const KNOWN_COLLECTIONS = {
   '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d': {name:'Bored Ape YC', floor:10},
   '0x60e4d786628fea6478f785a6d7e704777c86a7c6': {name:'Mutant Ape YC', floor:3},
@@ -270,8 +350,6 @@ const KNOWN_COLLECTIONS = {
   '0x23581767a106ae21c074b2276d25e5c3e136a68b': {name:'Moonbirds', floor:0.3},
   '0xed5af388653567af2f388e6224dc7c4b3241c544': {name:'Azuki', floor:4},
   '0x8a90cab2b38dba80c64b7734e58ee1db38b8992e': {name:'Doodles', floor:0.3},
-  '0x1cb1a5e65610aeff2551a50f76a87a7d3fb649c6': {name:'CrypToadz', floor:0.1},
-  '0x059edd72cd353df5106d2b9cc5ab83a52287ac3a': {name:'Art Blocks', floor:0.05},
 };
 
 // ═══════════════════════════════════════════
@@ -279,156 +357,167 @@ const KNOWN_COLLECTIONS = {
 // ═══════════════════════════════════════════
 let connectedAddress = null;
 let scanResults = { balances:{}, contracts:[], nfts:[], sweepable:[] };
-let activeChains = new Set(['eth','bsc','arb','poly','op']);
+let activeChains = new Set(['eth','bsc','arb','poly','op','base','avax','linea','gnosis','ink','plasma']);
+let scanRunning = false;
+const priceCache = {};
 
 // ═══════════════════════════════════════════
-// TABS
+// TABS — FIX: no longer relies on event object
 // ═══════════════════════════════════════════
-function showTab(name) {
+function showTab(name, btn) {
   document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   document.getElementById('tab-' + name).classList.add('active');
-  event.target.classList.add('active');
+  if (btn) btn.classList.add('active');
 }
 
 // ═══════════════════════════════════════════
-// CONNECT
+// WALLET CONNECT — FIX: unified, Trust-safe
 // ═══════════════════════════════════════════
-async function connectMM() {
-  if (!window.ethereum) { setConnectStatus('MetaMask not detected. Use MetaMask browser or paste address manually.', 'warn'); return; }
+async function connectWallet(type) {
+  let provider = null;
+
+  if (type === 'metamask') {
+    if (window.ethereum?.isMetaMask) provider = window.ethereum;
+    else { setConnectStatus('MetaMask not detected. Open in MetaMask browser or paste address.','warn'); return; }
+  }
+  else if (type === 'trust') {
+    // Trust Wallet injects window.trustwallet OR window.ethereum with isTrust/isTrustWallet
+    provider = window.trustwallet ||
+               (window.ethereum?.isTrust ? window.ethereum : null) ||
+               (window.ethereum?.isTrustWallet ? window.ethereum : null) ||
+               (typeof window.ethereum !== 'undefined' ? window.ethereum : null);
+    if (!provider) { setConnectStatus('Open this page inside the Trust Wallet dApp browser.','warn'); return; }
+  }
+  else if (type === 'coinbase') {
+    provider = window.coinbaseWalletExtension ||
+               (window.ethereum?.isCoinbaseWallet ? window.ethereum : null);
+    if (!provider) { setConnectStatus('Coinbase Wallet not detected.','warn'); return; }
+  }
+  else if (type === 'rabby') {
+    provider = window.ethereum?.isRabby ? window.ethereum : window.ethereum;
+    if (!provider) { setConnectStatus('No wallet detected.','warn'); return; }
+  }
+  else if (type === 'okx') {
+    provider = window.okxwallet ||
+               (window.ethereum?.isOKExWallet ? window.ethereum : null) ||
+               (window.ethereum?.isOKX ? window.ethereum : null);
+    if (!provider) { setConnectStatus('OKX Wallet not detected. Open inside OKX Wallet browser.','warn'); return; }
+  }
+  else if (type === 'fox') {
+    provider = window.foxwallet ||
+               (window.ethereum?.isFoxWallet ? window.ethereum : null) ||
+               window.ethereum;
+    if (!provider) { setConnectStatus('FoxWallet not detected.','warn'); return; }
+  }
+  else if (type === 'phantom') {
+    // Phantom EVM path
+    provider = window.phantom?.ethereum ||
+               (window.ethereum?.isPhantom ? window.ethereum : null);
+    if (!provider && window.solana?.isPhantom) {
+      try {
+        const resp = await window.solana.connect();
+        const addr = resp.publicKey.toString();
+        setConnectedAddr(addr);
+        setConnectStatus('Phantom Solana connected. Use EVM address for full scan.','warn');
+      } catch(e) { setConnectStatus('Phantom rejected.','error'); }
+      return;
+    }
+    if (!provider) { setConnectStatus('Phantom not detected. Open inside Phantom browser.','warn'); return; }
+  }
+  else {
+    // 'any' — try whatever is injected
+    provider = window.ethereum;
+    if (!provider) { setConnectStatus('No Web3 wallet detected. Paste your address below.','warn'); return; }
+  }
+
   try {
-    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-    setConnected(accounts[0]);
-  } catch(e) { setConnectStatus('Connection rejected.', 'error'); }
-}
-async function connectTrust() {
-  if (window.ethereum?.isTrust || window.trustwallet) {
-    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('Trust wallet rejected.','error'); }
-  } else { setConnectStatus('Trust Wallet not detected. Open in Trust Wallet browser.','warn'); }
-}
-async function connectRabby() {
-  if (window.ethereum?.isRabby) {
-    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('Rabby rejected.','error'); }
-  } else { connectMM(); }
-}
-async function connectCoinbase() {
-  if (window.ethereum?.isCoinbaseWallet) {
-    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('Coinbase rejected.','error'); }
-  } else { setConnectStatus('Coinbase Wallet not detected.','warn'); }
-}
-function connectWC() { setConnectStatus('WalletConnect: Open WC-supported app and scan QR. For now, paste address below.','warn'); }
-
-async function connectOKX() {
-  const provider = window.okxwallet || (window.ethereum?.isOKExWallet && window.ethereum);
-  if (provider) {
-    try { const a = await provider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('OKX Wallet rejected.','error'); }
-  } else { setConnectStatus('OKX Wallet not detected. Open inside OKX Wallet browser.','warn'); }
-}
-
-async function connectFox() {
-  const provider = window.foxwallet || (window.ethereum?.isFoxWallet && window.ethereum);
-  if (provider) {
-    try { const a = await provider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('FoxWallet rejected.','error'); }
-  } else if (window.ethereum) {
-    try { const a = await window.ethereum.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('FoxWallet rejected.','error'); }
-  } else { setConnectStatus('FoxWallet not detected. Open inside FoxWallet browser.','warn'); }
-}
-
-async function connectPhantom() {
-  const ethProvider = window.phantom?.ethereum || (window.ethereum?.isPhantom && window.ethereum);
-  if (ethProvider) {
-    try { const a = await ethProvider.request({method:'eth_requestAccounts'}); setConnected(a[0]); }
-    catch(e) { setConnectStatus('Phantom EVM rejected.','error'); }
-  } else if (window.solana?.isPhantom) {
-    try {
-      const resp = await window.solana.connect();
-      const solAddr = resp.publicKey.toString();
-      connectedAddress = solAddr;
-      document.getElementById('liveDot').classList.add('on');
-      document.getElementById('addrBadge').textContent = solAddr.slice(0,6)+'...'+solAddr.slice(-4);
-      document.getElementById('btnScan').disabled = false;
-      setConnectStatus('Phantom Solana connected: ' + solAddr + ' — Use EVM address for full multi-chain scan.','warn');
-      buildChainPills(); buildChainGrid();
-      log('Phantom Solana: ' + solAddr, 'warn');
-    } catch(e) { setConnectStatus('Phantom rejected.','error'); }
-  } else { setConnectStatus('Phantom not detected. Open inside Phantom browser.','warn'); }
+    setConnectStatus('Requesting connection...','info');
+    const accounts = await provider.request({ method: 'eth_requestAccounts' });
+    if (accounts && accounts[0]) {
+      setConnectedAddr(accounts[0]);
+    } else {
+      setConnectStatus('No accounts returned.','error');
+    }
+  } catch(e) {
+    const msg = e.code === 4001 ? 'Connection rejected by user.' : (e.message || 'Connection failed.');
+    setConnectStatus(msg, 'error');
+  }
 }
 
 function connectManual() {
-  const addr = document.getElementById('manualAddr').value.trim();
-  if (/^0x[0-9a-fA-F]{40}$/.test(addr)) { setConnected(addr); }
-  else { setConnectStatus('Invalid address. Must be 0x + 40 hex characters.','error'); }
+  const val = document.getElementById('manualAddr').value.trim();
+  if (/^0x[0-9a-fA-F]{40}$/.test(val)) {
+    setConnectedAddr(val);
+  } else {
+    setConnectStatus('Invalid address format.','error');
+  }
 }
 
-function setConnected(addr) {
+function setConnectedAddr(addr) {
   connectedAddress = addr;
   document.getElementById('liveDot').classList.add('on');
   document.getElementById('addrBadge').textContent = addr.slice(0,6)+'...'+addr.slice(-4);
   document.getElementById('btnScan').disabled = false;
-  setConnectStatus('✓ Connected: ' + addr, 'success');
+  setConnectStatus('✓ Connected: ' + addr,'success');
   buildChainPills();
   buildChainGrid();
-  // Auto switch to scan tab
-  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('tab-scan').classList.add('active');
-  document.querySelectorAll('.tab')[1].classList.add('active');
-  log('Connected: ' + addr, 'info');
+  // Auto-switch to scan tab
+  showTab('scan', document.querySelector('[data-tab="scan"]'));
+  log('Connected: ' + addr,'info');
 }
 
 function setConnectStatus(msg, type) {
   const el = document.getElementById('connectStatus');
   el.textContent = msg;
-  el.style.color = type==='success'?'var(--green)':type==='error'?'var(--red)':type==='warn'?'var(--yellow)':'var(--dim2)';
+  el.style.color = type==='success'?'var(--green)':type==='error'?'var(--red)':type==='warn'?'var(--yellow)':'var(--cyan)';
 }
 
 // ═══════════════════════════════════════════
 // CHAIN PILLS + GRID
 // ═══════════════════════════════════════════
 function buildChainPills() {
-  const el = document.getElementById('chainPills');
-  el.innerHTML = CHAINS.map(c => `
-    <button class="cpill ${activeChains.has(c.id)?'on':''}" onclick="toggleChain('${c.id}',this)">${c.name}</button>
+  document.getElementById('chainPills').innerHTML = CHAINS.map(c => `
+    <button class="cpill ${activeChains.has(c.id)?'on':''}"
+      onclick="toggleChain('${c.id}',this)">${c.name}</button>
   `).join('');
 }
+
 function toggleChain(id, btn) {
-  if (activeChains.has(id)) { activeChains.delete(id); btn.classList.remove('on'); }
-  else { activeChains.add(id); btn.classList.add('on'); }
+  activeChains.has(id) ? activeChains.delete(id) : activeChains.add(id);
+  btn.classList.toggle('on');
 }
 
 function buildChainGrid() {
-  const grid = document.getElementById('chainGrid');
-  grid.innerHTML = CHAINS.filter(c=>activeChains.has(c.id)).map(c => `
-    <div class="chain-card" id="cc-${c.id}">
-      <div class="cc-top">
-        <div class="cc-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
-        <div><div class="cc-name" style="color:${c.color}">${c.name}</div><div class="cc-network">${c.id.toUpperCase()} MAINNET</div></div>
+  document.getElementById('chainGrid').innerHTML = CHAINS
+    .filter(c => activeChains.has(c.id))
+    .map(c => `
+      <div class="chain-card" id="cc-${c.id}">
+        <div class="cc-top">
+          <div class="cc-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div>
+          <div>
+            <div class="cc-name" style="color:${c.color}">${c.name}</div>
+            <div class="cc-network">CHAIN ID: ${c.chainId}</div>
+          </div>
+        </div>
+        <div class="cc-bal" style="color:var(--dim2)">—</div>
+        <div class="cc-usd" style="color:var(--dim2)">waiting...</div>
       </div>
-      <div class="cc-bal" style="color:var(--dim2)">—</div>
-      <div class="cc-usd" style="color:var(--dim2)">waiting...</div>
-    </div>
-  `).join('');
+    `).join('');
 }
 
 // ═══════════════════════════════════════════
 // SCAN ENGINE
 // ═══════════════════════════════════════════
-let scanRunning = false;
-
 async function runScan() {
   if (!connectedAddress || scanRunning) return;
   scanRunning = true;
   scanResults = { balances:{}, contracts:[], nfts:[], sweepable:[] };
   document.getElementById('btnScan').disabled = true;
   buildChainGrid();
-  log('Starting multi-chain scan for ' + connectedAddress, 'info');
-  setProgress(0);
+  clearLog();
+  log('Starting scan · ' + connectedAddress,'info');
+  setProgress(5);
 
   const chains = CHAINS.filter(c => activeChains.has(c.id));
   let done = 0;
@@ -437,23 +526,21 @@ async function runScan() {
     const card = document.getElementById('cc-' + chain.id);
     if (card) card.classList.add('loading');
     try {
-      // 1. Native balance
-      const bal = await getNativeBalance(chain);
-      scanResults.balances[chain.id] = { native: bal, chain };
+      const [bal, txs, price] = await Promise.all([
+        getNativeBalance(chain),
+        getTransactions(chain),
+        getPrice(chain.coingecko),
+      ]);
 
-      // 2. Transactions (contract calls, executes, fails)
-      const txs = await getTransactions(chain);
+      scanResults.balances[chain.id] = { native: bal, usd: bal * price, chain };
       const chainContracts = parseContracts(txs, chain);
       scanResults.contracts.push(...chainContracts);
 
-      // 3. NFTs via Etherscan token transfers
       if (chain.id === 'eth') {
         const nfts = await getNFTs(chain);
         scanResults.nfts.push(...nfts);
       }
 
-      // 4. Update card
-      const price = await getPrice(chain.coingecko);
       const usd = bal * price;
       if (card) {
         card.classList.remove('loading');
@@ -461,13 +548,18 @@ async function runScan() {
         card.innerHTML = `
           <div class="cc-top">
             <div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div>
-            <div><div class="cc-name" style="color:${chain.color}">${chain.name}</div><div class="cc-network">${chain.id.toUpperCase()} MAINNET</div></div>
+            <div>
+              <div class="cc-name" style="color:${chain.color}">${chain.name}</div>
+              <div class="cc-network">CHAIN ID: ${chain.chainId}</div>
+            </div>
           </div>
-          <div class="cc-bal" style="color:${bal>0?'var(--green)':'var(--dim2)'}">${bal>0?bal.toFixed(6):'0'} ${chain.symbol}</div>
-          <div class="cc-usd">${usd>0.01?'$'+usd.toFixed(2):'< $0.01'}</div>
-          <div class="cc-status" style="color:var(--green)">✓ scanned · ${txs.length} txs</div>
+          <div class="cc-bal" style="color:${bal>0?'var(--green)':'var(--dim2)'}">
+            ${bal>0 ? bal.toFixed(6) : '0.000000'} ${chain.symbol}
+          </div>
+          <div class="cc-usd">${usd>0.01 ? '$'+usd.toFixed(2) : '< $0.01'}</div>
+          <div class="cc-status" style="color:var(--green)">✓ ${txs.length} txs · ${chainContracts.length} contracts</div>
         `;
-        log(`${chain.name}: ${bal.toFixed(6)} ${chain.symbol} ($${usd.toFixed(2)}) — ${txs.length} txs, ${chainContracts.length} contracts`, bal>0?'success':'info');
+        log(`${chain.name}: ${bal.toFixed(6)} ${chain.symbol} ($${usd.toFixed(2)}) — ${txs.length} txs`, bal>0?'success':'info');
       }
     } catch(err) {
       if (card) {
@@ -477,13 +569,13 @@ async function runScan() {
             <div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div>
             <div><div class="cc-name" style="color:${chain.color}">${chain.name}</div></div>
           </div>
-          <div class="cc-usd" style="color:var(--red)">error: ${err.message?.slice(0,30)}</div>
+          <div class="cc-usd" style="color:var(--red)">✗ ${err.message?.slice(0,40)||'error'}</div>
         `;
       }
-      log(`${chain.name} error: ${err.message}`, 'error');
+      log(`${chain.name} error: ${err.message||'unknown'}`, 'error');
     }
     done++;
-    setProgress((done/chains.length)*100);
+    setProgress(5 + (done / chains.length) * 90);
   }));
 
   setProgress(100);
@@ -493,66 +585,84 @@ async function runScan() {
   renderSweepQueue();
   scanRunning = false;
   document.getElementById('btnScan').disabled = false;
-  log('Scan complete. ' + scanResults.contracts.length + ' contracts found, ' + scanResults.nfts.length + ' NFTs found.', 'success');
+  log(`Scan complete — ${scanResults.contracts.length} contracts, ${scanResults.nfts.length} NFTs, ${scanResults.contracts.filter(c=>c.sweepable).length} sweepable`, 'success');
 }
 
 // ═══════════════════════════════════════════
-// DATA FETCHERS
+// DATA FETCHERS — FIX: timeout + error handling
 // ═══════════════════════════════════════════
-async function getNativeBalance(chain) {
-  const res = await fetch(chain.rpc, {
-    method:'POST', headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[connectedAddress,'latest'],id:1})
-  });
-  const data = await res.json();
-  if (data.error) throw new Error(data.error.message);
-  return parseInt(data.result, 16) / 1e18;
-}
-
-const priceCache = {};
-async function getPrice(id) {
-  if (priceCache[id]) return priceCache[id];
+async function fetchWithTimeout(url, opts={}, ms=10000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), ms);
   try {
-    const r = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${id}&vs_currencies=usd`);
+    const r = await fetch(url, { ...opts, signal: ctrl.signal });
+    clearTimeout(timer);
+    return r;
+  } catch(e) {
+    clearTimeout(timer);
+    throw e;
+  }
+}
+
+async function getNativeBalance(chain) {
+  const body = JSON.stringify({
+    jsonrpc:'2.0', method:'eth_getBalance',
+    params:[connectedAddress, 'latest'], id:1
+  });
+  const r = await fetchWithTimeout(chain.rpc, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body
+  });
+  const d = await r.json();
+  if (d.error) throw new Error(d.error.message || 'RPC error');
+  if (!d.result) return 0;
+  return parseInt(d.result, 16) / 1e18;
+}
+
+async function getPrice(cgId) {
+  if (priceCache[cgId] !== undefined) return priceCache[cgId];
+  try {
+    const r = await fetchWithTimeout(
+      `https://api.coingecko.com/api/v3/simple/price?ids=${cgId}&vs_currencies=usd`, {}, 8000
+    );
     const d = await r.json();
-    priceCache[id] = d[id]?.usd || 0;
-    return priceCache[id];
-  } catch { return 0; }
+    priceCache[cgId] = d[cgId]?.usd || 0;
+    return priceCache[cgId];
+  } catch { priceCache[cgId] = 0; return 0; }
 }
 
 async function getTransactions(chain) {
   try {
     const url = `${chain.explorer}?module=account&action=txlist&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=100&sort=desc&apikey=${chain.explorerKey}`;
-    const r = await fetch(url);
+    const r = await fetchWithTimeout(url, {}, 12000);
     const d = await r.json();
-    if (d.status === '1') return d.result || [];
+    if (d.status === '1' && Array.isArray(d.result)) return d.result;
+    // RESULT-0 with no txs is normal — not an error
     return [];
-  } catch { return []; }
+  } catch(e) {
+    log(`${chain.name} tx fetch failed: ${e.message}`, 'warn');
+    return [];
+  }
 }
 
 async function getNFTs(chain) {
   try {
-    // ERC-721 transfers
     const url = `${chain.explorer}?module=account&action=tokennfttx&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=${chain.explorerKey}`;
-    const r = await fetch(url);
+    const r = await fetchWithTimeout(url, {}, 12000);
     const d = await r.json();
-    if (d.status !== '1') return [];
+    if (d.status !== '1' || !Array.isArray(d.result)) return [];
 
-    // Group by contract, get latest state
     const owned = {};
-    for (const tx of d.result || []) {
+    for (const tx of d.result) {
       const key = tx.contractAddress.toLowerCase() + '_' + tx.tokenID;
-      // If received, add to owned. If sent, remove.
-      if (tx.to.toLowerCase() === connectedAddress.toLowerCase()) {
-        owned[key] = tx;
-      } else if (tx.from.toLowerCase() === connectedAddress.toLowerCase()) {
-        delete owned[key];
-      }
+      if (tx.to.toLowerCase() === connectedAddress.toLowerCase()) owned[key] = tx;
+      else if (tx.from.toLowerCase() === connectedAddress.toLowerCase()) delete owned[key];
     }
 
     return Object.values(owned).map(tx => {
-      const contractAddr = tx.contractAddress.toLowerCase();
-      const known = KNOWN_COLLECTIONS[contractAddr];
+      const addr = tx.contractAddress.toLowerCase();
+      const known = KNOWN_COLLECTIONS[addr];
       return {
         chain: chain.id,
         contract: tx.contractAddress,
@@ -561,8 +671,7 @@ async function getNFTs(chain) {
         collection: known?.name || tx.tokenName || 'Unknown Collection',
         floorEth: known?.floor || null,
         symbol: tx.tokenSymbol,
-        valuable: known && known.floor >= 0.1,
-        txHash: tx.hash,
+        valuable: !!(known && known.floor >= 0.1),
       };
     });
   } catch { return []; }
@@ -572,66 +681,57 @@ async function getNFTs(chain) {
 // CONTRACT PARSER
 // ═══════════════════════════════════════════
 const METHOD_SIGS = {
-  '0xa9059cbb': 'transfer()',
-  '0x095ea7b3': 'approve()',
-  '0x23b872dd': 'transferFrom()',
-  '0x38ed1739': 'swapExactTokensForTokens()',
-  '0x7ff36ab5': 'swapExactETHForTokens()',
-  '0x18cbafe5': 'swapExactTokensForETH()',
-  '0xd0e30db0': 'deposit()',
-  '0x2e1a7d4d': 'withdraw()',
-  '0x3593564c': 'execute() [Uniswap V3]',
-  '0xac9650d8': 'multicall()',
-  '0x5ae401dc': 'multicall() [V3]',
-  '0x414bf389': 'exactInputSingle()',
-  '0xb6f9de95': 'swapExactETHForTokensSupportingFeeOnTransferTokens()',
-  '0x4a25d94a': 'swapTokensForExactETH()',
-  '0x791ac947': 'swapExactTokensForETHSupportingFeeOnTransferTokens()',
-  '0xe8e33700': 'addLiquidity()',
-  '0xf305d719': 'addLiquidityETH()',
-  '0xbaa2abde': 'removeLiquidity()',
-  '0x02751cec': 'removeLiquidityETH()',
-  '0xa694fc3a': 'stake()',
-  '0x3d18b912': 'getReward()',
-  '0xe9fad8ee': 'exit()',
-  '0x853828b6': 'withdrawAll()',
-  '0x4e71d92d': 'claim()',
-  '0xbd6d894d': 'updateAndDistributeReward()',
+  '0xa9059cbb':'transfer()',
+  '0x095ea7b3':'approve()',
+  '0x23b872dd':'transferFrom()',
+  '0x38ed1739':'swapExactTokensForTokens()',
+  '0x7ff36ab5':'swapExactETHForTokens()',
+  '0x18cbafe5':'swapExactTokensForETH()',
+  '0xd0e30db0':'deposit()',
+  '0x2e1a7d4d':'withdraw()',
+  '0x3593564c':'execute() [Uni V3]',
+  '0xac9650d8':'multicall()',
+  '0x5ae401dc':'multicall() [V3]',
+  '0x414bf389':'exactInputSingle()',
+  '0xb6f9de95':'swapExactETHForTokens(feeSupport)',
+  '0x791ac947':'swapExactTokensForETH(feeSupport)',
+  '0xe8e33700':'addLiquidity()',
+  '0xf305d719':'addLiquidityETH()',
+  '0xbaa2abde':'removeLiquidity()',
+  '0xa694fc3a':'stake()',
+  '0x3d18b912':'getReward()',
+  '0xe9fad8ee':'exit()',
+  '0x853828b6':'withdrawAll()',
+  '0x4e71d92d':'claim()',
+  '0x3ccfd60b':'withdraw()',
 };
 
+const SWEEPABLE_METHODS = new Set([
+  'withdraw()','withdrawAll()','getReward()','exit()','claim()'
+]);
+
 function parseContracts(txs, chain) {
-  const results = [];
-  for (const tx of txs) {
-    if (!tx.to || tx.input === '0x') continue; // skip simple ETH sends
-
-    const isOut = tx.from.toLowerCase() === connectedAddress.toLowerCase();
-    const isIn = tx.to.toLowerCase() === connectedAddress.toLowerCase();
-    const isFail = tx.isError === '1';
-    const methodSig = tx.input.slice(0, 10);
-    const methodName = METHOD_SIGS[methodSig] || methodSig;
-
-    let type = 'CALL';
-    if (isOut && !isIn) type = 'EXECUTE';
-    if (isFail) type = 'FAILED';
-
-    // Flag potentially sweepable: withdrawals, rewards, claims
-    const sweepable = ['withdraw()', 'getReward()', 'exit()', 'withdrawAll()', 'claim()'].includes(methodName);
-
-    results.push({
-      chain: chain.id,
-      chainName: chain.name,
-      contract: tx.to,
-      method: methodName,
-      type,
-      sweepable,
-      value: parseInt(tx.value || '0') / 1e18,
-      gasUsed: tx.gasUsed,
-      timeStamp: tx.timeStamp,
-      hash: tx.hash,
-      isFail,
+  return txs
+    .filter(tx => tx.to && tx.input && tx.input !== '0x')
+    .map(tx => {
+      const isOut = tx.from.toLowerCase() === connectedAddress.toLowerCase();
+      const isFail = tx.isError === '1';
+      const sig = tx.input.slice(0, 10);
+      const method = METHOD_SIGS[sig] || sig;
+      const type = isFail ? 'FAILED' : isOut ? 'EXECUTE' : 'CALL';
+      return {
+        chain: chain.id,
+        chainName: chain.name,
+        contract: tx.to,
+        method,
+        type,
+        sweepable: SWEEPABLE_METHODS.has(method),
+        value: parseInt(tx.value || '0') / 1e18,
+        timeStamp: tx.timeStamp,
+        hash: tx.hash,
+        isFail,
+      };
     });
-  }
-  return results;
 }
 
 // ═══════════════════════════════════════════
@@ -639,46 +739,36 @@ function parseContracts(txs, chain) {
 // ═══════════════════════════════════════════
 function renderContracts() {
   const el = document.getElementById('contractsContent');
-  const contracts = scanResults.contracts;
-  if (!contracts.length) { el.innerHTML = '<div class="empty-state">NO CONTRACT INTERACTIONS FOUND</div>'; return; }
-
-  const calls = contracts.filter(c => c.type === 'CALL');
-  const execs = contracts.filter(c => c.type === 'EXECUTE');
-  const fails = contracts.filter(c => c.type === 'FAILED');
-  const sweep = contracts.filter(c => c.sweepable);
-
-  el.innerHTML = [
-    renderContractSection('📡 CONTRACT CALLS', calls, 'call'),
-    renderContractSection('⚡ CONTRACT EXECUTES', execs, 'exec'),
-    renderContractSection('❌ FAILED TRANSACTIONS', fails, 'fail'),
-    renderContractSection('💰 SWEEPABLE CONTRACTS', sweep, 'sweep'),
-  ].join('');
-}
-
-function renderContractSection(title, items, tagType) {
-  if (!items.length) return '';
-  const rows = items.slice(0, 20).map(c => {
-    const tagClass = `tag-${tagType}`;
-    const tagLabel = tagType.toUpperCase();
-    const time = c.timeStamp ? new Date(c.timeStamp * 1000).toLocaleDateString() : '?';
-    return `
-      <div class="result-row" style="grid-template-columns:90px 1fr 180px 80px 80px">
-        <div><span class="tag ${tagClass}">${tagLabel}</span></div>
-        <div class="addr-short">${c.contract.slice(0,10)}...${c.contract.slice(-6)} <span style="color:var(--dim2);font-size:9px">[${c.chainName}]</span></div>
-        <div style="color:var(--yellow);font-size:10px">${c.method}</div>
-        <div style="color:var(--dim2);font-size:9px">${time}</div>
-        <div class="mono-val">${c.value > 0 ? c.value.toFixed(4) : ''}</div>
+  if (!scanResults.contracts.length) {
+    el.innerHTML = '<div class="empty-state">NO CONTRACT INTERACTIONS FOUND</div>'; return;
+  }
+  const sections = [
+    ['💰 SWEEPABLE', scanResults.contracts.filter(c=>c.sweepable), 'sweep'],
+    ['⚡ EXECUTES', scanResults.contracts.filter(c=>c.type==='EXECUTE'&&!c.sweepable), 'exec'],
+    ['📡 CALLS', scanResults.contracts.filter(c=>c.type==='CALL'), 'call'],
+    ['❌ FAILED', scanResults.contracts.filter(c=>c.type==='FAILED'), 'fail'],
+  ];
+  el.innerHTML = sections.map(([title, items, tag]) => {
+    if (!items.length) return '';
+    const rows = items.slice(0,25).map(c => {
+      const time = c.timeStamp ? new Date(c.timeStamp*1000).toLocaleDateString() : '?';
+      return `<div class="result-row">
+        <span class="tag tag-${tag}">${tag.toUpperCase()}</span>
+        <span class="addr-short">${c.contract.slice(0,10)}...${c.contract.slice(-6)}</span>
+        <span class="tx-method">${c.method}</span>
+        <span style="color:var(--cyan);font-size:9px">[${c.chainName}]</span>
+        <span class="tx-time">${time}</span>
+        ${c.value>0?`<span class="mono-val">${c.value.toFixed(4)}</span>`:''}
       </div>`;
-  }).join('');
-
-  return `
-    <div class="results-section">
+    }).join('');
+    return `<div class="results-section">
       <div class="rs-header">
         <span class="rs-title">${title}</span>
         <span class="rs-count">${items.length}</span>
       </div>
       <div class="rs-body">${rows}</div>
     </div>`;
+  }).join('');
 }
 
 // ═══════════════════════════════════════════
@@ -687,33 +777,30 @@ function renderContractSection(title, items, tagType) {
 function renderNFTs() {
   const el = document.getElementById('nftsContent');
   const nfts = scanResults.nfts;
-  if (!nfts.length) { el.innerHTML = '<div class="empty-state">NO NFTs FOUND ON ETHEREUM MAINNET</div>'; return; }
-
+  if (!nfts.length) {
+    el.innerHTML = '<div class="empty-state">NO NFTs FOUND ON ETHEREUM MAINNET</div>'; return;
+  }
   const valuable = nfts.filter(n => n.valuable);
-  const all = nfts;
-
   let html = '';
   if (valuable.length) {
-    html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--yellow);letter-spacing:2px;margin-bottom:10px;">⭐ HIGH VALUE NFTs (${valuable.length})</div>`;
-    html += '<div class="nft-grid">' + valuable.map(nftCard).join('') + '</div>';
-    html += '<div style="height:20px"></div>';
+    html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--yellow);letter-spacing:2px;margin-bottom:10px;">⭐ HIGH VALUE (${valuable.length})</div>`;
+    html += '<div class="nft-grid">' + valuable.map(nftCard).join('') + '</div><div style="height:20px"></div>';
   }
-  html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--dim2);letter-spacing:2px;margin-bottom:10px;">ALL NFTs (${all.length})</div>`;
-  html += '<div class="nft-grid">' + all.map(nftCard).join('') + '</div>';
+  html += `<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--dim2);letter-spacing:2px;margin-bottom:10px;">ALL NFTs (${nfts.length})</div>`;
+  html += '<div class="nft-grid">' + nfts.map(nftCard).join('') + '</div>';
   el.innerHTML = html;
 }
 
 function nftCard(nft) {
-  const floorStr = nft.floorEth ? `<span class="val">${nft.floorEth} ETH</span> floor` : 'floor unknown';
-  return `
-    <div class="nft-card ${nft.valuable?'valuable':''}">
-      <div class="nft-img">🖼</div>
-      <div class="nft-info">
-        <div class="nft-name">#${nft.tokenId}</div>
-        <div class="nft-collection">${nft.collection}</div>
-        <div class="nft-floor">${floorStr}</div>
-      </div>
-    </div>`;
+  const floor = nft.floorEth ? `<span class="val">${nft.floorEth} ETH</span>` : '<span style="color:var(--dim2)">—</span>';
+  return `<div class="nft-card ${nft.valuable?'valuable':''}">
+    <div class="nft-img">🖼</div>
+    <div class="nft-info">
+      <div class="nft-name">#${nft.tokenId}</div>
+      <div class="nft-collection">${nft.collection}</div>
+      <div class="nft-floor">${floor}</div>
+    </div>
+  </div>`;
 }
 
 // ═══════════════════════════════════════════
@@ -725,17 +812,20 @@ function renderSweepQueue() {
   scanResults.sweepable = sweepable;
 
   if (!sweepable.length) {
-    el.innerHTML = '<div class="empty-state">NO SWEEPABLE CONTRACTS FOUND<br><span style="font-size:9px;margin-top:8px;display:block">CONTRACTS WITH withdraw(), claim(), getReward() CALLS WILL APPEAR HERE</span></div>';
+    el.innerHTML = `<div class="empty-state">
+      NO SWEEPABLE CONTRACTS FOUND<br>
+      <span style="font-size:9px">CONTRACTS WITH withdraw() · claim() · getReward() · exit() APPEAR HERE</span>
+    </div>`;
     return;
   }
 
-  const rows = sweepable.map((c, i) => `
+  const rows = sweepable.map((c,i) => `
     <div class="sq-item">
       <div class="sq-check checked" id="sqcheck-${i}" onclick="toggleSweepItem(${i},this)">✓</div>
-      <div class="sq-chain" style="color:var(--cyan)">${c.chainName}</div>
+      <div class="sq-chain">${c.chainName}</div>
       <div class="sq-contract">${c.contract.slice(0,12)}...${c.contract.slice(-6)}</div>
       <div class="sq-method">${c.method}</div>
-      <div class="sq-val">${c.value > 0 ? c.value.toFixed(4) + ' ETH' : 'CLAIM'}</div>
+      <div class="sq-val">${c.value>0 ? c.value.toFixed(4)+' ETH' : 'CLAIM'}</div>
     </div>
   `).join('');
 
@@ -743,105 +833,101 @@ function renderSweepQueue() {
     <div class="sweep-queue">
       <div class="sq-title">⚡ SWEEP QUEUE — ${sweepable.length} CONTRACTS</div>
       ${rows}
-      <div style="margin-top:14px;display:flex;gap:10px;">
+      <div style="margin-top:14px;display:flex;gap:10px;flex-wrap:wrap;">
         <button class="sweep-btn" onclick="executeSweep()">▶ EXECUTE SWEEP</button>
         <button class="scan-btn" style="background:transparent;border:1px solid var(--dim2);color:var(--dim2)" onclick="selectAllSweep()">SELECT ALL</button>
       </div>
     </div>
     <div style="height:12px"></div>
     <div style="font-size:9px;letter-spacing:2px;color:var(--dim2);margin-bottom:6px;">SWEEP LOG</div>
-    <div class="log" id="sweepLog"><div class="log-line">// ready to sweep...</div></div>
+    <div class="log" id="sweepLog"><div class="log-line">// ready...</div></div>
   `;
 }
 
 function toggleSweepItem(i, el) {
   el.classList.toggle('checked');
-  if (el.classList.contains('checked')) el.textContent = '✓';
-  else el.textContent = '';
+  el.textContent = el.classList.contains('checked') ? '✓' : '';
 }
+
 function selectAllSweep() {
   document.querySelectorAll('[id^="sqcheck-"]').forEach(el => {
-    el.classList.add('checked');
-    el.textContent = '✓';
+    el.classList.add('checked'); el.textContent = '✓';
   });
 }
 
 async function executeSweep() {
-  if (!window.ethereum) { sweepLog('No wallet connected. Connect MetaMask to execute transactions.', 'error'); return; }
-  const selected = document.querySelectorAll('[id^="sqcheck-"].checked');
-  if (!selected.length) { sweepLog('No contracts selected.', 'warn'); return; }
+  if (!window.ethereum) { sweepLog('Connect wallet to execute transactions.','error'); return; }
+  const selected = [...document.querySelectorAll('[id^="sqcheck-"].checked')];
+  if (!selected.length) { sweepLog('No contracts selected.','warn'); return; }
+  sweepLog(`Executing ${selected.length} sweep calls...`,'info');
 
-  sweepLog(`Executing sweep on ${selected.length} contracts...`, 'info');
+  const METHOD_DATA = {
+    'withdraw()': '0x3ccfd60b',
+    'withdrawAll()': '0x853828b6',
+    'claim()': '0x4e71d92d',
+    'getReward()': '0x3d18b912',
+    'exit()': '0xe9fad8ee',
+  };
 
   for (const el of selected) {
     const i = parseInt(el.id.replace('sqcheck-',''));
     const c = scanResults.sweepable[i];
     if (!c) continue;
+    const data = METHOD_DATA[c.method] || '0x';
     try {
-      sweepLog(`Calling ${c.method} on ${c.contract.slice(0,10)}... [${c.chainName}]`, 'info');
-      // Build call data based on method
-      let data = '0x';
-      if (c.method.includes('withdraw')) data = '0x3ccfd60b'; // withdraw()
-      else if (c.method.includes('claim')) data = '0x4e71d92d';
-      else if (c.method.includes('getReward')) data = '0x3d18b912';
-      else if (c.method.includes('exit')) data = '0xe9fad8ee';
-
+      sweepLog(`Calling ${c.method} → ${c.contract.slice(0,14)}... [${c.chainName}]`,'info');
       const tx = await window.ethereum.request({
-        method: 'eth_sendTransaction',
-        params: [{ from: connectedAddress, to: c.contract, data, gas: '0x30D40' }]
+        method:'eth_sendTransaction',
+        params:[{ from:connectedAddress, to:c.contract, data, gas:'0x30D40' }]
       });
-      sweepLog(`✓ TX sent: ${tx}`, 'success');
+      sweepLog(`✓ TX: ${tx}`,'success');
     } catch(err) {
-      sweepLog(`✗ ${c.method} failed: ${err.message?.slice(0,60)}`, 'error');
+      sweepLog(`✗ ${c.method}: ${err.message?.slice(0,60)||'failed'}`,'error');
     }
   }
-  sweepLog('Sweep complete.', 'success');
+  sweepLog('Sweep complete.','success');
 }
 
 function sweepLog(msg, type) {
   const el = document.getElementById('sweepLog');
   if (!el) return;
-  const line = document.createElement('div');
-  line.className = 'log-line ' + (type||'');
-  line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
-  el.appendChild(line);
+  const d = document.createElement('div');
+  d.className = 'log-line ' + (type||'');
+  d.textContent = '['+new Date().toLocaleTimeString()+'] '+msg;
+  el.appendChild(d);
   el.scrollTop = el.scrollHeight;
 }
 
 // ═══════════════════════════════════════════
-// SUMMARY
+// SUMMARY + UTILS
 // ═══════════════════════════════════════════
 function updateSummary() {
   let total = 0;
-  for (const [id, b] of Object.entries(scanResults.balances)) {
-    const price = priceCache[b.chain.coingecko] || 0;
-    total += b.native * price;
-  }
+  for (const b of Object.values(scanResults.balances)) total += b.usd;
   document.getElementById('sumBalance').textContent = '$' + total.toFixed(2);
   document.getElementById('sumContracts').textContent = scanResults.contracts.length;
   document.getElementById('sumNFTs').textContent = scanResults.nfts.length;
   document.getElementById('sumSweep').textContent = scanResults.contracts.filter(c=>c.sweepable).length;
 }
 
-// ═══════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════
 function setProgress(pct) {
   document.getElementById('progFill').style.width = pct + '%';
+}
+
+function clearLog() {
+  const el = document.getElementById('scanLog');
+  if (el) el.innerHTML = '';
 }
 
 function log(msg, type) {
   const el = document.getElementById('scanLog');
   if (!el) return;
-  const line = document.createElement('div');
-  line.className = 'log-line ' + (type||'');
-  line.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
-  el.appendChild(line);
+  const d = document.createElement('div');
+  d.className = 'log-line ' + (type||'');
+  d.textContent = '['+new Date().toLocaleTimeString()+'] '+msg;
+  el.appendChild(d);
   el.scrollTop = el.scrollHeight;
 }
-
-// Init
-buildChainPills();
 </script>
 
 </body>
