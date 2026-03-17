@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SWEEP ENGINE V15</title>
+<title>SWEEP ENGINE V17</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
 :root {
@@ -111,6 +111,117 @@
 .agents-repo-link{display:block;padding:7px 14px;background:#21262d;border:1px solid #30363d;border-radius:6px;color:#79c0ff;text-decoration:none;font-size:12px;font-family:monospace;text-align:center;}
 .agents-repo-link:hover{border-color:#2f81f7;}
 @media(max-width:600px){.mm-grid{grid-template-columns:1fr;}.mm-xref-row{grid-template-columns:1fr;}}
+
+/* ═══ BOUNTY HUNTER ═══ */
+.tab[data-tab=“bounty”].active{color:var(–green);border-bottom-color:var(–green);text-shadow:0 0 8px rgba(0,255,136,0.4);}
+.bounty-header{background:linear-gradient(135deg,#001a08,#002510,#001a08);border:1px solid rgba(0,255,136,0.2);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
+.bounty-header::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(0,255,136,0.06) 0%,transparent 70%);pointer-events:none;}
+.bounty-header-title{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:900;color:var(–green);letter-spacing:4px;text-shadow:0 0 20px rgba(0,255,136,0.3);margin-bottom:4px;}
+.bounty-header-sub{font-size:9px;color:rgba(0,255,136,0.4);letter-spacing:2px;}
+.bounty-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:14px;}
+.bounty-chain-select{background:#020810;border:1px solid rgba(0,255,136,0.25);color:var(–green);font-family:‘Share Tech Mono’,monospace;font-size:11px;padding:7px 12px;outline:none;cursor:pointer;min-width:140px;}
+.bounty-chain-select option{background:#060d14;}
+.bounty-thresh{background:#020810;border:1px solid rgba(0,255,136,0.25);color:var(–green);font-family:‘Share Tech Mono’,monospace;font-size:11px;padding:7px 12px;outline:none;width:80px;}
+.bounty-scan-btn{padding:8px 22px;background:linear-gradient(135deg,#004d1a,var(–green),#004d1a);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:900;letter-spacing:3px;border:none;cursor:pointer;transition:all 0.2s;}
+.bounty-scan-btn:hover{box-shadow:0 0 20px rgba(0,255,136,0.4);transform:translateY(-1px);}
+.bounty-scan-btn:disabled{background:var(–dim);color:#555;cursor:not-allowed;transform:none;box-shadow:none;}
+.bounty-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px;}
+.bsum{background:var(–panel);border:1px solid var(–border);padding:12px 14px;}
+.bsum-label{font-size:9px;letter-spacing:2px;color:var(–dim2);margin-bottom:4px;}
+.bsum-val{font-family:‘Orbitron’,sans-serif;font-size:15px;font-weight:700;color:var(–green);}
+.bsum-val.warn{color:var(–yellow);}
+.bsum-val.hot{color:var(–orange);}
+.bounty-prog{height:2px;background:var(–dim);margin-bottom:14px;overflow:hidden;}
+.bounty-prog-fill{height:100%;background:linear-gradient(90deg,var(–green),var(–cyan),var(–green));width:0%;transition:width 0.4s;}
+.bounty-section{margin-bottom:16px;}
+.bounty-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;}
+.bounty-section-title{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;}
+.bounty-section-count{font-size:10px;padding:2px 8px;border-radius:10px;}
+.bounty-body{border:1px solid var(–border);border-top:none;}
+.bounty-row{display:flex;gap:10px;padding:11px 14px;border-bottom:1px solid var(–border);font-size:10px;flex-wrap:wrap;align-items:center;transition:background 0.15s;}
+.bounty-row:hover{background:rgba(0,255,136,0.025);}
+.bounty-row:last-child{border-bottom:none;}
+.bounty-badge{display:inline-block;padding:2px 8px;font-size:9px;letter-spacing:1px;border-radius:2px;flex-shrink:0;font-family:‘Orbitron’,sans-serif;font-weight:700;}
+.bounty-badge.stuck{background:rgba(255,204,0,0.15);color:var(–yellow);border:1px solid rgba(255,204,0,0.3);}
+.bounty-badge.failed{background:rgba(255,34,68,0.15);color:var(–red);border:1px solid rgba(255,34,68,0.3);}
+.bounty-badge.unclaimed{background:rgba(0,255,136,0.1);color:var(–green);border:1px solid rgba(0,255,136,0.2);}
+.bounty-badge.replace{background:rgba(255,107,0,0.15);color:var(–orange);border:1px solid rgba(255,107,0,0.3);}
+.bounty-addr{color:var(–cyan);font-size:10px;min-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bounty-val{font-family:‘Orbitron’,sans-serif;font-size:12px;font-weight:700;color:var(–green);white-space:nowrap;}
+.bounty-val.warn{color:var(–yellow);}
+.bounty-detail{font-size:9px;color:var(–dim2);flex:1;min-width:100px;}
+.bounty-action-btn{padding:5px 12px;font-family:‘Orbitron’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;border:none;cursor:pointer;transition:all 0.2s;border-radius:2px;white-space:nowrap;flex-shrink:0;}
+.bounty-action-btn.speed{background:var(–orange);color:#000;}
+.bounty-action-btn.speed:hover{box-shadow:0 0 10px rgba(255,107,0,0.4);}
+.bounty-action-btn.claim{background:var(–green);color:#000;}
+.bounty-action-btn.claim:hover{box-shadow:0 0 10px rgba(0,255,136,0.4);}
+.bounty-action-btn.copy{background:transparent;border:1px solid var(–dim2);color:var(–dim2);}
+.bounty-action-btn.copy:hover{border-color:var(–cyan);color:var(–cyan);}
+.bounty-empty{text-align:center;padding:40px;color:var(–dim2);font-size:11px;letter-spacing:2px;line-height:2;}
+.bounty-log{background:#020408;border:1px solid var(–border);padding:10px;height:80px;overflow-y:auto;font-size:9px;line-height:1.7;}
+.bounty-log-line{color:var(–dim2);}
+.bounty-log-line.ok{color:var(–green);}
+.bounty-log-line.hot{color:var(–orange);}
+.bounty-log-line.info{color:var(–cyan);}
+.bounty-log-line.warn{color:var(–yellow);}
+.tab.intel-tab.active{color:var(–red);border-bottom-color:var(–red);text-shadow:0 0 8px rgba(255,34,68,0.4);}
+.intel-header{background:linear-gradient(135deg,#0d0002,#140005,#0d0002);border:1px solid rgba(255,34,68,0.25);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
+.intel-header::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,34,68,0.06) 0%,transparent 70%);pointer-events:none;}
+.intel-header-title{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:900;color:var(–red);letter-spacing:4px;text-shadow:0 0 20px rgba(255,34,68,0.3);margin-bottom:4px;}
+.intel-header-sub{font-size:9px;color:rgba(255,34,68,0.4);letter-spacing:2px;}
+.intel-progress{background:var(–panel);border:1px solid var(–border);padding:14px;margin-bottom:14px;}
+.intel-progress-title{font-family:‘Orbitron’,sans-serif;font-size:10px;color:var(–cyan);letter-spacing:2px;margin-bottom:10px;}
+.intel-step{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:10px;}
+.intel-step-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;border:1px solid var(–dim2);}
+.intel-step-dot.running{background:var(–yellow);border-color:var(–yellow);animation:blink 0.8s infinite;}
+.intel-step-dot.done{background:var(–green);border-color:var(–green);}
+.intel-step-dot.fail{background:var(–red);border-color:var(–red);}
+.intel-step-dot.wait{background:transparent;}
+.intel-step-label{flex:1;color:var(–dim2);}
+.intel-step-label.running{color:var(–yellow);}
+.intel-step-label.done{color:var(–green);}
+.intel-step-count{font-size:9px;color:var(–dim2);}
+.intel-prog-bar{height:2px;background:var(–dim);margin-top:10px;overflow:hidden;}
+.intel-prog-fill{height:100%;background:linear-gradient(90deg,var(–red),var(–orange),var(–yellow));transition:width 0.4s;}
+.intel-section{margin-bottom:16px;}
+.intel-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;}
+.intel-section-title{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;}
+.intel-section-count{font-size:10px;padding:2px 8px;border-radius:10px;}
+.intel-body{border:1px solid var(–border);border-top:none;}
+.intel-row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid var(–border);font-size:10px;flex-wrap:wrap;align-items:center;transition:background 0.15s;}
+.intel-row:hover{background:rgba(255,34,68,0.025);}
+.intel-row:last-child{border-bottom:none;}
+.intel-badge{display:inline-block;padding:1px 7px;font-size:9px;letter-spacing:1px;border-radius:2px;flex-shrink:0;}
+.intel-badge.unverified{background:rgba(255,34,68,0.15);color:var(–red);border:1px solid rgba(255,34,68,0.3);}
+.intel-badge.verified{background:rgba(0,255,136,0.1);color:var(–green);border:1px solid rgba(0,255,136,0.2);}
+.intel-badge.approval{background:rgba(255,204,0,0.15);color:var(–yellow);border:1px solid rgba(255,204,0,0.3);}
+.intel-badge.infinite{background:rgba(255,34,68,0.2);color:var(–red);border:1px solid rgba(255,34,68,0.4);}
+.intel-badge.internal{background:rgba(0,212,255,0.1);color:var(–cyan);border:1px solid rgba(0,212,255,0.2);}
+.intel-badge.incoming{background:rgba(168,85,247,0.15);color:var(–purple);border:1px solid rgba(168,85,247,0.3);}
+.intel-addr{color:var(–cyan);font-size:10px;flex:1;min-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.intel-name{color:var(–text);font-size:10px;}
+.intel-val{font-family:‘Orbitron’,sans-serif;font-size:10px;color:var(–yellow);}
+.intel-revoke-btn{padding:4px 10px;background:var(–red);color:#fff;font-family:‘Orbitron’,sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;border:none;cursor:pointer;transition:all 0.2s;border-radius:2px;flex-shrink:0;}
+.intel-revoke-btn:hover{box-shadow:0 0 10px rgba(255,34,68,0.4);}
+.intel-revoke-btn:disabled{background:var(–dim);cursor:not-allowed;color:#555;}
+.intel-revoke-all-btn{padding:7px 18px;background:var(–red);color:#fff;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;}
+.intel-revoke-all-btn:hover{box-shadow:0 0 16px rgba(255,34,68,0.4);}
+.intel-approve-btn{padding:7px 18px;background:var(–green);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;}
+.intel-approve-btn:hover{box-shadow:0 0 16px rgba(0,255,136,0.4);}
+.intel-empty{text-align:center;padding:28px;color:var(–dim2);font-size:10px;letter-spacing:2px;}
+.intel-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px;}
+.intel-sum{background:var(–panel);border:1px solid var(–border);padding:12px 14px;}
+.intel-sum-label{font-size:9px;letter-spacing:2px;color:var(–dim2);margin-bottom:4px;}
+.intel-sum-val{font-family:‘Orbitron’,sans-serif;font-size:15px;font-weight:700;}
+.intel-sum-val.danger{color:var(–red);}
+.intel-sum-val.warn{color:var(–yellow);}
+.intel-sum-val.ok{color:var(–green);}
+.intel-log{background:#020408;border:1px solid var(–border);padding:10px;height:80px;overflow-y:auto;font-size:9px;line-height:1.7;}
+.intel-log-line{color:var(–dim2);}
+.intel-log-line.ok{color:var(–green);}
+.intel-log-line.err{color:var(–red);}
+.intel-log-line.info{color:var(–cyan);}
+.intel-log-line.warn{color:var(–yellow);}
 
 /* ═══ MONEY FINDER ═══ */
 .tab.money-tab{color:rgba(255,215,0,0.5);}
@@ -516,7 +627,7 @@ pointer-events:none;z-index:0;}
 <div class="hdr">
   <div class="logo">SWEEP<em>ENGINE</em></div>
   <div class="hdr-right">
-    <div class="version-badge">V15 · 13 CHAINS + APTOS</div>
+    <div class="version-badge">V17 · BOUNTY HUNTER</div>
     <div class="live-dot" id="liveDot"></div>
     <div class="addr-badge" id="addrBadge">NOT CONNECTED</div>
   </div>
@@ -534,6 +645,8 @@ pointer-events:none;z-index:0;}
   <button class="tab" data-tab="sweep" onclick="showTab('sweep',this)">💰 SWEEP</button>
   <button class="tab sol-tab" data-tab="solana" onclick="showTab('solana',this)">◎ SOLANA</button>
   <button class="tab verify-tab" data-tab="verify" onclick="showTab('verify',this)">✅ VERIFY</button>
+  <button class="tab intel-tab" data-tab="intel" onclick="showTab('intel',this)">🔴 INTEL</button>
+  <button class="tab" data-tab="bounty" onclick="showTab('bounty',this)" style="color:rgba(0,255,136,0.5);" id="bountyTabBtn">💎 BOUNTY</button>
   <button class="tab mm-tab" data-tab="metamask" onclick="showTab('metamask',this);renderMMTab()">🦊 METAMASK</button>
   <button class="tab agents-tab" data-tab="agents" onclick="showTab('agents',this)">🚀 AGENTS</button>
   <button class="tab rpc-tab" data-tab="rpc" onclick="showTab('rpc',this);initRpcExplorer()">📡 RPC</button>
@@ -901,6 +1014,95 @@ explorerUrl: ‘https://www.oklink.com/’
 
 </div><!-- /tab-verify -->
 
+<!-- ══════════════ BOUNTY HUNTER TAB ══════════════ -->
+
+<div class="tab-content" id="tab-bounty">
+  <div class="bounty-header">
+    <div class="bounty-header-title">💎 BOUNTY HUNTER</div>
+    <div class="bounty-header-sub">CHAIN-WIDE · STUCK PENDING · FAILED WITH VALUE · UNCLAIMED REWARDS · REPLACEMENT OPPORTUNITIES · $10+ THRESHOLD</div>
+  </div>
+
+  <div class="bounty-controls">
+    <select class="bounty-chain-select" id="bountyChain">
+      <option value="eth">Ethereum</option>
+      <option value="arb">Arbitrum</option>
+      <option value="base">Base</option>
+      <option value="op">Optimism</option>
+      <option value="poly">Polygon</option>
+      <option value="bsc">BNB Chain</option>
+      <option value="avax">Avalanche</option>
+      <option value="ftm">Fantom</option>
+      <option value="sonic">Sonic</option>
+    </select>
+    <div style="font-size:9px;color:var(--dim2);letter-spacing:1px;">MIN VALUE $</div>
+    <input class="bounty-thresh" id="bountyThresh" type="number" value="10" min="1"/>
+    <button class="bounty-scan-btn" id="btnBounty" onclick="runBountyHunter()">💎 HUNT BOUNTIES</button>
+    <div style="font-size:9px;color:var(--dim2);letter-spacing:1px;max-width:300px;line-height:1.7;">SCANS PENDING POOL · LAST 50 BLOCKS · KNOWN BOUNTY CONTRACTS · REPLACEMENT CANDIDATES</div>
+  </div>
+
+  <div class="bounty-prog"><div class="bounty-prog-fill" id="bountyProgFill"></div></div>
+
+  <div class="bounty-summary">
+    <div class="bsum"><div class="bsum-label">STUCK PENDING</div><div class="bsum-val warn" id="bsumStuck">—</div></div>
+    <div class="bsum"><div class="bsum-label">FAILED W/ VALUE</div><div class="bsum-val" style="color:var(--red)" id="bsumFailed">—</div></div>
+    <div class="bsum"><div class="bsum-label">UNCLAIMED</div><div class="bsum-val" id="bsumUnclaimed">—</div></div>
+    <div class="bsum"><div class="bsum-label">REPLACEABLE</div><div class="bsum-val hot" id="bsumReplace">—</div></div>
+    <div class="bsum"><div class="bsum-label">TOTAL VALUE</div><div class="bsum-val" id="bsumTotal">—</div></div>
+  </div>
+
+  <div id="bountyResults">
+    <div class="bounty-empty">SELECT A CHAIN AND HIT 💎 HUNT BOUNTIES<br><span style="font-size:9px;color:var(--dim)">SCANS ENTIRE CHAIN · NOT WALLET-SPECIFIC · $10+ ONLY</span></div>
+  </div>
+
+  <div style="font-family:'Orbitron',sans-serif;font-size:9px;color:var(--green);letter-spacing:2px;margin:12px 0 6px;">BOUNTY LOG</div>
+  <div class="bounty-log" id="bountyLog"><div class="bounty-log-line">// bounty hunter ready</div></div>
+</div>
+
+<!-- ══════════════ INTEL TAB ══════════════ -->
+
+<div class="tab-content" id="tab-intel">
+  <div class="intel-header">
+    <div class="intel-header-title">🔴 INTEL ENGINE</div>
+    <div class="intel-header-sub">ABI DECODE · VERIFICATION STATUS · TOKEN APPROVALS · INTERNAL TXS · INCOMING TRANSFERS · AUTO-RUN ON SCAN</div>
+  </div>
+
+  <!-- SUMMARY -->
+
+  <div class="intel-summary-grid" id="intelSummary">
+    <div class="intel-sum"><div class="intel-sum-label">UNVERIFIED CONTRACTS</div><div class="intel-sum-val danger" id="intelUnverified">—</div></div>
+    <div class="intel-sum"><div class="intel-sum-label">ACTIVE APPROVALS</div><div class="intel-sum-val warn" id="intelApprovals">—</div></div>
+    <div class="intel-sum"><div class="intel-sum-label">INFINITE APPROVALS</div><div class="intel-sum-val danger" id="intelInfinite">—</div></div>
+    <div class="intel-sum"><div class="intel-sum-label">INTERNAL TXS</div><div class="intel-sum-val ok" id="intelInternal">—</div></div>
+    <div class="intel-sum"><div class="intel-sum-label">INCOMING TRANSFERS</div><div class="intel-sum-val ok" id="intelIncoming">—</div></div>
+  </div>
+
+  <!-- PROGRESS (shown during scan) -->
+
+  <div class="intel-progress" id="intelProgressPanel" style="display:none">
+    <div class="intel-progress-title">⚙ INTEL ENGINE RUNNING</div>
+    <div id="intelSteps"></div>
+    <div class="intel-prog-bar"><div class="intel-prog-fill" id="intelProgFill" style="width:0%"></div></div>
+  </div>
+
+  <!-- APPROVAL ACTION BAR -->
+
+  <div id="intelActionBar" style="display:none;margin-bottom:14px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;">
+    <button class="intel-revoke-all-btn" onclick="intelRevokeAll()">⚠ REVOKE ALL INFINITE APPROVALS</button>
+    <div style="font-size:9px;color:var(--dim2);letter-spacing:1px;">Requires wallet connection · Sends revoke tx for each infinite approval</div>
+  </div>
+
+  <!-- RESULTS -->
+
+  <div id="intelResults">
+    <div class="intel-empty">RUN SCAN FIRST — INTEL ENGINE AUTO-RUNS AFTER PHASE 2 COMPLETES</div>
+  </div>
+
+  <!-- LOG -->
+
+  <div style="font-family:'Orbitron',sans-serif;font-size:9px;color:var(--red);letter-spacing:2px;margin:12px 0 6px;">INTEL LOG</div>
+  <div class="intel-log" id="intelLog"><div class="intel-log-line">// intel engine ready</div></div>
+</div>
+
 <!-- ══════════════ METAMASK TAB ══════════════ -->
 
 <div class="tab-content" id="tab-metamask">
@@ -1128,7 +1330,7 @@ function buildChainGrid(){
 // ═══════════════════════════════════════════
 // EVM SCAN ENGINE
 // ═══════════════════════════════════════════
-async function runScan(){if(!connectedAddress||scanRunning)return;scanRunning=true;scanResults={balances:{},contracts:[],nfts:[],sweepable:[]};document.getElementById('btnScan').disabled=true;buildChainGrid();clearLog();log('Starting EVM scan · '+connectedAddress,'info');setProgress(5);const chains=CHAINS.filter(c=>activeChains.has(c.id));let done=0;await Promise.all(chains.map(async chain=>{const card=document.getElementById('cc-'+chain.id);if(card)card.classList.add('loading');try{const[bal,txs,price]=await Promise.all([getNativeBalance(chain),getTransactions(chain),getPrice(chain.coingecko)]);scanResults.balances[chain.id]={native:bal,usd:bal*price,chain};const chainContracts=parseContracts(txs,chain);scanResults.contracts.push(...chainContracts);if(chain.id==='eth'){const nfts=await getNFTs(chain);scanResults.nfts.push(...nfts);}const usd=bal*price;if(card){card.classList.remove('loading');if(bal>0.000001)card.classList.add('has-balance');card.innerHTML=`<div class="cc-top"><div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div><div><div class="cc-name" style="color:${chain.color}">${chain.name}</div><div class="cc-network">CHAIN ID: ${chain.chainId}</div></div></div><div class="cc-bal" style="color:${bal>0?'var(--green)':'var(--dim2)'}">${bal>0?bal.toFixed(6):'0.000000'} ${chain.symbol}</div><div class="cc-usd">${usd>0.01?'$'+usd.toFixed(2):'< $0.01'}</div><div class="cc-status" style="color:var(--green)">✓ ${txs.length} txs · ${chainContracts.length} contracts</div>`;log(chain.name+': '+bal.toFixed(6)+' '+chain.symbol+' ($'+usd.toFixed(2)+') — '+txs.length+' txs',bal>0?'success':'info');}}catch(err){if(card){card.classList.remove('loading');card.innerHTML=`<div class="cc-top"><div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div><div><div class="cc-name" style="color:${chain.color}">${chain.name}</div></div></div><div class="cc-usd" style="color:var(--red)">✗ ${err.message?.slice(0,40)||'error'}</div>`;}log(chain.name+' error: '+(err.message||'unknown'),'error');}done++;setProgress(5+(done/chains.length)*90);}));setProgress(100);updateSummary();renderContracts();renderNFTs();renderSweepQueue();log('Phase 2: tokens · LP · rewards · staked · NFT floors...','info');const[tokenResults,lpResults,rewardResults,stakedResults]=await Promise.all([(async()=>{const all=[];await Promise.all(chains.filter(c=>['eth','bsc','arb','poly','op','base'].includes(c.id)).map(async c=>{const t=await getERC20Tokens(c);all.push(...t);}));return all;})(),getAllLPPositions(chains),getPendingRewards(chains),getStakedBalances(chains)]);scanResults.tokens=tokenResults;scanResults.lp=lpResults;scanResults.rewards=rewardResults;scanResults.staked=stakedResults;if(scanResults.nfts.length>0){log('Fetching live NFT floor prices...','info');scanResults.nfts=await enrichNFTFloors(scanResults.nfts);renderNFTs();}buildFullSweepQueue();updateSummary();renderStaked();renderTokens();renderLP();scanRunning=false;document.getElementById('btnScan').disabled=false;const totalVal=(scanResults.tokens||[]).reduce((s,t)=>s+t.usd,0)+(scanResults.staked||[]).reduce((s,p)=>s+p.usd,0)+(scanResults.rewards||[]).reduce((s,r)=>s+r.usd,0);log('V13 complete — '+scanResults.contracts.length+' contracts · '+(scanResults.tokens||[]).length+' tokens · '+(scanResults.lp||[]).length+' LP · '+(scanResults.rewards||[]).length+' rewards · $'+totalVal.toFixed(2)+' total','success');}
+async function runScan(){if(!connectedAddress||scanRunning)return;scanRunning=true;scanResults={balances:{},contracts:[],nfts:[],sweepable:[]};document.getElementById('btnScan').disabled=true;buildChainGrid();clearLog();log('Starting EVM scan · '+connectedAddress,'info');setProgress(5);const chains=CHAINS.filter(c=>activeChains.has(c.id));let done=0;await Promise.all(chains.map(async chain=>{const card=document.getElementById('cc-'+chain.id);if(card)card.classList.add('loading');try{const[bal,txs,price]=await Promise.all([getNativeBalance(chain),getTransactions(chain),getPrice(chain.coingecko)]);scanResults.balances[chain.id]={native:bal,usd:bal*price,chain};const chainContracts=parseContracts(txs,chain);scanResults.contracts.push(...chainContracts);if(chain.id==='eth'){const nfts=await getNFTs(chain);scanResults.nfts.push(...nfts);}const usd=bal*price;if(card){card.classList.remove('loading');if(bal>0.000001)card.classList.add('has-balance');card.innerHTML=`<div class="cc-top"><div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div><div><div class="cc-name" style="color:${chain.color}">${chain.name}</div><div class="cc-network">CHAIN ID: ${chain.chainId}</div></div></div><div class="cc-bal" style="color:${bal>0?'var(--green)':'var(--dim2)'}">${bal>0?bal.toFixed(6):'0.000000'} ${chain.symbol}</div><div class="cc-usd">${usd>0.01?'$'+usd.toFixed(2):'< $0.01'}</div><div class="cc-status" style="color:var(--green)">✓ ${txs.length} txs · ${chainContracts.length} contracts</div>`;log(chain.name+': '+bal.toFixed(6)+' '+chain.symbol+' ($'+usd.toFixed(2)+') — '+txs.length+' txs',bal>0?'success':'info');}}catch(err){if(card){card.classList.remove('loading');card.innerHTML=`<div class="cc-top"><div class="cc-icon" style="background:${chain.color}22;color:${chain.color}">${chain.icon}</div><div><div class="cc-name" style="color:${chain.color}">${chain.name}</div></div></div><div class="cc-usd" style="color:var(--red)">✗ ${err.message?.slice(0,40)||'error'}</div>`;}log(chain.name+' error: '+(err.message||'unknown'),'error');}done++;setProgress(5+(done/chains.length)*90);}));setProgress(100);updateSummary();renderContracts();renderNFTs();renderSweepQueue();log('Phase 2: tokens · LP · rewards · staked · NFT floors...','info');const[tokenResults,lpResults,rewardResults,stakedResults]=await Promise.all([(async()=>{const all=[];await Promise.all(chains.filter(c=>['eth','bsc','arb','poly','op','base'].includes(c.id)).map(async c=>{const t=await getERC20Tokens(c);all.push(...t);}));return all;})(),getAllLPPositions(chains),getPendingRewards(chains),getStakedBalances(chains)]);scanResults.tokens=tokenResults;scanResults.lp=lpResults;scanResults.rewards=rewardResults;scanResults.staked=stakedResults;if(scanResults.nfts.length>0){log('Fetching live NFT floor prices...','info');scanResults.nfts=await enrichNFTFloors(scanResults.nfts);renderNFTs();}buildFullSweepQueue();updateSummary();renderStaked();renderTokens();renderLP();scanRunning=false;document.getElementById('btnScan').disabled=false;const totalVal=(scanResults.tokens||[]).reduce((s,t)=>s+t.usd,0)+(scanResults.staked||[]).reduce((s,p)=>s+p.usd,0)+(scanResults.rewards||[]).reduce((s,r)=>s+r.usd,0);log('V16 complete — '+scanResults.contracts.length+' contracts · '+(scanResults.tokens||[]).length+' tokens · '+(scanResults.lp||[]).length+' LP · '+(scanResults.rewards||[]).length+' rewards · $'+totalVal.toFixed(2)+' total','success');intelLog('Starting Intel engine...','info');runIntelEngine();}
 
 async function fetchWithTimeout(url,opts={},ms=10000){const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),ms);try{const r=await fetch(url,{...opts,signal:ctrl.signal});clearTimeout(timer);return r;}catch(e){clearTimeout(timer);throw e;}}
 async function getNativeBalance(chain){const body=JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[connectedAddress,'latest'],id:1});const r=await fetchWithTimeout(chain.rpc,{method:'POST',headers:{'Content-Type':'application/json'},body});const d=await r.json();if(d.error)throw new Error(d.error.message||'RPC error');if(!d.result)return 0;return parseInt(d.result,16)/1e18;}
@@ -1141,7 +1343,7 @@ async function getNFTs(chain){try{const url=`${chain.explorer}?module=account&ac
 const METHOD_SIGS={'0xa9059cbb':'transfer()','0x095ea7b3':'approve()','0x23b872dd':'transferFrom()','0x38ed1739':'swapExactTokensForTokens()','0x7ff36ab5':'swapExactETHForTokens()','0x18cbafe5':'swapExactTokensForETH()','0xd0e30db0':'deposit()','0x2e1a7d4d':'withdraw()','0x3593564c':'execute() [Uni V3]','0xac9650d8':'multicall()','0x5ae401dc':'multicall() [V3]','0x414bf389':'exactInputSingle()','0xe8e33700':'addLiquidity()','0xf305d719':'addLiquidityETH()','0xbaa2abde':'removeLiquidity()','0xa694fc3a':'stake()','0x3d18b912':'getReward()','0xe9fad8ee':'exit()','0x853828b6':'withdrawAll()','0x4e71d92d':'claim()','0x3ccfd60b':'withdraw()'};
 const SWEEPABLE_METHODS=new Set(['withdraw()','withdrawAll()','getReward()','exit()','claim()']);
 function parseContracts(txs,chain){return txs.filter(tx=>tx.to&&tx.input&&tx.input!=='0x').map(tx=>{const isOut=tx.from.toLowerCase()===connectedAddress.toLowerCase();const isFail=tx.isError==='1';const sig=tx.input.slice(0,10);const method=METHOD_SIGS[sig]||sig;const type=isFail?'FAILED':isOut?'EXECUTE':'CALL';return{chain:chain.id,chainName:chain.name,contract:tx.to,method,type,sweepable:SWEEPABLE_METHODS.has(method),value:parseInt(tx.value||'0')/1e18,timeStamp:tx.timeStamp,hash:tx.hash,isFail};});}
-function renderContracts(){const el=document.getElementById('contractsContent');if(!scanResults.contracts.length){el.innerHTML='<div class="empty-state">NO CONTRACT INTERACTIONS FOUND</div>';return;}const sections=[['💰 SWEEPABLE',scanResults.contracts.filter(c=>c.sweepable),'sweep'],['⚡ EXECUTES',scanResults.contracts.filter(c=>c.type==='EXECUTE'&&!c.sweepable),'exec'],['📡 CALLS',scanResults.contracts.filter(c=>c.type==='CALL'),'call'],['❌ FAILED',scanResults.contracts.filter(c=>c.type==='FAILED'),'fail']];el.innerHTML=sections.map(([title,items,tag])=>{if(!items.length)return'';const rows=items.slice(0,25).map(c=>{const time=c.timeStamp?new Date(c.timeStamp*1000).toLocaleDateString():'?';return`<div class="result-row"><span class="tag tag-${tag}">${tag.toUpperCase()}</span><span class="addr-short">${c.contract.slice(0,10)}...${c.contract.slice(-6)}</span><span class="tx-method">${c.method}</span><span style="color:var(--cyan);font-size:9px">[${c.chainName}]</span><span class="tx-time">${time}</span>${c.value>0?`<span class="mono-val">${c.value.toFixed(4)}</span>`:''}</div>`;}).join('');return`<div class="results-section"><div class="rs-header"><span class="rs-title">${title}</span><span class="rs-count">${items.length}</span></div><div class="rs-body">${rows}</div></div>`;}).join('');}
+function renderContracts(){const el=document.getElementById('contractsContent');if(!scanResults.contracts.length){el.innerHTML='<div class="empty-state">NO CONTRACT INTERACTIONS FOUND</div>';return;}const sections=[['💰 SWEEPABLE',scanResults.contracts.filter(c=>c.sweepable),'sweep'],['⚡ EXECUTES',scanResults.contracts.filter(c=>c.type==='EXECUTE'&&!c.sweepable),'exec'],['📡 CALLS',scanResults.contracts.filter(c=>c.type==='CALL'),'call'],['❌ FAILED',scanResults.contracts.filter(c=>c.type==='FAILED'),'fail']];el.innerHTML=sections.map(([title,items,tag])=>{if(!items.length)return'';const rows=items.slice(0,25).map(c=>{const time=c.timeStamp?new Date(c.timeStamp*1000).toLocaleDateString():'?';const verBadge=c.verified===false?`<span style="font-size:8px;padding:1px 5px;background:rgba(255,34,68,0.15);color:var(--red);border-radius:2px;border:1px solid rgba(255,34,68,0.3)">⚠ UNVERIFIED</span>`:c.verified===true?`<span style="font-size:8px;padding:1px 5px;background:rgba(0,255,136,0.1);color:var(--green);border-radius:2px;border:1px solid rgba(0,255,136,0.2)">✓</span>`:'';const socialBadge=c.socialTrusted===true?`<span style="font-size:8px;padding:1px 5px;background:rgba(0,255,136,0.12);color:var(--green);border-radius:2px;border:1px solid rgba(0,255,136,0.25)">🤝${c.socialScore}%</span>`:c.honeypotRisk?`<span style="font-size:8px;padding:1px 5px;background:rgba(255,34,68,0.2);color:var(--red);border-radius:2px;border:1px solid rgba(255,34,68,0.4)">⚠HONEYPOT</span>`:c.socialTrusted===false?`<span style="font-size:8px;padding:1px 5px;background:rgba(255,204,0,0.1);color:var(--yellow);border-radius:2px;">LOW TRUST</span>`:'';const proxyBadge=c.isProxy&&c.proxyImplName?`<span style="font-size:8px;padding:1px 5px;background:rgba(168,85,247,0.12);color:var(--purple);border-radius:2px;">${c.proxyImplName}</span>`:'';const name=c.contractName?`<span style="color:var(--text);font-size:10px">${c.contractName}</span>`:'';return`<div class="result-row"><span class="tag tag-${tag}">${tag.toUpperCase()}</span><span class="addr-short">${c.contract.slice(0,10)}...${c.contract.slice(-6)}</span>${name}${verBadge}${socialBadge}${proxyBadge}<span class="tx-method">${c.method}</span><span style="color:var(--cyan);font-size:9px">[${c.chainName}]</span><span class="tx-time">${time}</span>${c.value>0?`<span class="mono-val">${c.value.toFixed(4)}</span>`:''}</div>`;}).join('');return`<div class="results-section"><div class="rs-header"><span class="rs-title">${title}</span><span class="rs-count">${items.length}</span></div><div class="rs-body">${rows}</div></div>`;}).join('');}
 function renderNFTs(){const el=document.getElementById('nftsContent');const nfts=scanResults.nfts;if(!nfts.length){el.innerHTML='<div class="empty-state">NO NFTs FOUND</div>';return;}const valuable=nfts.filter(n=>n.valuable);let html='';if(valuable.length){html+=`<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--yellow);letter-spacing:2px;margin-bottom:10px;">⭐ HIGH VALUE (${valuable.length})</div>`;html+='<div class="nft-grid">'+valuable.map(nftCard).join('')+'</div><div style="height:20px"></div>';}html+=`<div style="font-family:Orbitron,sans-serif;font-size:11px;color:var(--dim2);letter-spacing:2px;margin-bottom:10px;">ALL NFTs (${nfts.length})</div>`;html+='<div class="nft-grid">'+nfts.map(nftCard).join('')+'</div>';el.innerHTML=html;}
 function nftCard(nft){const floor=nft.floorEth?`<span class="val">${nft.floorEth} ETH</span>`:'<span style="color:var(--dim2)">—</span>';return`<div class="nft-card ${nft.valuable?'valuable':''}"><div class="nft-img">🖼</div><div class="nft-info"><div class="nft-name">#${nft.tokenId}</div><div class="nft-collection">${nft.collection}</div><div class="nft-floor">${floor}</div></div></div>`;}
 function renderSweepQueue(){const sweepable=scanResults.contracts.filter(c=>c.sweepable);scanResults.sweepable=sweepable;if(!sweepable.length){document.getElementById('sweepContent').innerHTML=`<div class="empty-state">SCANNING FOR SWEEPABLE POSITIONS...<br><span style="font-size:9px">PHASE 2 WILL ADD STAKED · LP · REWARDS</span></div>`;return;}buildFullSweepQueue();}
@@ -1421,8 +1623,1018 @@ function copyCD(){const el=document.getElementById('calldataBox');if(el)navigato
 function safeLog(msg,type){const el=document.getElementById('safeLog');if(!el)return;const d=document.createElement('div');d.className='log-line '+(type==='info'?'safe':type||'');d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;el.appendChild(d);el.scrollTop=el.scrollHeight;}
 
 // ═══════════════════════════════════════════
-// METAMASK TAB
+// BOUNTY HUNTER ENGINE — CHAIN-WIDE
+// Stuck pending · Failed w/ value · Unclaimed rewards · Replacement ops
 // ═══════════════════════════════════════════
+const BOUNTY_CONTRACTS = {
+  eth: [
+    {name:'Uniswap V2 Router',address:'0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'},
+    {name:'Uniswap V3 Router',address:'0xE592427A0AEce92De3Edee1F18E0157C05861564'},
+    {name:'1inch v5',address:'0x1111111254EEB25477B68fb85Ed929f73A960582'},
+    {name:'Curve 3pool',address:'0xbEbc44782C7dB0a1A60Cb6fe97d0b483032FF1C7'},
+    {name:'Convex Booster',address:'0xF403C135812408BFbE8713b5A23a04b3D48AAE31'},
+    {name:'Aave v3 Pool',address:'0x87870Bca3F3fD6335C3F4ce8392D69350B4fA4E2'},
+    {name:'Lido stETH',address:'0xae7ab96520DE3A18E5e111B5EaAb095312D7fE84'},
+    {name:'Compound cETH',address:'0x4Ddc2D193948926D02f9B1fE9e1daa0718270ED5'},
+    {name:'MakerDAO DSS',address:'0x9759A6Ac90977b93B58547b4A71c78317f391A28'},
+    {name:'Balancer Vault',address:'0xBA12222222228d8Ba445958a75a0704d566BF2C8'},
+    {name:'GMX Vault',address:'0x489ee077994B6658eAfA855C308275EAd8097C4A'},
+    {name:'Yearn Registry',address:'0x50c1a2eA0a861A967D9d0FFE2AE4012c2E053804'},
+    {name:'Morpho Blue',address:'0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb'},
+    {name:'Eigen Staking',address:'0x858646372CC42E1A627fcE94aa7A7033e7CF075A'},
+  ],
+  arb: [
+    {name:'GMX Vault ARB',address:'0x489ee077994B6658eAfA855C308275EAd8097C4A'},
+    {name:'Camelot Router',address:'0xc873fEcbd354f5A56E00E710B90EF4201db2448d'},
+    {name:'Radiant Lending',address:'0xF4B1486DD74D07706052A33d31d7c0AAFD0659E1'},
+  ],
+  base: [
+    {name:'Aerodrome Router',address:'0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43'},
+    {name:'Moonwell Comptroller',address:'0xfBb21d0380beE3312B33c4353c8936a0F13EF26C'},
+  ],
+  op: [
+    {name:'Velodrome Router',address:'0xa132DAB612dB5cB9fC9Ac426A0Cc215A3423F9c9'},
+    {name:'Aave v3 OP',address:'0x794a61358D6845594F94dc1DB02A252b5b4814aD'},
+  ],
+  poly: [
+    {name:'QuickSwap Router',address:'0xa5E0829CaCEd8fFDD4De3c43696c57F7D7A678ff'},
+    {name:'Aave v3 POLY',address:'0x794a61358D6845594F94dc1DB02A252b5b4814aD'},
+  ],
+  bsc: [
+    {name:'PancakeSwap Router',address:'0x10ED43C718714eb63d5aA57B78B54704E256024E'},
+    {name:'Venus Comptroller',address:'0xfD36E2c2a6789Db23113685031d7F16329158384'},
+  ],
+  avax: [{name:'Trader Joe Router',address:'0x60aE616a2155Ee3d9A68541Ba4544862310933d4'}],
+  ftm:  [{name:'SpookySwap Router',address:'0xF491e7B69E4244ad4002BC14e878a34207E38c29'}],
+  sonic:[{name:'Sonic DEX',address:'0x0000000000000000000000000000000000000000'}],
+};
+
+let bountyRunning = false;
+
+function bountyLog(msg, type='') {
+  const el = document.getElementById('bountyLog');
+  if (!el) return;
+  const d = document.createElement('div');
+  d.className = 'bounty-log-line ' + type;
+  d.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.appendChild(d); el.scrollTop = el.scrollHeight;
+}
+
+function setBountyProg(pct) {
+  const el = document.getElementById('bountyProgFill');
+  if (el) el.style.width = pct + '%';
+}
+
+async function runBountyHunter() {
+  if (bountyRunning) return;
+  bountyRunning = true;
+  const btn = document.getElementById('btnBounty');
+  btn.disabled = true;
+  btn.textContent = '⏳ HUNTING...';
+
+  const chainId = document.getElementById('bountyChain').value;
+  const minUSD = parseFloat(document.getElementById('bountyThresh').value) || 10;
+  const chain = CHAINS.find(c => c.id === chainId);
+  if (!chain) { bountyRunning = false; btn.disabled = false; btn.textContent = '💎 HUNT BOUNTIES'; return; }
+
+  document.getElementById('bountyResults').innerHTML = '';
+  setBountyProg(0);
+  bountyLog('Starting bounty hunt on ' + chain.name + ' · min $' + minUSD, 'info');
+
+  const ethPrice = await getPrice(chain.coingecko);
+  bountyLog(chain.symbol + ' price: $' + ethPrice.toFixed(2), 'info');
+
+  const found = { stuck:[], failed:[], unclaimed:[], replace:[] };
+
+  // ─── ENGINE 1: Pending mempool — sample pending block ───
+  setBountyProg(5);
+  bountyLog('Engine 1: Sampling pending mempool...', 'info');
+  try {
+    // Get current base fee from latest block
+    const latestBody = JSON.stringify({jsonrpc:'2.0',method:'eth_getBlockByNumber',params:['latest',false],id:1});
+    const latestR = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:latestBody}, 10000);
+    const latestD = await latestR.json();
+    const baseFeeHex = latestD.result?.baseFeePerGas || '0x0';
+    const baseFee = parseInt(baseFeeHex, 16); // in wei
+    const currentBlock = parseInt(latestD.result?.number || '0x0', 16);
+
+    // Get pending block txs
+    const pendingBody = JSON.stringify({jsonrpc:'2.0',method:'eth_getBlockByNumber',params:['pending',true],id:2});
+    const pendingR = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:pendingBody}, 12000);
+    const pendingD = await pendingR.json();
+    const pendingTxs = pendingD.result?.transactions || [];
+
+    bountyLog('Pending txs sampled: ' + pendingTxs.length, 'info');
+
+    for (const tx of pendingTxs.slice(0, 200)) {
+      const value = parseInt(tx.value || '0x0', 16) / 1e18;
+      const usd = value * ethPrice;
+      if (usd < minUSD) continue;
+
+      const gasPrice = parseInt(tx.gasPrice || tx.maxFeePerGas || '0x0', 16);
+      const isUnderpriced = baseFee > 0 && gasPrice < baseFee * 0.9;
+      const maxFee = parseInt(tx.maxFeePerGas || '0x0', 16);
+      const isReplaceable = isUnderpriced || (maxFee > 0 && maxFee < baseFee);
+
+      if (isReplaceable) {
+        found.replace.push({
+          hash: tx.hash,
+          from: tx.from,
+          to: tx.to,
+          value, usd,
+          gasPrice: (gasPrice / 1e9).toFixed(2),
+          baseFee: (baseFee / 1e9).toFixed(2),
+          nonce: parseInt(tx.nonce || '0x0', 16),
+          chain: chain.id, chainName: chain.name, symbol: chain.symbol,
+        });
+        bountyLog('⚡ Replaceable: ' + tx.hash?.slice(0,12) + ' · $' + usd.toFixed(2) + ' · gas ' + (gasPrice/1e9).toFixed(1) + ' vs base ' + (baseFee/1e9).toFixed(1) + ' gwei', 'hot');
+      } else {
+        // Stuck: has value but gas is normal — been pending too long
+        found.stuck.push({
+          hash: tx.hash,
+          from: tx.from,
+          to: tx.to,
+          value, usd,
+          gasPrice: (gasPrice / 1e9).toFixed(2),
+          nonce: parseInt(tx.nonce || '0x0', 16),
+          chain: chain.id, chainName: chain.name, symbol: chain.symbol,
+        });
+      }
+    }
+    bountyLog('Engine 1 done: ' + found.stuck.length + ' stuck · ' + found.replace.length + ' replaceable', 'ok');
+  } catch (e) {
+    bountyLog('Engine 1 error: ' + e.message, 'warn');
+  }
+
+  // ─── ENGINE 2: Failed txs with value in last 50 blocks ───
+  setBountyProg(30);
+  bountyLog('Engine 2: Scanning recent failed txs with value...', 'info');
+  try {
+    const latestBody2 = JSON.stringify({jsonrpc:'2.0',method:'eth_blockNumber',params:[],id:1});
+    const latestR2 = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:latestBody2}, 8000);
+    const latestD2 = await latestR2.json();
+    const latestBlock = parseInt(latestD2.result || '0x0', 16);
+
+    // Scan last 20 blocks (50 would be too slow)
+    const blockPromises = [];
+    for (let i = 0; i < 20; i++) {
+      const blockNum = '0x' + (latestBlock - i).toString(16);
+      blockPromises.push(
+        fetchWithTimeout(chain.rpc, {
+          method: 'POST',
+          headers: {'Content-Type':'application/json'},
+          body: JSON.stringify({jsonrpc:'2.0',method:'eth_getBlockByNumber',params:[blockNum,true],id:i+10})
+        }, 8000).then(r => r.json()).catch(() => null)
+      );
+    }
+    const blocks = await Promise.all(blockPromises);
+
+    for (const block of blocks) {
+      if (!block?.result?.transactions) continue;
+      for (const tx of block.result.transactions) {
+        const value = parseInt(tx.value || '0x0', 16) / 1e18;
+        const usd = value * ethPrice;
+        if (usd < minUSD) continue;
+
+        // Check receipt for failure
+        try {
+          const receiptBody = JSON.stringify({jsonrpc:'2.0',method:'eth_getTransactionReceipt',params:[tx.hash],id:1});
+          const receiptR = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:receiptBody}, 6000);
+          const receiptD = await receiptR.json();
+          if (receiptD.result && receiptD.result.status === '0x0') {
+            // Failed tx with value — ETH may be refundable or stuck in contract
+            found.failed.push({
+              hash: tx.hash,
+              from: tx.from,
+              to: tx.to,
+              value, usd,
+              blockNumber: parseInt(block.result.number || '0x0', 16),
+              chain: chain.id, chainName: chain.name, symbol: chain.symbol,
+            });
+            bountyLog('❌ Failed+value: ' + tx.hash?.slice(0,12) + ' · $' + usd.toFixed(2), 'warn');
+          }
+        } catch {}
+      }
+    }
+    bountyLog('Engine 2 done: ' + found.failed.length + ' failed txs with value', 'ok');
+  } catch (e) {
+    bountyLog('Engine 2 error: ' + e.message, 'warn');
+  }
+
+  // ─── ENGINE 3: Unclaimed rewards in known bounty contracts ───
+  setBountyProg(60);
+  bountyLog('Engine 3: Checking unclaimed balances in known contracts...', 'info');
+  const contracts = BOUNTY_CONTRACTS[chainId] || [];
+  await Promise.all(contracts.map(async c => {
+    if (!c.address || c.address === '0x' + '0'.repeat(40)) return;
+    try {
+      const balBody = JSON.stringify({jsonrpc:'2.0',method:'eth_getBalance',params:[c.address,'latest'],id:1});
+      const balR = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body:balBody}, 6000);
+      const balD = await balR.json();
+      const balance = parseInt(balD.result || '0x0', 16) / 1e18;
+      const usd = balance * ethPrice;
+      if (usd < minUSD) return;
+      found.unclaimed.push({
+        name: c.name,
+        address: c.address,
+        balance, usd,
+        chain: chain.id, chainName: chain.name, symbol: chain.symbol,
+      });
+      bountyLog('💰 Unclaimed: ' + c.name + ' · ' + balance.toFixed(4) + ' ' + chain.symbol + ' · $' + usd.toFixed(2), 'ok');
+    } catch {}
+  }));
+  bountyLog('Engine 3 done: ' + found.unclaimed.length + ' contracts with balance', 'ok');
+
+  // ─── ENGINE 4: Already identified in replace from Engine 1 ───
+  setBountyProg(90);
+  bountyLog('Engine 4: Replacement opportunities from pending pool — done', 'ok');
+
+  // ─── RENDER ───
+  setBountyProg(100);
+  const totalUSD =
+    found.stuck.reduce((s,x)=>s+x.usd,0) +
+    found.failed.reduce((s,x)=>s+x.usd,0) +
+    found.unclaimed.reduce((s,x)=>s+x.usd,0) +
+    found.replace.reduce((s,x)=>s+x.usd,0);
+
+  document.getElementById('bsumStuck').textContent = found.stuck.length;
+  document.getElementById('bsumFailed').textContent = found.failed.length;
+  document.getElementById('bsumUnclaimed').textContent = found.unclaimed.length;
+  document.getElementById('bsumReplace').textContent = found.replace.length;
+  document.getElementById('bsumTotal').textContent = '$' + totalUSD.toFixed(2);
+
+  renderBountyResults(found, chain, ethPrice);
+  bountyLog('Hunt complete · Total value: $' + totalUSD.toFixed(2), 'ok');
+
+  bountyRunning = false;
+  btn.disabled = false;
+  btn.textContent = '💎 HUNT BOUNTIES';
+}
+
+function renderBountyResults(found, chain, price) {
+  let html = '';
+
+  // ── REPLACEMENT OPPORTUNITIES (hottest) ──
+  if (found.replace.length > 0) {
+    const sorted = [...found.replace].sort((a,b) => b.usd - a.usd);
+    const rows = sorted.slice(0,30).map(tx => `
+      <div class="bounty-row">
+        <span class="bounty-badge replace">⚡ REPLACE</span>
+        <span class="bounty-addr" title="${tx.hash}">${tx.hash?.slice(0,12)}...${tx.hash?.slice(-6)}</span>
+        <span class="bounty-detail">from ${tx.from?.slice(0,8)}... · ${tx.gasPrice} vs ${tx.baseFee} gwei base · nonce ${tx.nonce}</span>
+        <span class="bounty-val warn">$${tx.usd.toFixed(2)}</span>
+        <button class="bounty-action-btn speed" onclick="bountySpeedUp('${tx.hash}','${tx.from}','${tx.to}','${tx.value}','${tx.nonce}','${chain.id}')">⚡ SPEED UP</button>
+        <button class="bounty-action-btn copy" onclick="navigator.clipboard.writeText('${tx.hash}')">📋 HASH</button>
+      </div>`).join('');
+    html += `<div class="bounty-section">
+      <div class="bounty-section-hdr">
+        <span class="bounty-section-title" style="color:var(--orange)">⚡ REPLACEMENT OPPORTUNITIES (${found.replace.length})</span>
+        <span class="bounty-section-count" style="background:rgba(255,107,0,0.1);color:var(--orange)">underpriced gas · can replace</span>
+      </div>
+      <div class="bounty-body">${rows}</div>
+    </div>`;
+  }
+
+  // ── FAILED WITH VALUE ──
+  if (found.failed.length > 0) {
+    const sorted = [...found.failed].sort((a,b) => b.usd - a.usd);
+    const rows = sorted.slice(0,30).map(tx => `
+      <div class="bounty-row">
+        <span class="bounty-badge failed">❌ FAILED</span>
+        <span class="bounty-addr" title="${tx.hash}">${tx.hash?.slice(0,12)}...${tx.hash?.slice(-6)}</span>
+        <span class="bounty-detail">from ${tx.from?.slice(0,8)}... → ${tx.to?.slice(0,8)}... · block ${tx.blockNumber}</span>
+        <span class="bounty-val" style="color:var(--red)">$${tx.usd.toFixed(2)}</span>
+        <button class="bounty-action-btn copy" onclick="navigator.clipboard.writeText('${tx.hash}')">📋 HASH</button>
+      </div>`).join('');
+    html += `<div class="bounty-section">
+      <div class="bounty-section-hdr">
+        <span class="bounty-section-title" style="color:var(--red)">❌ FAILED TXS WITH VALUE (${found.failed.length})</span>
+        <span class="bounty-section-count" style="background:rgba(255,34,68,0.1);color:var(--red)">ETH attached to failed transactions</span>
+      </div>
+      <div class="bounty-body">${rows}</div>
+    </div>`;
+  }
+
+  // ── UNCLAIMED CONTRACT BALANCES ──
+  if (found.unclaimed.length > 0) {
+    const sorted = [...found.unclaimed].sort((a,b) => b.usd - a.usd);
+    const rows = sorted.map(c => `
+      <div class="bounty-row">
+        <span class="bounty-badge unclaimed">💰 UNCLAIMED</span>
+        <span class="bounty-addr" title="${c.address}">${c.name}</span>
+        <span class="bounty-detail">${c.address.slice(0,10)}...${c.address.slice(-6)} · ${c.balance.toFixed(4)} ${chain.symbol}</span>
+        <span class="bounty-val">$${c.usd.toFixed(2)}</span>
+        <button class="bounty-action-btn copy" onclick="navigator.clipboard.writeText('${c.address}')">📋 ADDR</button>
+      </div>`).join('');
+    html += `<div class="bounty-section">
+      <div class="bounty-section-hdr">
+        <span class="bounty-section-title" style="color:var(--green)">💰 UNCLAIMED CONTRACT BALANCES (${found.unclaimed.length})</span>
+        <span class="bounty-section-count" style="background:rgba(0,255,136,0.1);color:var(--green)">ETH sitting in known protocol contracts</span>
+      </div>
+      <div class="bounty-body">${rows}</div>
+    </div>`;
+  }
+
+  // ── STUCK PENDING ──
+  if (found.stuck.length > 0) {
+    const sorted = [...found.stuck].sort((a,b) => b.usd - a.usd);
+    const rows = sorted.slice(0,30).map(tx => `
+      <div class="bounty-row">
+        <span class="bounty-badge stuck">⏳ STUCK</span>
+        <span class="bounty-addr" title="${tx.hash}">${tx.hash?.slice(0,12)}...${tx.hash?.slice(-6)}</span>
+        <span class="bounty-detail">from ${tx.from?.slice(0,8)}... · ${tx.gasPrice} gwei · nonce ${tx.nonce}</span>
+        <span class="bounty-val warn">$${tx.usd.toFixed(2)}</span>
+        <button class="bounty-action-btn copy" onclick="navigator.clipboard.writeText('${tx.hash}')">📋 HASH</button>
+      </div>`).join('');
+    html += `<div class="bounty-section">
+      <div class="bounty-section-hdr">
+        <span class="bounty-section-title" style="color:var(--yellow)">⏳ STUCK PENDING (${found.stuck.length})</span>
+        <span class="bounty-section-count" style="background:rgba(255,204,0,0.1);color:var(--yellow)">pending txs with value · normal gas</span>
+      </div>
+      <div class="bounty-body">${rows}</div>
+    </div>`;
+  }
+
+  if (!html) {
+    html = `<div class="bounty-empty">✓ NO BOUNTIES FOUND ABOVE $${document.getElementById('bountyThresh').value}<br><span style="font-size:9px">TRY LOWERING THRESHOLD OR SWITCHING CHAINS</span></div>`;
+  }
+
+  document.getElementById('bountyResults').innerHTML = html;
+}
+
+async function bountySpeedUp(hash, from, to, value, nonce, chainId) {
+  if (!window.ethereum) { bountyLog('Connect wallet to speed up tx', 'warn'); return; }
+  const chain = CHAINS.find(c => c.id === chainId);
+  if (!chain) return;
+  try {
+    // Get current base fee + add 20% tip
+    const body = JSON.stringify({jsonrpc:'2.0',method:'eth_gasPrice',params:[],id:1});
+    const r = await fetchWithTimeout(chain.rpc, {method:'POST',headers:{'Content-Type':'application/json'},body}, 6000);
+    const d = await r.json();
+    const currentGas = parseInt(d.result || '0x0', 16);
+    const newGas = Math.ceil(currentGas * 1.2); // 20% above current
+
+    bountyLog('Sending replacement tx · nonce ' + nonce + ' · new gas: ' + (newGas/1e9).toFixed(2) + ' gwei', 'info');
+
+    const tx = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{
+        from,
+        to,
+        value: '0x' + BigInt(Math.floor(parseFloat(value) * 1e18)).toString(16),
+        nonce: '0x' + parseInt(nonce).toString(16),
+        gasPrice: '0x' + newGas.toString(16),
+        gas: '0x5208', // 21000
+      }]
+    });
+    bountyLog('✓ Replacement tx sent: ' + tx, 'ok');
+  } catch (e) {
+    bountyLog('✗ Speed up failed: ' + (e.message || 'rejected'), 'warn');
+  }
+}
+
+// ═══════════════════════════════════════════
+// INTEL ENGINE — AUTO-RUNS AFTER PHASE 2
+// ABI · VERIFICATION · APPROVALS · INTERNAL · INCOMING
+// ═══════════════════════════════════════════
+const intelResults = { unverified:[], approvals:[], internal:[], incoming:[], abiCache:{}, social:[] };
+const INFINITE = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff');
+const INFINITE_THRESHOLD = BigInt('0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff00');
+
+function intelLog(msg, type='') {
+  const el = document.getElementById('intelLog');
+  if (!el) return;
+  const d = document.createElement('div');
+  d.className = 'intel-log-line ' + type;
+  d.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.appendChild(d);
+  el.scrollTop = el.scrollHeight;
+}
+
+function intelSetStep(steps) {
+  document.getElementById('intelSteps').innerHTML = steps.map(s => `
+    <div class="intel-step">
+      <div class="intel-step-dot ${s.status}"></div>
+      <div class="intel-step-label ${s.status}">${s.label}</div>
+      <div class="intel-step-count">${s.count !== undefined ? s.count : ''}</div>
+    </div>`).join('');
+}
+
+function intelSetProg(pct) {
+  const el = document.getElementById('intelProgFill');
+  if (el) el.style.width = pct + '%';
+}
+
+async function runIntelEngine() {
+  if (!connectedAddress) return;
+  const chains = CHAINS.filter(c => activeChains.has(c.id));
+
+  // Show progress panel, hide results temporarily
+  document.getElementById('intelProgressPanel').style.display = 'block';
+  document.getElementById('intelResults').innerHTML = '';
+
+  const steps = [
+    { label: 'ABI LOOKUP & CONTRACT NAMES', status: 'wait', count: undefined },
+    { label: 'VERIFICATION STATUS CHECK', status: 'wait', count: undefined },
+    { label: 'TOKEN APPROVALS SCAN', status: 'wait', count: undefined },
+    { label: 'INTERNAL TRANSACTIONS', status: 'wait', count: undefined },
+    { label: 'INCOMING ERC-20 TRANSFERS', status: 'wait', count: undefined },
+  ];
+  intelSetStep(steps); intelSetProg(0);
+
+  // Reset
+  intelResults.unverified = [];
+  intelResults.approvals = [];
+  intelResults.internal = [];
+  intelResults.incoming = [];
+  intelResults.abiCache = {};
+  intelResults.social = [];
+
+  // ─── STEP 1+2: ABI lookup + verification status ───
+  steps[0].status = 'running'; steps[1].status = 'running'; intelSetStep(steps);
+  intelLog('Fetching ABI and verification status for unique contracts...', 'info');
+
+  const uniqueContracts = [...new Set(scanResults.contracts.map(c => c.contract.toLowerCase()))];
+  const ethChain = chains.find(c => c.id === 'eth');
+  let abiDone = 0;
+
+  await Promise.all(uniqueContracts.slice(0, 60).map(async addr => {
+    // Only do ABI lookup for ETH for now (most contracts)
+    if (!ethChain) return;
+    try {
+      const url = `${ethChain.explorer}?module=contract&action=getsourcecode&address=${addr}&apikey=${ethChain.explorerKey}`;
+      const r = await fetchWithTimeout(url, {}, 10000);
+      const d = await r.json();
+      if (d.status === '1' && d.result?.[0]) {
+        const info = d.result[0];
+        const isVerified = info.ABI && info.ABI !== 'Contract source code not verified';
+        const name = info.ContractName || '';
+        if (isVerified && info.ABI) {
+          try { intelResults.abiCache[addr] = JSON.parse(info.ABI); } catch {}
+        }
+        if (!isVerified) {
+          intelResults.unverified.push({ address: addr, chain: 'eth', chainName: 'ETHEREUM' });
+        }
+        // Update contract names in scanResults
+        scanResults.contracts.filter(c => c.contract.toLowerCase() === addr).forEach(c => {
+          if (name) c.contractName = name;
+          c.verified = isVerified;
+        });
+      }
+    } catch {}
+    abiDone++;
+  }));
+
+  steps[0].status = 'done'; steps[0].count = Object.keys(intelResults.abiCache).length + ' ABIs';
+  steps[1].status = 'done'; steps[1].count = intelResults.unverified.length + ' unverified';
+  intelSetStep(steps); intelSetProg(20);
+  intelLog('ABI done: ' + Object.keys(intelResults.abiCache).length + ' decoded, ' + intelResults.unverified.length + ' unverified', 'ok');
+
+  // ─── STEP 3: Token approvals ───
+  steps[2].status = 'running'; intelSetStep(steps);
+  intelLog('Scanning token approvals...', 'info');
+
+  await Promise.all(chains.map(async chain => {
+    try {
+      // Get all approve() events emitted by wallet — topic0 = Approval, topic1 = owner
+      const ownerTopic = '0x' + connectedAddress.replace('0x', '').padStart(64, '0').toLowerCase();
+      const url = `${chain.explorer}?module=logs&action=getLogs&fromBlock=0&toBlock=latest&topic0=0x8c5be1e5ebec7d5bd14f71427d1e84f3dd0314c0f7b2291e5b200ac8c7c3b925&topic1=${ownerTopic}&apikey=${chain.explorerKey}`;
+      const r = await fetchWithTimeout(url, {}, 12000);
+      const d = await r.json();
+      if (d.status !== '1' || !Array.isArray(d.result)) return;
+
+      // Process: latest approval per (token, spender) pair
+      const approvalMap = {};
+      for (const ev of d.result) {
+        const token = ev.address?.toLowerCase();
+        const spender = '0x' + (ev.topics?.[2] || '').slice(-40).toLowerCase();
+        if (!token || !spender || spender === '0x' + '0'.repeat(40)) continue;
+        const key = token + '_' + spender;
+        // Keep latest
+        if (!approvalMap[key] || parseInt(ev.blockNumber, 16) > parseInt(approvalMap[key].blockNumber, 16)) {
+          approvalMap[key] = { token, spender, data: ev.data, blockNumber: ev.blockNumber, chain: chain.id, chainName: chain.name };
+        }
+      }
+
+      for (const [, ap] of Object.entries(approvalMap)) {
+        // Check if amount is 0 (revoked)
+        let amount = BigInt(0);
+        try { amount = BigInt(ap.data || '0x0'); } catch {}
+        if (amount === BigInt(0)) continue; // already revoked
+
+        const isInfinite = amount >= INFINITE_THRESHOLD;
+        intelResults.approvals.push({
+          token: ap.token,
+          spender: ap.spender,
+          amount: isInfinite ? 'INFINITE' : amount.toString(),
+          isInfinite,
+          chain: ap.chain,
+          chainName: ap.chainName,
+          blockNumber: ap.blockNumber,
+        });
+      }
+    } catch (e) {
+      intelLog(chain.name + ' approval scan error: ' + e.message, 'warn');
+    }
+  }));
+
+  const infiniteCount = intelResults.approvals.filter(a => a.isInfinite).length;
+  steps[2].status = 'done'; steps[2].count = intelResults.approvals.length + ' active (' + infiniteCount + ' ∞)';
+  intelSetStep(steps); intelSetProg(50);
+  intelLog('Approvals: ' + intelResults.approvals.length + ' active, ' + infiniteCount + ' infinite', infiniteCount > 0 ? 'warn' : 'ok');
+
+  // ─── STEP 4: Internal transactions ───
+  steps[3].status = 'running'; intelSetStep(steps);
+  intelLog('Fetching internal transactions...', 'info');
+
+  await Promise.all(chains.map(async chain => {
+    try {
+      const url = `${chain.explorer}?module=account&action=txlistinternal&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=200&sort=desc&apikey=${chain.explorerKey}`;
+      const r = await fetchWithTimeout(url, {}, 12000);
+      const d = await r.json();
+      if (d.status !== '1' || !Array.isArray(d.result)) return;
+      for (const tx of d.result) {
+        const val = parseInt(tx.value || '0') / 1e18;
+        if (val < 0.0001) continue; // skip dust
+        intelResults.internal.push({
+          chain: chain.id, chainName: chain.name,
+          from: tx.from, to: tx.to,
+          value: val, symbol: chain.symbol,
+          timeStamp: tx.timeStamp, hash: tx.hash,
+          type: tx.type || 'call',
+          isIncoming: tx.to?.toLowerCase() === connectedAddress.toLowerCase(),
+        });
+      }
+    } catch {}
+  }));
+
+  steps[3].status = 'done'; steps[3].count = intelResults.internal.length + ' txs';
+  intelSetStep(steps); intelSetProg(75);
+  intelLog('Internal txs: ' + intelResults.internal.length, 'ok');
+
+  // ─── STEP 5: Incoming ERC-20 transfers ───
+  steps[4].status = 'running'; intelSetStep(steps);
+  intelLog('Fetching incoming ERC-20 transfers...', 'info');
+
+  await Promise.all(chains.map(async chain => {
+    try {
+      const url = `${chain.explorer}?module=account&action=tokentx&address=${connectedAddress}&startblock=0&endblock=99999999&page=1&offset=200&sort=desc&apikey=${chain.explorerKey}`;
+      const r = await fetchWithTimeout(url, {}, 12000);
+      const d = await r.json();
+      if (d.status !== '1' || !Array.isArray(d.result)) return;
+      for (const tx of d.result) {
+        // Only incoming that have no corresponding outgoing tx (net new)
+        if (tx.to?.toLowerCase() !== connectedAddress.toLowerCase()) continue;
+        if (tx.from?.toLowerCase() === connectedAddress.toLowerCase()) continue;
+        const decimals = parseInt(tx.tokenDecimal || '18');
+        const balance = parseInt(tx.value || '0') / Math.pow(10, decimals);
+        if (balance < 0.000001) continue;
+        intelResults.incoming.push({
+          chain: chain.id, chainName: chain.name,
+          token: tx.contractAddress,
+          symbol: tx.tokenSymbol || '?',
+          name: tx.tokenName || '?',
+          from: tx.from,
+          balance, decimals,
+          timeStamp: tx.timeStamp,
+          hash: tx.hash,
+        });
+      }
+    } catch {}
+  }));
+
+  steps[4].status = 'done'; steps[4].count = intelResults.incoming.length + ' transfers';
+  intelSetStep(steps); intelSetProg(100);
+  intelLog('Incoming transfers: ' + intelResults.incoming.length, 'ok');
+
+  // ─── Update contract names in renderContracts ───
+  renderContracts();
+
+  // ─── PHASE 6: Social proof ───
+  steps.push({ label: 'SOCIAL PROOF VERIFICATION', status: 'running', count: undefined });
+  intelSetStep(steps); intelSetProg(95);
+  await runSocialProof();
+  steps[5].status = 'done';
+  steps[5].count = (intelResults.social || []).filter(r => r.trusted).length + ' trusted';
+  intelSetStep(steps); intelSetProg(100);
+
+  // ─── FINAL: Hide progress, show results ───
+  setTimeout(() => {
+    document.getElementById('intelProgressPanel').style.display = 'none';
+    renderIntelResults();
+    intelLog('Intel engine complete.', 'ok');
+  }, 600);
+}
+
+function renderIntelResults() {
+  // Update summary strip
+  document.getElementById('intelUnverified').textContent = intelResults.unverified.length;
+  document.getElementById('intelApprovals').textContent = intelResults.approvals.length;
+  const infiniteCount = intelResults.approvals.filter(a => a.isInfinite).length;
+  document.getElementById('intelInfinite').textContent = infiniteCount;
+  document.getElementById('intelInternal').textContent = intelResults.internal.length;
+  document.getElementById('intelIncoming').textContent = intelResults.incoming.length;
+
+  // Show revoke bar if infinite approvals exist
+  const bar = document.getElementById('intelActionBar');
+  if (bar) { bar.style.display = infiniteCount > 0 ? 'flex' : 'none'; }
+
+  let html = '';
+
+  // ── APPROVALS ──
+  if (intelResults.approvals.length > 0) {
+    const infRows = intelResults.approvals.filter(a => a.isInfinite);
+    const finRows = intelResults.approvals.filter(a => !a.isInfinite);
+    const allRows = [...infRows, ...finRows];
+    const rowsHtml = allRows.map((a, i) => `
+      <div class="intel-row">
+        <span class="intel-badge ${a.isInfinite ? 'infinite' : 'approval'}">${a.isInfinite ? '∞ INFINITE' : 'APPROVAL'}</span>
+        <span class="intel-addr" title="${a.token}">${a.token.slice(0,10)}...${a.token.slice(-6)}</span>
+        <span class="intel-name" style="font-size:9px;color:var(--dim2)">→ <span title="${a.spender}">${a.spender.slice(0,8)}...${a.spender.slice(-4)}</span></span>
+        <span class="intel-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid var(--dim)">${a.chainName}</span>
+        ${a.isInfinite ? `<button class="intel-revoke-btn" id="revbtn-${i}" onclick="intelRevokeSingle('${a.token}','${a.spender}','${a.chain}',${i})">REVOKE</button>` : ''}
+      </div>`).join('');
+    html += `<div class="intel-section">
+      <div class="intel-section-hdr">
+        <span class="intel-section-title" style="color:var(--yellow)">⚠ TOKEN APPROVALS (${allRows.length})</span>
+        <span class="intel-section-count" style="background:rgba(255,204,0,0.1);color:var(--yellow)">${infiniteCount} infinite · ${finRows.length} limited</span>
+      </div>
+      <div class="intel-body">${rowsHtml}</div>
+    </div>`;
+  }
+
+  // ── UNVERIFIED CONTRACTS ──
+  if (intelResults.unverified.length > 0) {
+    const rows = intelResults.unverified.map(u => `
+      <div class="intel-row">
+        <span class="intel-badge unverified">UNVERIFIED</span>
+        <span class="intel-addr">${u.address.slice(0,10)}...${u.address.slice(-6)}</span>
+        <span class="intel-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid var(--dim)">${u.chainName}</span>
+        <span style="font-size:9px;color:var(--dim2)">source code not verified</span>
+      </div>`).join('');
+    html += `<div class="intel-section">
+      <div class="intel-section-hdr">
+        <span class="intel-section-title" style="color:var(--red)">🔴 UNVERIFIED CONTRACTS (${intelResults.unverified.length})</span>
+        <span class="intel-section-count" style="background:rgba(255,34,68,0.1);color:var(--red)">interact with caution</span>
+      </div>
+      <div class="intel-body">${rows}</div>
+    </div>`;
+  }
+
+  // ── INTERNAL TXS ──
+  if (intelResults.internal.length > 0) {
+    const rows = intelResults.internal.slice(0, 50).map(tx => {
+      const time = tx.timeStamp ? new Date(tx.timeStamp * 1000).toLocaleDateString() : '?';
+      const dir = tx.isIncoming ? '↓ IN' : '↑ OUT';
+      const col = tx.isIncoming ? 'var(--green)' : 'var(--orange)';
+      return `<div class="intel-row">
+        <span class="intel-badge internal">${dir}</span>
+        <span class="intel-addr">${tx.from.slice(0,10)}...${tx.from.slice(-4)}</span>
+        <span style="font-family:'Orbitron',sans-serif;font-size:10px;color:${col}">${tx.value.toFixed(4)} ${tx.symbol}</span>
+        <span class="intel-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid var(--dim)">${tx.chainName}</span>
+        <span style="font-size:9px;color:var(--dim2)">${time}</span>
+      </div>`;
+    }).join('');
+    html += `<div class="intel-section">
+      <div class="intel-section-hdr">
+        <span class="intel-section-title" style="color:var(--cyan)">🔗 INTERNAL TRANSACTIONS (${intelResults.internal.length})</span>
+        <span class="intel-section-count" style="background:rgba(0,212,255,0.1);color:var(--cyan)">value moved via contract calls</span>
+      </div>
+      <div class="intel-body">${rows}</div>
+    </div>`;
+  }
+
+  // ── INCOMING TRANSFERS ──
+  if (intelResults.incoming.length > 0) {
+    const rows = intelResults.incoming.slice(0, 50).map(tx => {
+      const time = tx.timeStamp ? new Date(tx.timeStamp * 1000).toLocaleDateString() : '?';
+      return `<div class="intel-row">
+        <span class="intel-badge incoming">INCOMING</span>
+        <span style="color:var(--purple);font-size:10px">${tx.symbol}</span>
+        <span class="intel-addr" title="${tx.token}">${tx.name || tx.token.slice(0,10)}</span>
+        <span style="font-family:'Orbitron',sans-serif;font-size:10px;color:var(--green)">${tx.balance > 1000 ? tx.balance.toFixed(2) : tx.balance.toFixed(6)}</span>
+        <span class="intel-badge" style="background:rgba(0,212,255,0.08);color:var(--cyan);border:1px solid var(--dim)">${tx.chainName}</span>
+        <span style="font-size:9px;color:var(--dim2)">${time}</span>
+      </div>`;
+    }).join('');
+    html += `<div class="intel-section">
+      <div class="intel-section-hdr">
+        <span class="intel-section-title" style="color:var(--purple)">📥 INCOMING ERC-20 TRANSFERS (${intelResults.incoming.length})</span>
+        <span class="intel-section-count" style="background:rgba(168,85,247,0.1);color:var(--purple)">tokens received without outgoing tx</span>
+      </div>
+      <div class="intel-body">${rows}</div>
+    </div>`;
+  }
+
+  if (!html) {
+    html = '<div class="intel-empty">✓ CLEAN — No approvals, unverified contracts, or suspicious activity found</div>';
+  }
+
+  // ── SOCIAL PROOF ──
+  const social = intelResults.social || [];
+  if (social.length > 0) {
+    const trusted = social.filter(r => r.trusted);
+    const risky = social.filter(r => r.honeypotRisk);
+    const lowTrust = social.filter(r => !r.trusted && !r.honeypotRisk);
+
+    const socialRows = [...risky, ...lowTrust, ...trusted].map(r => {
+      const c = scanResults.contracts.find(x => x.contract.toLowerCase() === r.contract);
+      const name = c?.contractName || c?.proxyImplName || r.contract.slice(0,10)+'...'+r.contract.slice(-6);
+      const statusBadge = r.honeypotRisk
+        ? `<span class="intel-badge unverified">⚠ HONEYPOT RISK</span>`
+        : r.trusted
+        ? `<span class="intel-badge verified">✓ TRUSTED</span>`
+        : `<span class="intel-badge approval">LOW TRUST</span>`;
+      const proxyBadge = r.isProxy
+        ? `<span style="font-size:9px;padding:1px 6px;background:rgba(168,85,247,0.15);color:var(--purple);border-radius:2px;border:1px solid rgba(168,85,247,0.3)">${r.proxyTrusted ? '✓ PROXY VERIFIED' : 'PROXY'}</span>`
+        : '';
+      return `<div class="intel-row">
+        ${statusBadge}
+        <span class="intel-name">${name}</span>
+        ${proxyBadge}
+        <span style="font-size:9px;color:var(--dim2)">${r.similarWallets} similar wallet${r.similarWallets!==1?'s':''}</span>
+        <span class="intel-val">${r.avgSuccessRate}% success</span>
+        ${r.valueReturnedRate > 0 ? `<span style="font-size:9px;color:var(--green)">↩ ${r.valueReturnedRate}% got value back</span>` : ''}
+        ${r.isSweepable && r.trusted ? `<span style="font-size:9px;color:var(--green)">✓ auto-queued</span>` : ''}
+      </div>`;
+    }).join('');
+
+    html += `<div class="intel-section">
+      <div class="intel-section-hdr">
+        <span class="intel-section-title" style="color:var(--purple)">🤝 SOCIAL PROOF VERIFICATION (${social.length})</span>
+        <span class="intel-section-count" style="background:rgba(0,255,136,0.1);color:var(--green)">${trusted.length} trusted · ${risky.length} honeypot risk</span>
+      </div>
+      <div class="intel-body">${socialRows}</div>
+    </div>`;
+  }
+
+  document.getElementById('intelResults').innerHTML = html;
+}
+
+async function intelRevokeSingle(tokenAddr, spenderAddr, chainId, idx) {
+  if (!window.ethereum) { intelLog('Connect wallet to revoke.', 'err'); return; }
+  const btn = document.getElementById('revbtn-' + idx);
+  if (btn) { btn.disabled = true; btn.textContent = '...'; }
+  // ERC-20 approve(spender, 0)
+  const spenderPadded = spenderAddr.replace('0x', '').padStart(64, '0');
+  const data = '0x095ea7b3' + spenderPadded + '0'.repeat(64);
+  const chain = CHAINS.find(c => c.id === chainId);
+  intelLog('Revoking approval: ' + tokenAddr.slice(0, 10) + '... spender ' + spenderAddr.slice(0, 8) + '...', 'info');
+  try {
+    const tx = await window.ethereum.request({
+      method: 'eth_sendTransaction',
+      params: [{ from: connectedAddress, to: tokenAddr, data, gas: '0xC350' }]
+    });
+    intelLog('✓ Revoke tx: ' + tx, 'ok');
+    if (btn) { btn.textContent = '✓ SENT'; btn.style.background = 'var(--green)'; btn.style.color = '#000'; }
+  } catch (e) {
+    intelLog('✗ Revoke failed: ' + (e.message || 'rejected'), 'err');
+    if (btn) { btn.disabled = false; btn.textContent = 'REVOKE'; }
+  }
+}
+
+async function intelRevokeAll() {
+  const infinite = intelResults.approvals.filter(a => a.isInfinite);
+  if (!infinite.length) return;
+  intelLog('Revoking ' + infinite.length + ' infinite approvals...', 'warn');
+  for (let i = 0; i < infinite.length; i++) {
+    const a = infinite[i];
+    const realIdx = intelResults.approvals.indexOf(a);
+    await intelRevokeSingle(a.token, a.spender, a.chain, realIdx);
+    await new Promise(r => setTimeout(r, 500));
+  }
+  intelLog('All revoke txs sent.', 'ok');
+}
+
+// ─── PHASE 6: SOCIAL PROOF VERIFICATION ───────────────────────────────────
+// For each contract in your history:
+//   1. Pull recent callers of that contract
+//   2. Score each caller by overlap with YOUR contract set
+//   3. Any overlap = similar wallet
+//   4. Measure: success rate, value returned, proxy check
+//   5. TRUSTED if majority of similar wallets had clean interactions
+// Strictly your contracts only — wallets with zero overlap to you are ignored.
+// ────────────────────────────────────────────────────────────────────────────
+
+async function runSocialProof() {
+  intelLog('Phase 6: Social proof verification starting...', 'info');
+  const ethChain = CHAINS.find(c => c.id === 'eth');
+  if (!ethChain) { intelLog('Phase 6: ETH chain not active', 'warn'); return; }
+
+  // Build YOUR contract set — the fingerprint
+  const myContracts = new Set(
+    scanResults.contracts.map(c => c.contract.toLowerCase())
+  );
+  if (myContracts.size === 0) { intelLog('Phase 6: No contracts to analyze', 'warn'); return; }
+
+  // Only analyze contracts that aren't already verified by source
+  const targets = [...new Set(
+    scanResults.contracts
+      .filter(c => c.verified !== true && c.chain === 'eth')
+      .map(c => c.contract.toLowerCase())
+  )].slice(0, 20); // cap at 20 to avoid rate limits
+
+  intelLog(`Phase 6: Analyzing ${targets.length} unverified contracts for social proof...`, 'info');
+
+  const socialResults = [];
+
+  await Promise.all(targets.map(async contractAddr => {
+    try {
+      // Step 1: Get recent callers of this contract (last 200 txs TO this contract)
+      const url = `${ethChain.explorer}?module=account&action=txlist&address=${contractAddr}&startblock=0&endblock=99999999&page=1&offset=200&sort=desc&apikey=${ethChain.explorerKey}`;
+      const r = await fetchWithTimeout(url, {}, 12000);
+      const d = await r.json();
+      if (d.status !== '1' || !Array.isArray(d.result)) return;
+
+      const txs = d.result;
+      if (txs.length < 3) return; // too little history to judge
+
+      // Step 2: Identify unique callers (excluding self)
+      const callers = [...new Set(
+        txs
+          .filter(tx => tx.from?.toLowerCase() !== connectedAddress.toLowerCase())
+          .map(tx => tx.from?.toLowerCase())
+          .filter(Boolean)
+      )];
+
+      if (callers.length === 0) return;
+
+      // Step 3: Score each caller by overlap with my contract set
+      // We sample up to 10 callers to keep API calls manageable
+      const sampleCallers = callers.slice(0, 10);
+      const similarWallets = [];
+
+      await Promise.all(sampleCallers.map(async callerAddr => {
+        try {
+          const cu = `${ethChain.explorer}?module=account&action=txlist&address=${callerAddr}&startblock=0&endblock=99999999&page=1&offset=100&sort=desc&apikey=${ethChain.explorerKey}`;
+          const cr = await fetchWithTimeout(cu, {}, 10000);
+          const cd = await cr.json();
+          if (cd.status !== '1' || !Array.isArray(cd.result)) return;
+
+          // Their contract set
+          const theirContracts = new Set(
+            cd.result
+              .filter(tx => tx.to && tx.input && tx.input !== '0x')
+              .map(tx => tx.to.toLowerCase())
+          );
+
+          // Overlap count — any overlap qualifies
+          let overlap = 0;
+          for (const c of theirContracts) {
+            if (myContracts.has(c)) overlap++;
+          }
+          if (overlap === 0) return; // no overlap — not similar
+
+          // Their interaction history with THIS contract specifically
+          const theirTxsOnContract = cd.result.filter(
+            tx => tx.to?.toLowerCase() === contractAddr
+          );
+          const total = theirTxsOnContract.length;
+          if (total === 0) return;
+
+          const failed = theirTxsOnContract.filter(tx => tx.isError === '1').length;
+          const successRate = ((total - failed) / total) * 100;
+
+          // Value returned check — did they receive ETH back from this contract?
+          // We check internal txs for value flowing back to them
+          let valueReturned = false;
+          try {
+            const iu = `${ethChain.explorer}?module=account&action=txlistinternal&address=${callerAddr}&startblock=0&endblock=99999999&page=1&offset=50&sort=desc&apikey=${ethChain.explorerKey}`;
+            const ir = await fetchWithTimeout(iu, {}, 8000);
+            const id2 = await ir.json();
+            if (id2.status === '1' && Array.isArray(id2.result)) {
+              valueReturned = id2.result.some(
+                itx => itx.from?.toLowerCase() === contractAddr && parseInt(itx.value || '0') > 0
+              );
+            }
+          } catch {}
+
+          similarWallets.push({
+            address: callerAddr,
+            overlap,
+            successRate,
+            totalTxs: total,
+            valueReturned,
+          });
+        } catch {}
+      }));
+
+      if (similarWallets.length === 0) return;
+
+      // Step 4: Aggregate trust score
+      const avgSuccess = similarWallets.reduce((s, w) => s + w.successRate, 0) / similarWallets.length;
+      const valueReturnedCount = similarWallets.filter(w => w.valueReturned).length;
+      const valueReturnedRate = (valueReturnedCount / similarWallets.length) * 100;
+      const totalSimilar = similarWallets.length;
+
+      // Trust criteria:
+      // - Average success rate > 70%
+      // - At least 1 similar wallet (any overlap)
+      // - Not a honeypot (if sweepable, value must have been returned to at least 1 similar wallet)
+      const isSweepable = scanResults.contracts.some(c => c.contract.toLowerCase() === contractAddr && c.sweepable);
+      const honeypotRisk = isSweepable && valueReturnedRate === 0 && totalSimilar >= 3;
+      const trusted = avgSuccess >= 70 && !honeypotRisk;
+
+      // Step 5: Proxy check — if contract delegates, check implementation too
+      let proxyImpl = null;
+      let proxyTrusted = null;
+      try {
+        // Check EIP-1967 implementation slot
+        const implSlot = '0x360894a13ba1a3210667c828492db98dca3e2076cc3735a920a3ca505d382bbc';
+        const body = JSON.stringify({
+          jsonrpc: '2.0', method: 'eth_getStorageAt',
+          params: [contractAddr, implSlot, 'latest'], id: 1
+        });
+        const pr = await fetchWithTimeout(ethChain.rpc, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body }, 6000);
+        const pd = await pr.json();
+        if (pd.result && pd.result !== '0x' && pd.result !== '0x' + '0'.repeat(64)) {
+          proxyImpl = '0x' + pd.result.slice(-40);
+          // Check if implementation is verified
+          const pvu = `${ethChain.explorer}?module=contract&action=getsourcecode&address=${proxyImpl}&apikey=${ethChain.explorerKey}`;
+          const pvr = await fetchWithTimeout(pvu, {}, 8000);
+          const pvd = await pvr.json();
+          if (pvd.status === '1' && pvd.result?.[0]) {
+            const implVerified = pvd.result[0].ABI && pvd.result[0].ABI !== 'Contract source code not verified';
+            const implName = pvd.result[0].ContractName || '';
+            proxyTrusted = implVerified;
+            if (implName) {
+              scanResults.contracts.filter(c => c.contract.toLowerCase() === contractAddr)
+                .forEach(c => { c.proxyImplName = implName; c.proxyImpl = proxyImpl; });
+            }
+          }
+        }
+      } catch {}
+
+      // Store result
+      const result = {
+        contract: contractAddr,
+        similarWallets: totalSimilar,
+        avgSuccessRate: Math.round(avgSuccess),
+        valueReturnedRate: Math.round(valueReturnedRate),
+        trusted,
+        honeypotRisk,
+        isProxy: !!proxyImpl,
+        proxyImpl,
+        proxyTrusted,
+        isSweepable,
+      };
+      socialResults.push(result);
+
+      // Update contracts in scanResults
+      scanResults.contracts.filter(c => c.contract.toLowerCase() === contractAddr).forEach(c => {
+        c.socialTrusted = trusted;
+        c.socialScore = Math.round(avgSuccess);
+        c.socialWallets = totalSimilar;
+        c.honeypotRisk = honeypotRisk;
+        c.isProxy = !!proxyImpl;
+        c.proxyImpl = proxyImpl;
+        c.proxyTrusted = proxyTrusted;
+      });
+
+      // Auto-add to sweep queue if trusted + sweepable
+      if (trusted && isSweepable) {
+        const existing = scanResults.sweepable.find(s => s.contract?.toLowerCase() === contractAddr);
+        if (!existing) {
+          const contractEntry = scanResults.contracts.find(c => c.contract.toLowerCase() === contractAddr && c.sweepable);
+          if (contractEntry) {
+            scanResults.sweepable.push({
+              ...contractEntry,
+              source: 'SOCIAL',
+              label: (contractEntry.contractName || contractAddr.slice(0,12)) + ' · social proof ✓',
+            });
+            intelLog('Auto-queued: ' + (contractEntry.contractName || contractAddr.slice(0,10)) + ' (trusted, sweepable)', 'ok');
+          }
+        }
+      }
+
+      intelLog(
+        contractAddr.slice(0,10) + '...: ' + totalSimilar + ' similar wallets · ' +
+        Math.round(avgSuccess) + '% success · ' +
+        (trusted ? '✓ TRUSTED' : honeypotRisk ? '⚠ HONEYPOT RISK' : '⚠ LOW TRUST'),
+        trusted ? 'ok' : 'warn'
+      );
+
+    } catch (e) {
+      intelLog('Social proof error for ' + contractAddr.slice(0,10) + ': ' + e.message, 'warn');
+    }
+  }));
+
+  // Store in intelResults for rendering
+  intelResults.social = socialResults;
+
+  const trusted = socialResults.filter(r => r.trusted).length;
+  const risky = socialResults.filter(r => r.honeypotRisk).length;
+  intelLog(`Phase 6 complete: ${trusted} trusted, ${risky} honeypot risks, ${socialResults.length - trusted - risky} low trust`, trusted > 0 ? 'ok' : 'warn');
+
+  // Re-render contracts with new trust badges
+  renderContracts();
+
+  // Re-render Intel with social section
+  renderIntelResults();
+}
+
+// ─── Hook Intel engine into runScan ───
+
 const MM_FEATURES = [
   {icon:'💵',name:'BUY CRYPTO',tag:'LIVE',desc:'Convert USD/fiat to crypto directly inside MetaMask. Aggregates multiple on-ramp providers for best rate.',features:['Credit/debit, bank transfer, Apple Pay, Google Pay','ETH, BTC, USDC, 100+ tokens','No external exchange needed','Available on mobile & browser extension'],url:'https://metamask.io/buy-crypto',scannerNote:'Scanner shows balances AFTER buying. Use Buy to fund wallets you scan.'},
   {icon:'📈',name:'EARN / STAKING',tag:'LIVE',desc:'Stake ETH natively. $3B+ staked, 99.99% uptime. Three modes: pooled, validator, liquid.',features:['Pooled: any amount, earn daily, unstake anytime','Validator: 32–2048 ETH/node, MEV rewards','Liquid: Lido/Rocket Pool LSTs usable in DeFi','Stablecoin lending via Aave and Morpho'],url:'https://metamask.io/earn',scannerNote:'Scanner detects stETH/wstETH/rETH/cbETH balances in Phase 2. Cross-ref here to stake more.'},
