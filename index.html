@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SWEEP ENGINE V14</title>
+<title>SWEEP ENGINE V15</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
 :root {
@@ -516,7 +516,7 @@ pointer-events:none;z-index:0;}
 <div class="hdr">
   <div class="logo">SWEEP<em>ENGINE</em></div>
   <div class="hdr-right">
-    <div class="version-badge">V14 · VERIFY + MM + AGENTS</div>
+    <div class="version-badge">V15 · 13 CHAINS + APTOS</div>
     <div class="live-dot" id="liveDot"></div>
     <div class="addr-badge" id="addrBadge">NOT CONNECTED</div>
   </div>
@@ -544,7 +544,11 @@ pointer-events:none;z-index:0;}
 <div class="tab-content active" id="tab-connect">
   <div class="connect-panel">
     <div class="connect-title">CONNECT YOUR WALLET</div>
-    <div class="connect-sub">ETH · BSC · ARB · POLYGON · OPTIMISM · BASE<br>AVALANCHE · LINEA · GNOSIS · INK · PLASMA<br>READ-ONLY SCAN — NO PRIVATE KEYS REQUIRED</div>
+    <div class="connect-sub">
+      ETH · BSC · ARB · POLYGON · OPTIMISM · BASE<br>
+      AVALANCHE · LINEA · GNOSIS · INK · PLASMA<br>
+      FANTOM · SONIC · READ-ONLY SCAN
+    </div>
     <div class="wallet-grid">
       <button class="w-btn primary" onclick="connectWallet('metamask')">🦊 METAMASK</button>
       <button class="w-btn" onclick="connectWallet('trust')">🛡 TRUST</button>
@@ -723,6 +727,8 @@ pointer-events:none;z-index:0;}
           <option value="solana">Solana (SOL)</option>
           <option value="xlayer">X Layer (XLAYER)</option>
           <option value="tron">TRON (TRON)</option>
+          <option value="fantom">Fantom (FTM)</option>
+          <option value="sonic">Sonic (S)</option>
         </select>
       </div>
       <div class="cv-field">
@@ -1011,6 +1017,8 @@ const CHAINS = [
   {id:'gnosis',name:'GNOSIS',   symbol:'xDAI',color:'#3E6957',icon:'⬡', rpc:'https://gnosis.publicnode.com',               explorer:'https://api.gnosisscan.io/api',           explorerKey:ETHERSCAN_KEY,coingecko:'xdai',       chainId:100  },
   {id:'ink',   name:'INK',      symbol:'ETH', color:'#7B3FE4',icon:'✒', rpc:'https://rpc-gel.inkonchain.com',              explorer:'https://explorer.inkonchain.com/api',     explorerKey:ETHERSCAN_KEY,coingecko:'ethereum',   chainId:57073},
   {id:'plasma',name:'PLASMA',   symbol:'ETH', color:'#A259FF',icon:'⚡',rpc:'https://rpc.plasma.io',                       explorer:'https://api.polygonscan.com/api',         explorerKey:ETHERSCAN_KEY,coingecko:'ethereum',   chainId:1101 },
+  {id:'ftm',   name:'FANTOM',   symbol:'FTM', color:'#1969FF',icon:'👻',rpc:'https://fantom.publicnode.com',                explorer:'https://api.ftmscan.com/api',             explorerKey:ETHERSCAN_KEY,coingecko:'fantom',     chainId:250  },
+  {id:'sonic', name:'SONIC',    symbol:'S',   color:'#FF6B2B',icon:'⚡',rpc:'https://rpc.soniclabs.com',                    explorer:'https://api.etherscan.io/v2/api',         explorerKey:ETHERSCAN_KEY,coingecko:'sonic-3',    chainId:146  },
 ];
 
 const CV_CHAINS = {
@@ -1026,6 +1034,8 @@ const CV_CHAINS = {
   solana:{short:'sol',chainId:null,name:'Solana',explorer:'https://www.oklink.com/sol'},
   xlayer:{short:'xlayer',chainId:196,name:'X Layer',explorer:'https://www.oklink.com/xlayer'},
   tron:{short:'tron',chainId:null,name:'TRON',explorer:'https://www.oklink.com/tron'},
+  fantom:{short:'ftm',chainId:250,name:'Fantom',explorer:'https://www.oklink.com/ftm'},
+  sonic:{short:'sonic',chainId:146,name:'Sonic',explorer:'https://www.oklink.com/sonic'},
 };
 
 const KNOWN_COLLECTIONS = {
@@ -1045,7 +1055,7 @@ let connectedAddress = null;
 let solanaAddress    = null;
 let scanResults      = {balances:{},contracts:[],nfts:[],sweepable:[]};
 let solanaData       = {balance:0,tokens:[],transactions:[],stakeAccounts:[]};
-let activeChains     = new Set(['eth','bsc','arb','poly','op','base','avax','linea','gnosis','ink','plasma']);
+let activeChains     = new Set(['eth','bsc','arb','poly','op','base','avax','linea','gnosis','ink','plasma','ftm','sonic']);
 let scanRunning      = false;
 let solScanRunning   = false;
 const priceCache     = {};
@@ -1109,7 +1119,11 @@ function renderSolanaTab(state,errMsg){const el=document.getElementById('solanaC
 // ═══════════════════════════════════════════
 function buildChainPills(){document.getElementById('chainPills').innerHTML=CHAINS.map(c=>`<button class="cpill ${activeChains.has(c.id)?'on':''}" onclick="toggleChain('${c.id}',this)">${c.name}</button>`).join('');}
 function toggleChain(id,btn){activeChains.has(id)?activeChains.delete(id):activeChains.add(id);btn.classList.toggle('on');}
-function buildChainGrid(){document.getElementById('chainGrid').innerHTML=CHAINS.filter(c=>activeChains.has(c.id)).map(c=>`<div class="chain-card" id="cc-${c.id}"><div class="cc-top"><div class="cc-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div><div><div class="cc-name" style="color:${c.color}">${c.name}</div><div class="cc-network">CHAIN ID: ${c.chainId}</div></div></div><div class="cc-bal" style="color:var(--dim2)">—</div><div class="cc-usd" style="color:var(--dim2)">waiting...</div></div>`).join('');}
+function buildChainGrid(){
+  const evmCards = CHAINS.filter(c=>activeChains.has(c.id)).map(c=>`<div class="chain-card" id="cc-${c.id}"><div class="cc-top"><div class="cc-icon" style="background:${c.color}22;color:${c.color}">${c.icon}</div><div><div class="cc-name" style="color:${c.color}">${c.name}</div><div class="cc-network">CHAIN ID: ${c.chainId}</div></div></div><div class="cc-bal" style="color:var(--dim2)">—</div><div class="cc-usd" style="color:var(--dim2)">waiting...</div></div>`).join('');
+  const aptosCard = `<div class="chain-card" id="cc-aptos" style="border-color:rgba(0,180,216,0.2)"><div class="cc-top"><div class="cc-icon" style="background:#00b4d822;color:#00b4d8">▲</div><div><div class="cc-name" style="color:#00b4d8">APTOS</div><div class="cc-network">NON-EVM · MOVE VM</div></div></div><div class="cc-bal" style="color:var(--dim2);font-size:10px">Display only</div><div class="cc-usd"><a href="https://explorer.aptoslabs.com" target="_blank" style="color:#00b4d8;font-size:9px;text-decoration:none;letter-spacing:1px;">↗ APTOS EXPLORER</a></div></div>`;
+  document.getElementById('chainGrid').innerHTML = evmCards + aptosCard;
+}
 
 // ═══════════════════════════════════════════
 // EVM SCAN ENGINE
