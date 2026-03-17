@@ -1340,6 +1340,13 @@ explorerUrl: ‘https://www.oklink.com/’
 <div class="rpc-toast" id="rpcToast">COPIED</div>
 
 <script>
+// Global error handler — surfaces silent JS crashes on mobile
+window.onerror = function(msg,src,line,col,err){
+  const el=document.getElementById('connectStatus');
+  if(el){el.textContent='⚠ Error: '+msg+' (L'+line+')';el.style.color='var(--red)';}
+  console.error('SWEEP ENGINE:',msg,src,line,col,err);
+  return false;
+};
 // ═══════════════════════════════════════════
 // CONFIG
 // ═══════════════════════════════════════════
@@ -1440,7 +1447,23 @@ async function connectWallet(type){
   catch(e){setConnectStatus(e.code===4001?'Connection rejected.':(e.message||'Connection failed.'),'error');}
 }
 function connectManual(){const val=document.getElementById('manualAddr').value.trim();if(/^0x[0-9a-fA-F]{40}$/.test(val))setConnectedAddr(val);else setConnectStatus('Invalid EVM address format.','error');}
-function setConnectedAddr(addr){connectedAddress=addr;document.getElementById('liveDot').classList.add('on');document.getElementById('addrBadge').textContent=addr.slice(0,6)+'...'+addr.slice(-4);document.getElementById('btnScan').disabled=false;setConnectStatus('✓ Connected: '+addr,'success');document.getElementById('btnMoneyFind').disabled=false;buildChainPills();buildChainGrid();showTab('money',document.querySelector('[data-tab="money"]'));log('EVM Connected: '+addr,'info');}
+function setConnectedAddr(addr){
+  connectedAddress=addr;
+  document.getElementById('liveDot').classList.add('on');
+  document.getElementById('addrBadge').textContent=addr.slice(0,6)+'...'+addr.slice(-4);
+  document.getElementById('btnScan').disabled=false;
+  setConnectStatus('✓ Connected: '+addr,'success');
+  const mfBtn=document.getElementById('btnMoneyFind');
+  if(mfBtn)mfBtn.disabled=false;
+  buildChainPills();
+  buildChainGrid();
+  // Safe tab switch — find money tab button without nested quotes
+  const tabs=document.querySelectorAll('.tab');
+  let moneyTab=null;
+  tabs.forEach(t=>{if(t.getAttribute('data-tab')==='money')moneyTab=t;});
+  showTab('money',moneyTab);
+  log('EVM Connected: '+addr,'info');
+}
 function setConnectStatus(msg,type){const el=document.getElementById('connectStatus');el.textContent=msg;el.style.color=type==='success'?'var(--green)':type==='error'?'var(--red)':type==='warn'?'var(--yellow)':'var(--cyan)';}
 
 // ═══════════════════════════════════════════
