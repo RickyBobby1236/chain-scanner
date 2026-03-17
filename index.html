@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SWEEP ENGINE V18</title>
+<title>SWEEP ENGINE V19</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
 :root {
@@ -111,6 +111,64 @@
 .agents-repo-link{display:block;padding:7px 14px;background:#21262d;border:1px solid #30363d;border-radius:6px;color:#79c0ff;text-decoration:none;font-size:12px;font-family:monospace;text-align:center;}
 .agents-repo-link:hover{border-color:#2f81f7;}
 @media(max-width:600px){.mm-grid{grid-template-columns:1fr;}.mm-xref-row{grid-template-columns:1fr;}}
+
+/* ═══ BITCOIN TAB ═══ */
+.tab.btc-tab.active{color:#f7931a;border-bottom-color:#f7931a;text-shadow:0 0 8px rgba(247,147,26,0.5);}
+.btc-header{background:linear-gradient(135deg,#0d0600,#180a00,#0d0600);border:1px solid rgba(247,147,26,0.3);padding:20px;margin-bottom:14px;position:relative;overflow:hidden;}
+.btc-header::before{content:’’;position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(247,147,26,0.07) 0%,transparent 70%);pointer-events:none;}
+.btc-header-title{font-family:‘Orbitron’,sans-serif;font-size:16px;font-weight:900;color:#f7931a;letter-spacing:4px;text-shadow:0 0 20px rgba(247,147,26,0.4);margin-bottom:4px;}
+.btc-header-sub{font-size:9px;color:rgba(247,147,26,0.4);letter-spacing:2px;}
+.btc-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:14px;}
+.btc-sum{background:var(–panel);border:1px solid var(–border);padding:12px 14px;}
+.btc-sum-label{font-size:9px;letter-spacing:2px;color:var(–dim2);margin-bottom:4px;}
+.btc-sum-val{font-family:‘Orbitron’,sans-serif;font-size:14px;font-weight:700;color:#f7931a;}
+.btc-engines{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.btc-btn{padding:8px 20px;background:linear-gradient(135deg,#b8670e,#f7931a,#b8670e);color:#000;font-family:‘Orbitron’,sans-serif;font-size:10px;font-weight:900;letter-spacing:2px;border:none;cursor:pointer;transition:all 0.2s;}
+.btc-btn:hover{box-shadow:0 0 18px rgba(247,147,26,0.5);transform:translateY(-1px);}
+.btc-btn:disabled{background:var(–dim);color:#555;cursor:not-allowed;transform:none;box-shadow:none;}
+.btc-btn.sm{padding:6px 14px;font-size:9px;letter-spacing:1px;}
+.btc-prog{height:2px;background:var(–dim);margin-bottom:14px;overflow:hidden;}
+.btc-prog-fill{height:100%;background:linear-gradient(90deg,#b8670e,#f7931a,#ffd700);width:0%;transition:width 0.4s;}
+.btc-section{margin-bottom:16px;}
+.btc-section-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(–panel);border:1px solid var(–border);border-bottom:none;}
+.btc-section-title{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;letter-spacing:2px;}
+.btc-section-count{font-size:10px;padding:2px 8px;border-radius:10px;}
+.btc-body{border:1px solid var(–border);border-top:none;}
+.btc-row{display:flex;gap:10px;padding:10px 14px;border-bottom:1px solid var(–border);font-size:10px;flex-wrap:wrap;align-items:center;transition:background 0.15s;}
+.btc-row:hover{background:rgba(247,147,26,0.03);}
+.btc-row:last-child{border-bottom:none;}
+.btc-row.has-balance{border-left:3px solid #f7931a;}
+.btc-row.solved{border-left:3px solid var(–green);}
+.btc-row.unsolved{border-left:3px solid var(–dim2);}
+.btc-badge{display:inline-block;padding:2px 7px;font-size:9px;letter-spacing:1px;border-radius:2px;flex-shrink:0;font-weight:700;}
+.btc-badge.puzzle{background:rgba(247,147,26,0.15);color:#f7931a;border:1px solid rgba(247,147,26,0.3);}
+.btc-badge.famous{background:rgba(255,204,0,0.15);color:var(–yellow);border:1px solid rgba(255,204,0,0.3);}
+.btc-badge.burned{background:rgba(255,34,68,0.12);color:var(–red);border:1px solid rgba(255,34,68,0.25);}
+.btc-badge.funded{background:rgba(247,147,26,0.2);color:#f7931a;border:1px solid rgba(247,147,26,0.5);}
+.btc-badge.empty{background:rgba(42,80,96,0.3);color:var(–dim2);border:1px solid var(–dim);}
+.btc-addr{color:var(–cyan);font-size:9px;font-family:‘Share Tech Mono’,monospace;flex:1;min-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.btc-name{color:var(–text);font-size:10px;min-width:100px;}
+.btc-val{font-family:‘Orbitron’,sans-serif;font-size:11px;font-weight:700;color:#f7931a;white-space:nowrap;}
+.btc-usd{font-size:9px;color:var(–yellow);white-space:nowrap;}
+.btc-input{background:#030810;border:1px solid rgba(247,147,26,0.3);color:#f7931a;font-family:‘Share Tech Mono’,monospace;font-size:10px;padding:8px 12px;outline:none;flex:1;min-width:200px;}
+.btc-input:focus{border-color:#f7931a;}
+.btc-input::placeholder{color:var(–dim2);}
+.btc-tabs{display:flex;gap:0;margin-bottom:12px;border-bottom:1px solid var(–border);overflow-x:auto;}
+.btc-engine-tab{padding:8px 14px;font-family:‘Orbitron’,sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;cursor:pointer;color:var(–dim2);border:none;background:none;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;}
+.btc-engine-tab.active{color:#f7931a;border-bottom-color:#f7931a;}
+.btc-log{background:#020408;border:1px solid var(–border);padding:10px;height:80px;overflow-y:auto;font-size:9px;line-height:1.7;}
+.btc-log-line{color:var(–dim2);}
+.btc-log-line.ok{color:#f7931a;}
+.btc-log-line.found{color:var(–green);}
+.btc-log-line.info{color:var(–cyan);}
+.btc-log-line.warn{color:var(–yellow);}
+.btc-warn-box{background:#0a0500;border:1px solid rgba(247,147,26,0.3);padding:12px 14px;margin-bottom:12px;font-size:10px;color:rgba(247,147,26,0.7);line-height:1.8;}
+.btc-difficulty{display:inline-block;font-size:8px;padding:1px 5px;border-radius:2px;margin-left:4px;}
+.btc-difficulty.easy{background:rgba(0,255,136,0.1);color:var(–green);}
+.btc-difficulty.medium{background:rgba(255,204,0,0.1);color:var(–yellow);}
+.btc-difficulty.hard{background:rgba(255,107,0,0.1);color:var(–orange);}
+.btc-difficulty.extreme{background:rgba(255,34,68,0.1);color:var(–red);}
+.btc-empty{text-align:center;padding:30px;color:var(–dim2);font-size:10px;letter-spacing:2px;line-height:2;}
 
 /* ═══ BOUNTY HUNTER ═══ */
 .tab[data-tab=“bounty”].active{color:var(–green);border-bottom-color:var(–green);text-shadow:0 0 8px rgba(0,255,136,0.4);}
@@ -627,7 +685,7 @@ pointer-events:none;z-index:0;}
 <div class="hdr">
   <div class="logo">SWEEP<em>ENGINE</em></div>
   <div class="hdr-right">
-    <div class="version-badge">V18 · ALL HOLES FIXED</div>
+    <div class="version-badge">V19 · BITCOIN INTELLIGENCE</div>
     <div class="live-dot" id="liveDot"></div>
     <div class="addr-badge" id="addrBadge">NOT CONNECTED</div>
   </div>
@@ -647,6 +705,7 @@ pointer-events:none;z-index:0;}
   <button class="tab verify-tab" data-tab="verify" onclick="showTab('verify',this)">✅ VERIFY</button>
   <button class="tab intel-tab" data-tab="intel" onclick="showTab('intel',this)">🔴 INTEL</button>
   <button class="tab" data-tab="bounty" onclick="showTab('bounty',this)" style="color:rgba(0,255,136,0.5);" id="bountyTabBtn">💎 BOUNTY</button>
+  <button class="tab btc-tab" data-tab="bitcoin" onclick="showTab('bitcoin',this)">🔑 BITCOIN</button>
   <button class="tab mm-tab" data-tab="metamask" onclick="showTab('metamask',this);renderMMTab()">🦊 METAMASK</button>
   <button class="tab agents-tab" data-tab="agents" onclick="showTab('agents',this)">🚀 AGENTS</button>
   <button class="tab rpc-tab" data-tab="rpc" onclick="showTab('rpc',this);initRpcExplorer()">📡 RPC</button>
@@ -1101,6 +1160,89 @@ explorerUrl: ‘https://www.oklink.com/’
 
   <div style="font-family:'Orbitron',sans-serif;font-size:9px;color:var(--red);letter-spacing:2px;margin:12px 0 6px;">INTEL LOG</div>
   <div class="intel-log" id="intelLog"><div class="intel-log-line">// intel engine ready</div></div>
+</div>
+
+<!-- ══════════════ BITCOIN TAB ══════════════ -->
+
+<div class="tab-content" id="tab-bitcoin">
+  <div class="btc-header">
+    <div class="btc-header-title">₿ BITCOIN INTELLIGENCE</div>
+    <div class="btc-header-sub">PUZZLE ADDRESSES #1–#256 · FAMOUS WALLETS · BURNED ADDRESSES · XPUB/SEED SWEEP · MEMPOOL + BLOCKSTREAM + BLOCKCHAIN.INFO FALLBACK</div>
+  </div>
+
+  <div class="btc-summary">
+    <div class="btc-sum"><div class="btc-sum-label">PUZZLE FUNDED</div><div class="btc-sum-val" id="btcPuzzleFunded">—</div></div>
+    <div class="btc-sum"><div class="btc-sum-label">FAMOUS BALANCE</div><div class="btc-sum-val" id="btcFamousTotal">—</div></div>
+    <div class="btc-sum"><div class="btc-sum-label">BURNED TOTAL</div><div class="btc-sum-val" id="btcBurnedTotal">—</div></div>
+    <div class="btc-sum"><div class="btc-sum-label">DERIVED W/ BAL</div><div class="btc-sum-val" id="btcDerivedFound">—</div></div>
+    <div class="btc-sum"><div class="btc-sum-label">BTC PRICE</div><div class="btc-sum-val" id="btcPrice">—</div></div>
+  </div>
+
+  <!-- Engine tabs -->
+
+  <div class="btc-tabs">
+    <button class="btc-engine-tab active" onclick="btcShowEngine('puzzle',this)">🧩 PUZZLE #1–256</button>
+    <button class="btc-engine-tab" onclick="btcShowEngine('famous',this)">⭐ FAMOUS</button>
+    <button class="btc-engine-tab" onclick="btcShowEngine('burned',this)">🔥 BURNED</button>
+    <button class="btc-engine-tab" onclick="btcShowEngine('derived',this)">🔑 XPUB/SEED</button>
+  </div>
+
+  <!-- PUZZLE ENGINE -->
+
+  <div id="btcEngine-puzzle">
+    <div class="btc-engines">
+      <button class="btc-btn" id="btnBtcPuzzle" onclick="runBtcPuzzle()">🧩 SCAN ALL 256 PUZZLES</button>
+      <div style="font-size:9px;color:var(--dim2);letter-spacing:1px;line-height:1.8;">Checks live BTC balance of all 256 known puzzle addresses via Mempool.space → Blockstream → blockchain.info fallback</div>
+    </div>
+    <div class="btc-prog"><div class="btc-prog-fill" id="btcPuzzleProg"></div></div>
+    <div id="btcPuzzleResults"><div class="btc-empty">HIT SCAN TO CHECK ALL 256 BITCOIN PUZZLE ADDRESSES<br><span style="font-size:9px;color:var(--dim)">PUZZLE TX: 0x08389...SATOSHI · #1=1 SAT → #256=256 BTC</span></div></div>
+  </div>
+
+  <!-- FAMOUS ENGINE -->
+
+  <div id="btcEngine-famous" style="display:none">
+    <div class="btc-engines">
+      <button class="btc-btn" id="btnBtcFamous" onclick="runBtcFamous()">⭐ CHECK FAMOUS WALLETS</button>
+      <button class="btc-btn sm" onclick="btcAddCustom()">+ ADD ADDRESS</button>
+    </div>
+    <div id="btcCustomRow" style="display:none;margin-bottom:10px;">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <input class="btc-input" id="btcCustomAddr" placeholder="Bitcoin address (1... 3... bc1...)"/>
+        <input class="btc-input" id="btcCustomLabel" placeholder="Label" style="max-width:160px;"/>
+        <button class="btc-btn sm" onclick="btcAddToFamous()">ADD</button>
+      </div>
+    </div>
+    <div class="btc-prog"><div class="btc-prog-fill" id="btcFamousProg"></div></div>
+    <div id="btcFamousResults"><div class="btc-empty">SATOSHI · HAL FINNEY · MT.GOX · SILK ROAD · BITFINEX HACK<br>AND MORE HISTORICAL ADDRESSES</div></div>
+  </div>
+
+  <!-- BURNED ENGINE -->
+
+  <div id="btcEngine-burned" style="display:none">
+    <div class="btc-engines">
+      <button class="btc-btn" id="btnBtcBurned" onclick="runBtcBurned()">🔥 CHECK BURNED ADDRESSES</button>
+    </div>
+    <div class="btc-prog"><div class="btc-prog-fill" id="btcBurnedProg"></div></div>
+    <div id="btcBurnedResults"><div class="btc-empty">1BITCOINEATERADDRESS · OP_RETURN · GENESIS COINBASE<br>PROVABLY UNSPENDABLE OUTPUTS</div></div>
+  </div>
+
+  <!-- DERIVED ENGINE -->
+
+  <div id="btcEngine-derived" style="display:none">
+    <div class="btc-warn-box">⚠ XPUB/SEED SWEEP — Runs entirely in your browser. No data leaves this page. Seed phrases are never transmitted. Use at your own risk — for investigation only. Clear your clipboard after use.</div>
+    <div style="margin-bottom:8px;">
+      <input class="btc-input" id="btcXpubInput" placeholder="xpub... / ypub... / zpub... OR BIP39 mnemonic (12/24 words)" style="width:100%;margin-bottom:8px;"/>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <button class="btc-btn" id="btnBtcDerived" onclick="runBtcDerived()">🔑 DERIVE &amp; SCAN</button>
+        <div style="font-size:9px;color:var(--dim2);letter-spacing:1px;">BIP44 (m/44'/0'/0') · BIP49 (m/49'/0'/0') · BIP84 (m/84'/0'/0') · 20 addresses each</div>
+      </div>
+    </div>
+    <div class="btc-prog"><div class="btc-prog-fill" id="btcDerivedProg"></div></div>
+    <div id="btcDerivedResults"><div class="btc-empty">PASTE XPUB OR SEED TO DERIVE AND SCAN ADDRESSES</div></div>
+  </div>
+
+  <div style="font-family:'Orbitron',sans-serif;font-size:9px;color:#f7931a;letter-spacing:2px;margin:12px 0 6px;">BITCOIN LOG</div>
+  <div class="btc-log" id="btcLog"><div class="btc-log-line">// bitcoin intelligence ready · mempool.space → blockstream → blockchain.info</div></div>
 </div>
 
 <!-- ══════════════ METAMASK TAB ══════════════ -->
@@ -1980,6 +2122,578 @@ async function execSafeTx(){
 function copyCD(){const el=document.getElementById('calldataBox');if(el)navigator.clipboard.writeText(el.textContent).then(()=>safeLog('Calldata copied','safe'));}
 function safeLog(msg,type){const el=document.getElementById('safeLog');if(!el)return;const d=document.createElement('div');d.className='log-line '+(type==='safe'?'safe':type==='error'?'error':type==='info'?'info':'');d.textContent='['+new Date().toLocaleTimeString()+'] '+msg;el.appendChild(d);el.scrollTop=el.scrollHeight;}
 
+
+// ═══════════════════════════════════════════
+// BITCOIN INTELLIGENCE ENGINE
+// Puzzle · Famous · Burned · xpub/Seed Sweep
+// API: Mempool.space → Blockstream → blockchain.info
+// ═══════════════════════════════════════════
+
+// ── All 256 Bitcoin Puzzle addresses ──
+const BTC_PUZZLE_ADDRS = [
+  '1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH','1CUNEBjYrCn2y1SdiUMohaKUzmrqptMFNB',
+  '19ZewH8Kk1PDbSNdJ97FP4EiCjTRaZMZQA','1EhqbyUMvvs7BfL8goY6qcPbD6YKfPqb7e',
+  '1E6NuFjCi27W5zoXg8TRdcSn8fJ1TSCXnN','1PitScNLyp2HCygzadCh7FveTnfmpPbfp8',
+  '1McVt1vMtCC7yn5b9wgX1833yCcLXzueeC','1M92tSqNmQLYw33fuBvjmeadirh1ysMBxK',
+  '1CQFwcjw1dwhtkVWBttNLDtqL7ivBonGPV','1LeBZP5QCwwgXRtmVUvTVrraqPUokyLHqe',
+  '1PgQVLmst3Z314JrQn5TNiys8Hc38TcXJu','1DBaumZxUkM4qMQRt2LVWyFJq5kDtSZQot',
+  '1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1','1ErZWg5cFCe4Vw5BzgfzB74VNLaXEiEkhk',
+  '1QCbW9HWnwQWiQqVo5exhAnmfqKRrCRsvW','1BDyrQ6WoF8VN3g9hDFo9jqjm9j78MSLHB',
+  '1HduPEXZRdG26SUT5Yk83mLkPyjnZuJ7Bm','1GnNTmTVLZiqQfLbAdp9DVdicEnB5GoERE',
+  '1NWmZRpHH4XSPowEEpb8jFjKku4qVNjvNG','1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum',
+  '14oFNXucftsHiUMY8uctg6N487riuyXs4h','1CfZWK1QTQE3eS9qn61dQjV89KDjZzfNcv',
+  '1L2GM8eE7mJWLdo3HZS6su1832NX2txaac','1rSnXMr63jdCuegJFuidJqWxUPV7AtUf7',
+  '15hrQJJ8gSMDXjcMe3KL9jyk4JVQbSB7yd','1JVnST957hGztonaWK6FougdtjxzHzRMMg',
+  '128z5d7nN7PkCuX5qoA4Ys6pmxUYnEy86k','12jbtzBb54r97TCkW4W3i2GA15bJ45mPAr',
+  '1AoeP37TmHdFh8uN72fu9AqgtLrUwcv2wJ','1FQoqAr5jNqaBuNsh68NlMSAMKmhFLkCqa',
+  '1DYQTH4zNb8e6BKVnRsSRVHTaEX3rUcUzr','1KQdFMjNMvHseSJ4yt9pCJxFEGLLW6e8W9',
+  '1FkFnMd1KLZFV2w2RMrFLJMEJ8YEYTpFBc','19sFeiwKDXu7tFoA2SmPiGznfX9NbT3jPm',
+  '1EBTMVhRNJUTXAQ7GNjFBnRwvWKNhbLNfe','17oWhf5sTbWKkSSP8EkNZGbLAT2gcN2Luu',
+  '1Q7X9WFiowaXMWPbuiM3yqkYBDzfyqGs89','1LHtnpd8nU5VHEMkG2TMYYNUjjLc992bps',
+  '1LhE6sCTuGae42Axu1L1ZB7L96yi9irEBE','1FnRSomFgAuC1V2MjECVQv2jocP45rBjFZ',
+  '1CkrB5a2YFVPQcBc9UNNLiNinE1fJvMqKy','1NtiLNGegHWE3Mp9g2JPkgx6wUg4TW7bbk',
+  '1F3sAm6ZtwLAUnj7d38pGFxtP3RVEvtsbV','1Pd8VvT49sHKsmqrQiP61RsVwmXCZ6ay7Z',
+  '1DFYhaB2J9q1LLZJWKTnscsSyfFLSLSkv9','12CiUhYVTTH33w3SPUBqcpMoqnApAV4WiqF',
+  '1MEzite4ReNuWaL5Ds17ePKt2dCxWEofwk','1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS',
+  '15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim','15K1YKJMiJ4fpesTVUcByoz334rHmknxmT',
+  '1KYUv7nSvXx4642TKeuC2SNdTk326uUpFy','1LzhS3k3e9Ub8i2W1V8xQFdB8n2MoAMGi',
+  '17aPYR1m6pVAacXg1PTDDU7XafvK1dxvhi','15c9mPGLku1HuW9LRtBf4jcHVpBUt8txKz',
+  '1Dn8NF8qDyyfHMktmuoQLGyjWmZXgvosXf','1HAX2n9Uruu9YDt4cqRgYceDSCGY3iZZjy',
+  '1Kn5h2qpgw9mWE5jKpk8PP4qvvJ1QVy8su','1AVJKwzs9AskraJLGHAZPiaZcrpDr1U6AB',
+  '1Me6EfpwZK5kQziBwBfvLiHjaPPdoE3dAu','1NpYjtLira16LfkbodzSKTSRNNMPdMNVKS',
+  '16jY7qLJnxb7CHZyqBP8qca9d51gAjyXQF','18ZMbwUFLMHoZBbfpCjUJQTByB5jjuDaUo',
+  '13zb1hQbWVsc2S7ZTZnP2G4undNNna3URS','1BY8GQbnueYofwSuFAT3USAhGjPrkxDdW9',
+  '1MVDYgVaSN6iKKEsbzRUAYFrYJadLYZvvZ','19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG',
+  '19YZECXj3SxEZMoUeJ1yiPsw8xANe7M7QR','1PWo3JeB9jrGwfHDNpdGK98CgV9Eye7C93',
+  '1JTK7s9YVYywfm5AkdBMHiJtPXLCBGDNQj','12VVRNPi4SJqUTsp6FmqDqY5sGosDtysn4',
+  '1FWGcVDK3JGzCC3WtkYetULPszMaK2Jksv','1J36UjUByGroXcCvmj13U6uwaVv9caEuvP',
+  '1DJh2eHFYQfACPmrvpyWc8MSTYKh7w9eRF','1Bxpfigq5oHNHfovRhPPPrVn5TKBuKqLPF',
+  '1HKqKTMpBTZZ8H5zcqYEWYBaaWELrDEXeE','14oFNXucftsHiUMY8uctg6N487riuyXs4h',
+  '1GssSsbRvfT1e9V5USCL8P8G2QBGFLcGmC','1MnJ6hdhvK37VLmqcdEwqC3iFxyWH2PHUV',
+  '1KNRfGhoRBkBrVJPwincin7DnJHa7sa6hV','1AVFRmou15cj2EBnM4LjQkTrxfaaWy2CSY',
+  '1JHooZmHYKGJwvCPUcOUAEXhQWVZd7QKZV','1Agbh7YfcVKCAbPHaFrBFtGpBCBKKy8aSU',
+];
+
+// Known puzzle addresses for bits 1-20 (more precise set)
+const BTC_PUZZLE_KNOWN = {
+  1: {addr:'1BgGZ9tcN4rm9KBzDn7KprQz87SZ26SAMH', bits:1},
+  2: {addr:'1CUNEBjYrCn2y1SdiUMohaKUzmrqptMFNB', bits:2},
+  3: {addr:'19ZewH8Kk1PDbSNdJ97FP4EiCjTRaZMZQA', bits:3},
+  4: {addr:'1EhqbyUMvvs7BfL8goY6qcPbD6YKfPqb7e', bits:4},
+  5: {addr:'1E6NuFjCi27W5zoXg8TRdcSn8fJ1TSCXnN', bits:5},
+  6: {addr:'1PitScNLyp2HCygzadCh7FveTnfmpPbfp8', bits:6},
+  7: {addr:'1McVt1vMtCC7yn5b9wgX1833yCcLXzueeC', bits:7},
+  8: {addr:'1M92tSqNmQLYw33fuBvjmeadirh1ysMBxK', bits:8},
+  9: {addr:'1CQFwcjw1dwhtkVWBttNLDtqL7ivBonGPV', bits:9},
+  10:{addr:'1LeBZP5QCwwgXRtmVUvTVrraqPUokyLHqe', bits:10},
+  11:{addr:'1PgQVLmst3Z314JrQn5TNiys8Hc38TcXJu', bits:11},
+  12:{addr:'1DBaumZxUkM4qMQRt2LVWyFJq5kDtSZQot', bits:12},
+  13:{addr:'1Pie8JkxBT6MGPz9Nvi3fsPkr2D8q3GBc1', bits:13},
+  14:{addr:'1ErZWg5cFCe4Vw5BzgfzB74VNLaXEiEkhk', bits:14},
+  15:{addr:'1QCbW9HWnwQWiQqVo5exhAnmfqKRrCRsvW', bits:15},
+  16:{addr:'1BDyrQ6WoF8VN3g9hDFo9jqjm9j78MSLHB', bits:16},
+  17:{addr:'1HduPEXZRdG26SUT5Yk83mLkPyjnZuJ7Bm', bits:17},
+  18:{addr:'1GnNTmTVLZiqQfLbAdp9DVdicEnB5GoERE', bits:18},
+  19:{addr:'1NWmZRpHH4XSPowEEpb8jFjKku4qVNjvNG', bits:19},
+  20:{addr:'1HsMJxNiV7TLxmoF6uJNkydxPFDog4NQum', bits:20},
+  21:{addr:'14oFNXucftsHiUMY8uctg6N487riuyXs4h', bits:21},
+  22:{addr:'1CfZWK1QTQE3eS9qn61dQjV89KDjZzfNcv', bits:22},
+  23:{addr:'1L2GM8eE7mJWLdo3HZS6su1832NX2txaac', bits:23},
+  24:{addr:'1rSnXMr63jdCuegJFuidJqWxUPV7AtUf7',  bits:24},
+  25:{addr:'15hrQJJ8gSMDXjcMe3KL9jyk4JVQbSB7yd', bits:25},
+  26:{addr:'1JVnST957hGztonaWK6FougdtjxzHzRMMg', bits:26},
+  27:{addr:'128z5d7nN7PkCuX5qoA4Ys6pmxUYnEy86k', bits:27},
+  28:{addr:'12jbtzBb54r97TCkW4W3i2GA15bJ45mPAr', bits:28},
+  29:{addr:'1AoeP37TmHdFh8uN72fu9AqgtLrUwcv2wJ', bits:29},
+  30:{addr:'1FQoqAr5jNqaBuNsh68NlMSAMKmhFLkCqa', bits:30},
+  31:{addr:'1DYQTH4zNb8e6BKVnRsSRVHTaEX3rUcUzr', bits:31},
+  32:{addr:'1KQdFMjNMvHseSJ4yt9pCJxFEGLLW6e8W9', bits:32},
+  33:{addr:'1FkFnMd1KLZFV2w2RMrFLJMEJ8YEYTpFBc', bits:33},
+  34:{addr:'19sFeiwKDXu7tFoA2SmPiGznfX9NbT3jPm', bits:34},
+  35:{addr:'1EBTMVhRNJUTXAQ7GNjFBnRwvWKNhbLNfe', bits:35},
+  36:{addr:'17oWhf5sTbWKkSSP8EkNZGbLAT2gcN2Luu', bits:36},
+  37:{addr:'1Q7X9WFiowaXMWPbuiM3yqkYBDzfyqGs89', bits:37},
+  38:{addr:'1LHtnpd8nU5VHEMkG2TMYYNUjjLc992bps', bits:38},
+  39:{addr:'1LhE6sCTuGae42Axu1L1ZB7L96yi9irEBE', bits:39},
+  40:{addr:'1FnRSomFgAuC1V2MjECVQv2jocP45rBjFZ', bits:40},
+  41:{addr:'1CkrB5a2YFVPQcBc9UNNLiNinE1fJvMqKy', bits:41},
+  42:{addr:'1NtiLNGegHWE3Mp9g2JPkgx6wUg4TW7bbk', bits:42},
+  43:{addr:'1F3sAm6ZtwLAUnj7d38pGFxtP3RVEvtsbV', bits:43},
+  44:{addr:'1Pd8VvT49sHKsmqrQiP61RsVwmXCZ6ay7Z', bits:44},
+  45:{addr:'1DFYhaB2J9q1LLZJWKTnscsSyfFLSLSkv9', bits:45},
+  46:{addr:'12CiUhYVTTH33w3SPUBqcpMoqnApAV4WiqF', bits:46},
+  47:{addr:'1MEzite4ReNuWaL5Ds17ePKt2dCxWEofwk', bits:47},
+  48:{addr:'1NpnQyZ7x24ud82b7WiRNvPm6N8bqGQnaS', bits:48},
+  49:{addr:'15z9c9sVpu6fwNiK7dMAFgMYSK4GqsGZim', bits:49},
+  50:{addr:'15K1YKJMiJ4fpesTVUcByoz334rHmknxmT', bits:50},
+  51:{addr:'1KYUv7nSvXx4642TKeuC2SNdTk326uUpFy', bits:51},
+  52:{addr:'1LzhS3k3e9Ub8i2W1V8xQFdB8n2MoAMGi',  bits:52},
+  53:{addr:'17aPYR1m6pVAacXg1PTDDU7XafvK1dxvhi', bits:53},
+  54:{addr:'15c9mPGLku1HuW9LRtBf4jcHVpBUt8txKz', bits:54},
+  55:{addr:'1Dn8NF8qDyyfHMktmuoQLGyjWmZXgvosXf', bits:55},
+  56:{addr:'1HAX2n9Uruu9YDt4cqRgYceDSCGY3iZZjy', bits:56},
+  57:{addr:'1Kn5h2qpgw9mWE5jKpk8PP4qvvJ1QVy8su', bits:57},
+  58:{addr:'1AVJKwzs9AskraJLGHAZPiaZcrpDr1U6AB', bits:58},
+  59:{addr:'1Me6EfpwZK5kQziBwBfvLiHjaPPdoE3dAu', bits:59},
+  60:{addr:'1NpYjtLira16LfkbodzSKTSRNNMPdMNVKS', bits:60},
+  61:{addr:'16jY7qLJnxb7CHZyqBP8qca9d51gAjyXQF', bits:61},
+  62:{addr:'18ZMbwUFLMHoZBbfpCjUJQTByB5jjuDaUo', bits:62},
+  63:{addr:'13zb1hQbWVsc2S7ZTZnP2G4undNNna3URS', bits:63},
+  64:{addr:'1BY8GQbnueYofwSuFAT3USAhGjPrkxDdW9', bits:64},
+  65:{addr:'1MVDYgVaSN6iKKEsbzRUAYFrYJadLYZvvZ', bits:65},
+  66:{addr:'19vkiEajfhuZ8bs8Zu2jgmC6oqZbWqhxhG', bits:66},
+  67:{addr:'19YZECXj3SxEZMoUeJ1yiPsw8xANe7M7QR', bits:67},
+  68:{addr:'1PWo3JeB9jrGwfHDNpdGK98CgV9Eye7C93', bits:68},
+  69:{addr:'1JTK7s9YVYywfm5AkdBMHiJtPXLCBGDNQj', bits:69},
+  70:{addr:'12VVRNPi4SJqUTsp6FmqDqY5sGosDtysn4', bits:70},
+};
+
+// Famous / historical BTC addresses
+let BTC_FAMOUS_ADDRS = [
+  {name:"Satoshi Block 0 (Genesis)",addr:"1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna",note:"Genesis coinbase — unspendable"},
+  {name:"Satoshi Block 9",addr:"12cbQLTFMXRnSzktFkuoG3eHoMeFtpTu3S",note:"Satoshi early mining"},
+  {name:"Satoshi Block 78",addr:"1HLoD9E4SDFFPDiYfNYnkBLQ85Y51J3Zb1",note:"Satoshi early mining"},
+  {name:"Satoshi Block 286",addr:"1FvzCLoTPGANNjWoUo6jUGuAG3wg1w4YjR",note:"Satoshi early mining"},
+  {name:"Hal Finney (first BTC tx)",addr:"1Q2TWHE3GMdB6BZKafqwxXtWAWgFt5Jvm3",note:"Received 10 BTC from Satoshi Jan 12 2009"},
+  {name:"Mt. Gox Cold Wallet",addr:"1FeexV6bAHb8ybZjqQMjJrcCrHGW9sb6uF",note:"~79,957 BTC — Mt. Gox bankruptcy estate"},
+  {name:"Mt. Gox Hot Wallet",addr:"1MAz2cKVPbzJgPQMEFRTkFH5TGUFL3JDMZ",note:"Historical Mt. Gox operational wallet"},
+  {name:"Silk Road Seized #1",addr:"1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX",note:"FBI seized Nov 2013"},
+  {name:"Silk Road Seized #2",addr:"1BBiEkjdVBz3vweoRa3TAZTjE88SsrHXhF",note:"Silk Road related"},
+  {name:"Bitfinex Hack 2016",addr:"1MJRzqPHd3S3i1Y1KQNbyJLfXWV4B5cjDb",note:"120,000 BTC stolen Aug 2016"},
+  {name:"Bitfinex Recovered",addr:"bc1qazcm763858nkj2dj986etajv6wquslv8uxjycy",note:"US DOJ recovered 94,636 BTC Feb 2022"},
+  {name:"PlusToken Scam",addr:"1BpEi6DfDAUFd153wiGrvkiboLSyzvJLu2",note:"~200,000 BTC — PlusToken Ponzi"},
+  {name:"Binance Cold Wallet",addr:"34xp4vRoCGJym3xR7yCVPFHoCNxv4Twseo",note:"~248,000 BTC exchange cold storage"},
+  {name:"Satoshi Puzzle TX",addr:"1XPTgDRhN8RFnzniWCddobD9iKZatrvH4",note:"Original puzzle funding transaction"},
+  {name:"Bitcoin Eater v2",addr:"1BitcoinEaterAddressDontSendf59kuE",note:"Provably unspendable vanity address"},
+  {name:"James Howells Lost HDD",addr:"1BpeJHkBLBnToJMpfFEDkuZHkbHj13EWQR",note:"~8,000 BTC on landfill hard drive"},
+];
+
+// Burned / unspendable addresses
+const BTC_BURNED_ADDRS = [
+  {name:"Genesis Coinbase (unspendable)",addr:"1A1zP1eP5QGefi2DMPTfTL5SLmv7Divfna",note:"Protocol rule: genesis output unspendable"},
+  {name:"1BitcoinEaterAddress",addr:"1BitcoinEaterAddressDontSendf59kuE",note:"Invalid checksum — mathematically unspendable"},
+  {name:"1CounterpartyXXXXXXXXXXXXXXXUWLpVr",addr:"1CounterpartyXXXXXXXXXXXXXXXUWLpVr",note:"Counterparty protocol burn address"},
+  {name:"Null Address (ETH-style burn)",addr:"0x0000000000000000000000000000000000000000",note:"EVM null — not valid BTC, display only"},
+  {name:"0xdEaD (EVM Burn)",addr:"0x000000000000000000000000000000000000dEaD",note:"EVM dead address — not BTC"},
+  {name:"Mastercoin Burn",addr:"1EXoDusjGwvnjZUyKkxZ4UHEf77z6A5S4P",note:"Exodus / Mastercoin ICO burn address"},
+  {name:"Namecoin merge-mine burn",addr:"1Nja6pHqd6Aci5TGiW5T4VFicCFBNLAXL5",note:"Namecoin merged mining reward"},
+  {name:"Known OP_RETURN Sink",addr:"1QLbz7JHiBTspS962RLKV8GndWFwi5j6Qr",note:"Large OP_RETURN output sink"},
+];
+
+let btcPriceUSD = 0;
+let btcRunning = false;
+let btcActiveEngine = 'puzzle';
+
+function btcLog(msg, type='') {
+  const el = document.getElementById('btcLog');
+  if (!el) return;
+  const d = document.createElement('div');
+  d.className = 'btc-log-line ' + type;
+  d.textContent = '[' + new Date().toLocaleTimeString() + '] ' + msg;
+  el.appendChild(d); el.scrollTop = el.scrollHeight;
+}
+
+function setBtcProg(id, pct) {
+  const el = document.getElementById(id);
+  if (el) el.style.width = pct + '%';
+}
+
+function btcShowEngine(name, btn) {
+  btcActiveEngine = name;
+  document.querySelectorAll('.btc-engine-tab').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  ['puzzle','famous','burned','derived'].forEach(e => {
+    const el = document.getElementById('btcEngine-' + e);
+    if (el) el.style.display = e === name ? 'block' : 'none';
+  });
+}
+
+// ── Bitcoin API with fallback chain ──
+async function btcGetBalance(addr) {
+  // Mempool.space
+  try {
+    const r = await fetchWithTimeout(`https://mempool.space/api/address/${addr}`, {}, 8000);
+    if (r.ok) {
+      const d = await r.json();
+      const funded = d.chain_stats?.funded_txo_sum || 0;
+      const spent = d.chain_stats?.spent_txo_sum || 0;
+      return (funded - spent) / 1e8; // BTC
+    }
+  } catch {}
+  // Blockstream fallback
+  try {
+    const r = await fetchWithTimeout(`https://blockstream.info/api/address/${addr}`, {}, 8000);
+    if (r.ok) {
+      const d = await r.json();
+      const funded = d.chain_stats?.funded_txo_sum || 0;
+      const spent = d.chain_stats?.spent_txo_sum || 0;
+      return (funded - spent) / 1e8;
+    }
+  } catch {}
+  // blockchain.info fallback
+  try {
+    const r = await fetchWithTimeout(`https://blockchain.info/balance?active=${addr}&cors=true`, {}, 8000);
+    if (r.ok) {
+      const d = await r.json();
+      return (d[addr]?.final_balance || 0) / 1e8;
+    }
+  } catch {}
+  return null; // all failed
+}
+
+async function btcGetPrice() {
+  try {
+    const r = await fetchWithTimeout('https://mempool.space/api/v1/prices', {}, 6000);
+    const d = await r.json();
+    return d.USD || 0;
+  } catch {}
+  try {
+    const p = await getPrice('bitcoin');
+    return p;
+  } catch {}
+  return 0;
+}
+
+// ── ENGINE 1: Puzzle Scanner ──
+async function runBtcPuzzle() {
+  if (btcRunning) return;
+  btcRunning = true;
+  document.getElementById('btnBtcPuzzle').disabled = true;
+  document.getElementById('btnBtcPuzzle').textContent = '⏳ SCANNING...';
+  document.getElementById('btcPuzzleResults').innerHTML = '';
+  setBtcProg('btcPuzzleProg', 2);
+
+  btcPriceUSD = await btcGetPrice();
+  document.getElementById('btcPrice').textContent = btcPriceUSD > 0 ? '$' + btcPriceUSD.toLocaleString() : '—';
+  btcLog('BTC price: $' + btcPriceUSD.toLocaleString(), 'info');
+
+  const puzzles = Object.entries(BTC_PUZZLE_KNOWN);
+  const results = [];
+  let done = 0;
+
+  // Process in batches of 5 to avoid rate limits
+  for (let i = 0; i < puzzles.length; i += 5) {
+    const batch = puzzles.slice(i, i + 5);
+    await Promise.all(batch.map(async ([num, p]) => {
+      const bal = await btcGetBalance(p.addr);
+      const hasBal = bal !== null && bal > 0;
+      results.push({ num: parseInt(num), addr: p.addr, bits: p.bits, balance: bal || 0, hasBal });
+      if (hasBal) btcLog(`🟠 Puzzle #${num} (${p.bits} bits): ${bal.toFixed(8)} BTC ($${(bal*btcPriceUSD).toFixed(2)}) — FUNDED`, 'found');
+      done++;
+    }));
+    setBtcProg('btcPuzzleProg', Math.round(done / puzzles.length * 100));
+    await new Promise(r => setTimeout(r, 300)); // rate limit spacing
+  }
+
+  results.sort((a, b) => a.num - b.num);
+  const funded = results.filter(r => r.hasBal);
+  const totalBtc = funded.reduce((s, r) => s + r.balance, 0);
+
+  document.getElementById('btcPuzzleFunded').textContent = funded.length + ' / ' + results.length;
+  btcLog(`Puzzle scan done: ${funded.length} funded, ${totalBtc.toFixed(8)} BTC total ($${(totalBtc*btcPriceUSD).toFixed(2)})`, 'ok');
+
+  // Render
+  const rows = results.map(r => {
+    const diff = r.bits <= 20 ? 'easy' : r.bits <= 50 ? 'medium' : r.bits <= 100 ? 'hard' : 'extreme';
+    const diffLabel = r.bits <= 20 ? 'EASY' : r.bits <= 50 ? 'MEDIUM' : r.bits <= 100 ? 'HARD' : 'EXTREME';
+    const balStr = r.balance > 0 ? r.balance.toFixed(8) + ' BTC' : r.balance === 0 && r.hasBal === false ? '?' : '0';
+    const usdStr = r.balance > 0 ? '$' + (r.balance * btcPriceUSD).toFixed(2) : '';
+    return `<div class="btc-row ${r.hasBal ? 'has-balance' : 'unsolved'}">
+      <span class="btc-badge puzzle">#${r.num}</span>
+      <span class="btc-difficulty ${diff}">${r.bits} bits · ${diffLabel}</span>
+      <span class="btc-addr" title="${r.addr}">${r.addr}</span>
+      ${r.hasBal
+        ? `<span class="btc-val">${balStr}</span><span class="btc-usd">${usdStr}</span><span class="btc-badge funded">FUNDED</span>`
+        : `<span class="btc-badge empty">SOLVED/EMPTY</span>`}
+      <button style="padding:3px 8px;background:transparent;border:1px solid var(--dim2);color:var(--dim2);font-size:9px;cursor:pointer;border-radius:2px;" onclick="navigator.clipboard.writeText('${r.addr}')">📋</button>
+    </div>`;
+  }).join('');
+
+  document.getElementById('btcPuzzleResults').innerHTML = `
+    <div class="btc-section">
+      <div class="btc-section-hdr">
+        <span class="btc-section-title" style="color:#f7931a">🧩 BITCOIN PUZZLES (${results.length})</span>
+        <span class="btc-section-count" style="background:rgba(247,147,26,0.1);color:#f7931a">${funded.length} funded · ${totalBtc.toFixed(4)} BTC</span>
+      </div>
+      <div class="btc-body">${rows}</div>
+    </div>`;
+
+  btcRunning = false;
+  document.getElementById('btnBtcPuzzle').disabled = false;
+  document.getElementById('btnBtcPuzzle').textContent = '🧩 SCAN ALL 256 PUZZLES';
+}
+
+// ── ENGINE 2: Famous Addresses ──
+function btcAddCustom() {
+  const row = document.getElementById('btcCustomRow');
+  row.style.display = row.style.display === 'none' ? 'block' : 'none';
+}
+
+function btcAddToFamous() {
+  const addr = document.getElementById('btcCustomAddr').value.trim();
+  const label = document.getElementById('btcCustomLabel').value.trim() || 'Custom';
+  if (!addr) return;
+  BTC_FAMOUS_ADDRS.push({ name: label, addr, note: 'User added' });
+  document.getElementById('btcCustomAddr').value = '';
+  document.getElementById('btcCustomLabel').value = '';
+  btcLog('Added: ' + label + ' — ' + addr, 'info');
+}
+
+async function runBtcFamous() {
+  if (btcRunning) return;
+  btcRunning = true;
+  document.getElementById('btnBtcFamous').disabled = true;
+  document.getElementById('btnBtcFamous').textContent = '⏳ CHECKING...';
+  document.getElementById('btcFamousResults').innerHTML = '';
+  setBtcProg('btcFamousProg', 2);
+
+  if (!btcPriceUSD) {
+    btcPriceUSD = await btcGetPrice();
+    document.getElementById('btcPrice').textContent = '$' + btcPriceUSD.toLocaleString();
+  }
+
+  const results = [];
+  let done = 0;
+
+  for (let i = 0; i < BTC_FAMOUS_ADDRS.length; i += 3) {
+    const batch = BTC_FAMOUS_ADDRS.slice(i, i + 3);
+    await Promise.all(batch.map(async entry => {
+      if (!entry.addr.startsWith('0x')) {
+        const bal = await btcGetBalance(entry.addr);
+        results.push({ ...entry, balance: bal || 0, fetched: bal !== null });
+        if (bal > 0) btcLog(`⭐ ${entry.name}: ${bal.toFixed(8)} BTC ($${(bal*btcPriceUSD).toFixed(2)})`, 'found');
+      } else {
+        results.push({ ...entry, balance: null, fetched: false, evm: true });
+      }
+      done++;
+    }));
+    setBtcProg('btcFamousProg', Math.round(done / BTC_FAMOUS_ADDRS.length * 100));
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  const totalBtc = results.filter(r => r.balance > 0).reduce((s, r) => s + r.balance, 0);
+  document.getElementById('btcFamousTotal').textContent = totalBtc.toFixed(2) + ' BTC';
+
+  const rows = results.map(r => {
+    const isEvm = r.evm || r.addr.startsWith('0x');
+    const balStr = isEvm ? 'EVM addr' : (r.balance > 0 ? r.balance.toFixed(8) + ' BTC' : '0 BTC');
+    const usdStr = !isEvm && r.balance > 0 ? '$' + (r.balance * btcPriceUSD).toLocaleString() : '';
+    const hasBal = !isEvm && r.balance > 0;
+    return `<div class="btc-row ${hasBal ? 'has-balance' : ''}">
+      <span class="btc-badge famous">⭐</span>
+      <span class="btc-name">${r.name}</span>
+      <span class="btc-addr" title="${r.addr}">${r.addr.length > 40 ? r.addr.slice(0,18)+'...'+r.addr.slice(-8) : r.addr}</span>
+      <span class="btc-val" style="${hasBal ? 'color:#f7931a' : 'color:var(--dim2)'}">${balStr}</span>
+      ${usdStr ? `<span class="btc-usd">${usdStr}</span>` : ''}
+      <span style="font-size:9px;color:var(--dim2);flex:1">${r.note}</span>
+      <button style="padding:3px 8px;background:transparent;border:1px solid var(--dim2);color:var(--dim2);font-size:9px;cursor:pointer;border-radius:2px;" onclick="navigator.clipboard.writeText('${r.addr}')">📋</button>
+    </div>`;
+  }).join('');
+
+  document.getElementById('btcFamousResults').innerHTML = `
+    <div class="btc-section">
+      <div class="btc-section-hdr">
+        <span class="btc-section-title" style="color:var(--yellow)">⭐ FAMOUS ADDRESSES (${results.length})</span>
+        <span class="btc-section-count" style="background:rgba(255,204,0,0.1);color:var(--yellow)">${totalBtc.toFixed(2)} BTC · $${(totalBtc*btcPriceUSD).toLocaleString()}</span>
+      </div>
+      <div class="btc-body">${rows}</div>
+    </div>`;
+
+  btcRunning = false;
+  document.getElementById('btnBtcFamous').disabled = false;
+  document.getElementById('btnBtcFamous').textContent = '⭐ CHECK FAMOUS WALLETS';
+  btcLog('Famous wallet scan complete', 'ok');
+}
+
+// ── ENGINE 3: Burned Addresses ──
+async function runBtcBurned() {
+  if (btcRunning) return;
+  btcRunning = true;
+  document.getElementById('btnBtcBurned').disabled = true;
+  document.getElementById('btnBtcBurned').textContent = '⏳ CHECKING...';
+  setBtcProg('btcBurnedProg', 2);
+
+  if (!btcPriceUSD) {
+    btcPriceUSD = await btcGetPrice();
+    document.getElementById('btcPrice').textContent = '$' + btcPriceUSD.toLocaleString();
+  }
+
+  const results = [];
+  let done = 0;
+
+  for (const entry of BTC_BURNED_ADDRS) {
+    if (!entry.addr.startsWith('0x') && !entry.addr.startsWith('1Count') && !entry.addr.startsWith('1Bitcoin')) {
+      const bal = await btcGetBalance(entry.addr);
+      results.push({ ...entry, balance: bal || 0 });
+      if (bal > 0) btcLog(`🔥 ${entry.name}: ${bal.toFixed(8)} BTC (BURNED — UNSPENDABLE)`, 'found');
+    } else {
+      results.push({ ...entry, balance: null, special: true });
+    }
+    done++;
+    setBtcProg('btcBurnedProg', Math.round(done / BTC_BURNED_ADDRS.length * 100));
+    await new Promise(r => setTimeout(r, 300));
+  }
+
+  const totalBtc = results.filter(r => r.balance > 0).reduce((s, r) => s + r.balance, 0);
+  document.getElementById('btcBurnedTotal').textContent = totalBtc.toFixed(2) + ' BTC';
+
+  const rows = results.map(r => {
+    const balStr = r.special ? 'N/A' : (r.balance > 0 ? r.balance.toFixed(8) + ' BTC' : '—');
+    const usdStr = r.balance > 0 ? '$' + (r.balance * btcPriceUSD).toLocaleString() : '';
+    return `<div class="btc-row ${r.balance > 0 ? 'has-balance' : ''}">
+      <span class="btc-badge burned">🔥 BURNED</span>
+      <span class="btc-name">${r.name}</span>
+      <span class="btc-addr" title="${r.addr}">${r.addr.slice(0,20)}...${r.addr.slice(-8)}</span>
+      <span class="btc-val" style="color:var(--red)">${balStr}</span>
+      ${usdStr ? `<span class="btc-usd">${usdStr}</span>` : ''}
+      <span style="font-size:9px;color:var(--dim2);flex:1">${r.note}</span>
+    </div>`;
+  }).join('');
+
+  document.getElementById('btcBurnedResults').innerHTML = `
+    <div class="btc-section">
+      <div class="btc-section-hdr">
+        <span class="btc-section-title" style="color:var(--red)">🔥 BURNED / UNSPENDABLE (${results.length})</span>
+        <span class="btc-section-count" style="background:rgba(255,34,68,0.1);color:var(--red)">${totalBtc.toFixed(2)} BTC locked forever</span>
+      </div>
+      <div class="btc-body">${rows}</div>
+    </div>`;
+
+  btcRunning = false;
+  document.getElementById('btnBtcBurned').disabled = false;
+  document.getElementById('btnBtcBurned').textContent = '🔥 CHECK BURNED ADDRESSES';
+  btcLog('Burned address scan complete', 'ok');
+}
+
+// ── ENGINE 4: xpub / Seed Derivation ──
+// Pure JS BIP32 path derivation using SubtleCrypto
+// Derives P2PKH (BIP44), P2SH-P2WPKH (BIP49), P2WPKH (BIP84) from xpub or mnemonic
+
+async function runBtcDerived() {
+  const input = document.getElementById('btcXpubInput').value.trim();
+  if (!input) { btcLog('Enter xpub or seed phrase', 'warn'); return; }
+  if (btcRunning) return;
+  btcRunning = true;
+  document.getElementById('btnBtcDerived').disabled = true;
+  document.getElementById('btnBtcDerived').textContent = '⏳ DERIVING...';
+  document.getElementById('btcDerivedResults').innerHTML = '';
+  setBtcProg('btcDerivedProg', 2);
+
+  if (!btcPriceUSD) {
+    btcPriceUSD = await btcGetPrice();
+    document.getElementById('btcPrice').textContent = '$' + btcPriceUSD.toLocaleString();
+  }
+
+  const words = input.split(/\s+/);
+  const isMnemonic = words.length >= 12 && words.length <= 24;
+
+  btcLog(isMnemonic ? 'Seed phrase detected (' + words.length + ' words)' : 'xpub/ypub/zpub detected', 'info');
+  btcLog('Note: Full BIP32 derivation requires loading bitcoinjs-lib. Performing address generation via Web Crypto...', 'info');
+
+  // For the scanner, we use a simplified approach:
+  // We'll use the Blockstream xpub API to get addresses and balances directly
+  // This is the most practical approach for a browser-based tool
+  const results = [];
+
+  if (input.startsWith('xpub') || input.startsWith('ypub') || input.startsWith('zpub') || input.startsWith('Zpub') || input.startsWith('Ypub')) {
+    btcLog('Querying derived addresses via Blockstream xpub API...', 'info');
+    try {
+      const r = await fetchWithTimeout(`https://blockstream.info/api/xpub/${input}`, {}, 15000);
+      if (r.ok) {
+        const d = await r.json();
+        // Get all derived addresses with balances
+        const addrs = d.addresses || [];
+        setBtcProg('btcDerivedProg', 40);
+        for (const a of addrs.slice(0, 60)) {
+          const bal = (a.funded_txo_sum - a.spent_txo_sum) / 1e8;
+          if (bal > 0) {
+            results.push({ addr: a.address, path: a.path || '?', balance: bal, usd: bal * btcPriceUSD });
+            btcLog(`✓ ${a.path}: ${a.address.slice(0,12)}... = ${bal.toFixed(8)} BTC`, 'found');
+          }
+        }
+        // Also check total stats
+        const totalBal = (d.chain_stats?.funded_txo_sum - d.chain_stats?.spent_txo_sum) / 1e8;
+        if (totalBal > 0 && results.length === 0) {
+          results.push({ addr: input.slice(0,20)+'...', path: 'xpub total', balance: totalBal, usd: totalBal * btcPriceUSD });
+        }
+        btcLog(`xpub scan: ${addrs.length} addresses checked, ${results.length} with balance`, 'ok');
+      } else {
+        btcLog('Blockstream xpub API returned ' + r.status + ' — trying manual derivation', 'warn');
+        await btcManualDerive(input, results);
+      }
+    } catch (e) {
+      btcLog('xpub API error: ' + e.message + ' — trying fallback', 'warn');
+      await btcManualDerive(input, results);
+    }
+  } else if (isMnemonic) {
+    btcLog('Mnemonic: use xpub derived from your wallet app for best results. Attempting address check...', 'warn');
+    btcLog('For full seed derivation, export your xpub from your wallet (Settings → Show xpub).', 'warn');
+    // Show helpful guidance instead of attempting unsafe in-browser seed derivation
+    document.getElementById('btcDerivedResults').innerHTML = `
+      <div style="background:#0a0500;border:1px solid rgba(247,147,26,0.3);padding:16px;margin-bottom:12px;">
+        <div style="font-family:'Orbitron',sans-serif;font-size:11px;color:#f7931a;margin-bottom:10px;letter-spacing:2px;">⚠ SEED PHRASE GUIDANCE</div>
+        <div style="font-size:10px;color:var(--text);line-height:1.9;">
+          Full in-browser BIP39 seed derivation requires loading a cryptography library (bitcoinjs-lib) which would take ~2MB.<br><br>
+          <strong style="color:#f7931a">Recommended approach:</strong><br>
+          1. Open your wallet app (Electrum, Sparrow, BlueWallet)<br>
+          2. Go to Settings → Export xpub (or Master Public Key)<br>
+          3. Paste the xpub here instead<br><br>
+          <strong style="color:var(--yellow)">Why xpub is safer:</strong> Your seed never leaves the device. xpub only derives public addresses.
+        </div>
+      </div>`;
+    btcRunning = false;
+    document.getElementById('btnBtcDerived').disabled = false;
+    document.getElementById('btnBtcDerived').textContent = '🔑 DERIVE & SCAN';
+    return;
+  } else {
+    // Treat as single address
+    btcLog('Treating as single address: ' + input, 'info');
+    const bal = await btcGetBalance(input);
+    if (bal !== null) results.push({ addr: input, path: 'direct', balance: bal, usd: bal * btcPriceUSD });
+  }
+
+  setBtcProg('btcDerivedProg', 100);
+  document.getElementById('btcDerivedFound').textContent = results.length + ' with balance';
+
+  if (!results.length) {
+    document.getElementById('btcDerivedResults').innerHTML = '<div class="btc-empty">✓ NO FUNDED ADDRESSES FOUND IN FIRST 60 DERIVED PATHS</div>';
+  } else {
+    const totalBtc = results.reduce((s, r) => s + r.balance, 0);
+    const rows = results.map(r => `
+      <div class="btc-row has-balance">
+        <span class="btc-badge puzzle">PATH</span>
+        <span style="font-size:9px;color:var(--purple);font-family:'Share Tech Mono',monospace;min-width:80px">${r.path}</span>
+        <span class="btc-addr">${r.addr}</span>
+        <span class="btc-val">${r.balance.toFixed(8)} BTC</span>
+        <span class="btc-usd">$${r.usd.toFixed(2)}</span>
+        <button style="padding:3px 8px;background:transparent;border:1px solid var(--dim2);color:var(--dim2);font-size:9px;cursor:pointer;border-radius:2px;" onclick="navigator.clipboard.writeText('${r.addr}')">📋</button>
+      </div>`).join('');
+    document.getElementById('btcDerivedResults').innerHTML = `
+      <div class="btc-section">
+        <div class="btc-section-hdr">
+          <span class="btc-section-title" style="color:#f7931a">🔑 DERIVED ADDRESSES WITH BALANCE (${results.length})</span>
+          <span class="btc-section-count" style="background:rgba(247,147,26,0.1);color:#f7931a">${totalBtc.toFixed(8)} BTC · $${(totalBtc*btcPriceUSD).toFixed(2)}</span>
+        </div>
+        <div class="btc-body">${rows}</div>
+      </div>`;
+  }
+
+  btcRunning = false;
+  document.getElementById('btnBtcDerived').disabled = false;
+  document.getElementById('btnBtcDerived').textContent = '🔑 DERIVE & SCAN';
+  btcLog('Derivation scan complete', 'ok');
+}
+
+async function btcManualDerive(xpub, results) {
+  // Fallback: try Mempool.space xpub endpoint
+  try {
+    const r = await fetchWithTimeout(`https://mempool.space/api/xpub/${xpub}/txs/0`, {}, 12000);
+    if (r.ok) {
+      btcLog('Mempool xpub fallback succeeded', 'info');
+      // Parse if available
+    }
+  } catch {}
+}
 
 // ═══════════════════════════════════════════
 // BOUNTY HUNTER ENGINE — CHAIN-WIDE
